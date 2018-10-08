@@ -41,11 +41,12 @@ void j1Map::Draw()
 		for (uint y = 0; y < data.height; y++)
 		{
 			iPoint position = MapToWorld(x, y);
-//			App->render->Blit(data_tilset->data->texture, position.x, position.y, &data_tilset->data->GetTileRect(data.layers.start->data->Get(x, y)));
+			
+			App->render->Blit(data_tilset->data->texture, position.x, position.y, &data_tilset->data->GetTileRect(data.layers.start->data->Get(x, y)));
 		}
-	}
-		// TODO 9: Complete the draw function
 
+	}
+		
 }
 
 
@@ -145,18 +146,35 @@ bool j1Map::Load(const char* file_name)
 
 	// TODO 4: Iterate all layers and load each of them
 	// Load layer info ----------------------------------------------
-	p2List_item<Layer*>* data_layer = data.layers.start;
-	while (data_layer != NULL)
+	pugi::xml_node root_node;
+	for (root_node = map_file.child("map").child("layer"); root_node && ret; root_node = root_node.next_sibling())
 	{
-		pugi::xml_document doc;
-		pugi::xml_node node;
 
-		pugi::xml_parse_result result = doc.load_file("hello2.tmx");
+		Layer* set = new Layer();
 
-		node = doc.child("layer");
-		LoadLayer(node,data.layers.start->data);
-	}
+		if (ret == true)
+		{
+			ret = LoadLayer(root_node, set);
+		}
+		data.layers.add(set);
+		
+/*		p2List_item<Layer*>* data_layer = data.layers.start;
 
+
+		while (data_layer != NULL)
+		{
+			pugi::xml_document doc;
+			pugi::xml_node node;
+
+			pugi::xml_parse_result result = doc.load_file("hello2.tmx");
+
+			node = doc.child("map").child("layer");
+
+			LoadLayer(node,data.layers.start->data);
+			data.layers.add(data.layers.start->data):
+			*/
+		
+	  }
 	if(ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
@@ -322,14 +340,28 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 
 bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 {
-	node = node.child("layer");
+	// Node Layer
+	//node = node.child("data");
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
 
-	Layer* single_layer = new Layer [layer->width*layer->height];
+	layer->tile_size = layer->width * layer->height;
+
+	layer->gid = new uint[layer->tile_size];
+
+	memset(layer->gid, 0, layer->tile_size);
 	
-	return false;
+	pugi::xml_node tile_iteration;
+
+	tile_iteration = node.child("data").child("tile");
+	for (uint i = 0; i < layer->tile_size; i++)
+	{
+		layer->gid[i] = tile_iteration.attribute("gid").as_int();
+		tile_iteration = tile_iteration.next_sibling();
+	}
+
+	return true;
 }
 
 //TODO 3: Create the definition for a function that loads a single layer
