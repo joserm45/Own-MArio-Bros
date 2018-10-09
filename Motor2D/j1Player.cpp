@@ -51,7 +51,7 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 
-	//movement
+	//Movement
 
 	//right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
@@ -97,14 +97,14 @@ bool j1Player::CleanUp()
 bool j1Player::Save(pugi::xml_node&) const
 {
 	bool ret = true;
-
+	//save 
 	return ret;
 }
 
 bool j1Player::Load(pugi::xml_node&)
 {
 	bool ret = true;
-
+	//load
 	return ret;
 }
 
