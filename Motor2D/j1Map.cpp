@@ -32,23 +32,29 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 void j1Map::Draw()
 {
-	if(map_loaded == false)
+	if (map_loaded == false)
 		return;
 
 	// TODO 5: Prepare the loop to draw all tilesets + Blit
 
 	p2List_item <TileSet*>* data_tilset = data.tilesets.start;
+	p2List_item <Layer*>* data_layer = data.layers.start;
+
 	for (uint x = 0; x < data.width; x++)
 	{
 		for (uint y = 0; y < data.height; y++)
 		{
 			iPoint position = MapToWorld(x, y);
-			
-			App->render->Blit(data_tilset->data->texture, position.x, position.y, &data_tilset->data->GetTileRect(data.layers.start->data->Get(x, y)));
+
+			int id = data_layer->data->Get(x, y);
+
+			SDL_Rect rect = data_tilset->data->GetTileRect(id);
+
+			App->render->Blit(data_tilset->data->texture, position.x, position.y, &rect);
 		}
 
 	}
-		
+
 }
 
 
@@ -151,7 +157,6 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node root_node;
 	for (root_node = map_file.child("map").child("layer"); root_node && ret; root_node = root_node.next_sibling())
 	{
-
 		Layer* set = new Layer();
 
 		if (ret == true)
@@ -343,7 +348,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 {
 	// Node Layer
-	//node = node.child("data");
+	// node = node.child("data");
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_uint();
 	layer->height = node.attribute("height").as_uint();
@@ -373,7 +378,7 @@ bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 
 inline uint Layer::Get(int x, int y) const
 {
-	return  width * y + x;
+	return  gid[width * y + x];
 }
 
 Layer::~Layer()
