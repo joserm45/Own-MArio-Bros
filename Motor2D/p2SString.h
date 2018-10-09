@@ -4,7 +4,11 @@
 
 
 #define TMP_STRING_SIZE	4096
-#include <assert.h>	
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
+#include <assert.h>
+#include "p2Defs.h"
 
 class p2SString
 {
