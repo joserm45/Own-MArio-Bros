@@ -5,9 +5,20 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include "j1Textures.h"
+#include "Animation.h"
 
-#define PLAYER_SPEED 5
-#define PLAYER_JUMP 8
+#define PLAYER_SPEED 1
+#define PLAYER_JUMP 50
+#define ANIMATION_SPEED 0.045f
+
+enum STATUS
+{
+	IDLE,
+	LEFT,
+	RIGHT,
+	JUMP,
+	DIE
+};
 
 class j1Player : public j1Module
 {
@@ -45,10 +56,19 @@ public:
 private:
 	SDL_Texture * graph = nullptr;
 	//uint gravity = 3;
-	//uint velocity = 5;
+	//uint velocity_y = 0;
+	bool moving = false;
+	//bool air = false;
+	
 
 	//animations
-
+	Animation sprite_idle;
+	Animation move_right;
+	Animation move_left;
+	Animation jump;
+	Animation die;
+	Animation* current=nullptr;
+	STATUS status;
 };
 
 #endif
