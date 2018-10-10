@@ -17,7 +17,8 @@ j1Player::j1Player() : j1Module()
 	//little mario
 	//sprite_idle = { 277,44,12,16 };
 
-	sprite_idle.PushBack({ 258,1,16,32 });
+	right_idle.PushBack({ 258,1,16,32 });
+	left_idle.PushBack({ 239,1,16,32 });
 
 	//Walk right
 	move_right.PushBack({ 296,3,16,30 });
@@ -38,7 +39,8 @@ j1Player::j1Player() : j1Module()
 	move_left.PushBack({ 166,1,16,32 });
 	move_left.speed = ANIMATION_SPEED;
 	//Jump 
-	jump.PushBack({ 369,2,16,32 });
+	right_jump.PushBack({ 369,2,16,32 });
+	left_jump.PushBack({ 128,2,16,32 });
 
 	//little mario
 	//jump = { 126,220,34,32 };
@@ -98,6 +100,7 @@ bool j1Player::Update(float dt)
 		position.x += PLAYER_SPEED;
 		status = RIGHT;
 		moving = true;
+		back = false;
 	}
 	//left
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
@@ -105,6 +108,7 @@ bool j1Player::Update(float dt)
 		position.x -= PLAYER_SPEED;
 		status = LEFT;
 		moving = true;
+		back = true;
 	}
 	//jump
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -126,6 +130,7 @@ bool j1Player::Update(float dt)
 	{
 		status = IDLE;
 	}
+
 
 	return ret;
 }
@@ -169,8 +174,16 @@ void j1Player::Draw()
 	{
 		case IDLE:
 		{
-			current = &sprite_idle;
-			break;
+			if (back == false)
+			{
+				current = &right_idle;
+				break;
+			}
+			else if (back == true)
+			{
+				current = &left_idle;
+				break;
+			}
 		}
 		case LEFT:
 		{
@@ -184,8 +197,16 @@ void j1Player::Draw()
 		}
 		case JUMP:
 		{
-			current = &jump;
-			break;
+			if (back == false)
+			{
+				current = &right_jump;
+				break;
+			}
+			else if (back == true)
+			{
+				current = &left_jump;
+				break;
+			}
 		}
 		case DIE:
 		{

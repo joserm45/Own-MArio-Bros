@@ -17,7 +17,7 @@ enum STATUS
 	LEFT,
 	RIGHT,
 	JUMP,
-	DIE
+	DIE,
 };
 
 class j1Player : public j1Module
@@ -62,13 +62,16 @@ private:
 	
 
 	//animations
-	Animation sprite_idle;
+	Animation right_idle;
+	Animation left_idle;
 	Animation move_right;
 	Animation move_left;
-	Animation jump;
+	Animation right_jump;
+	Animation left_jump;
 	Animation die;
 	Animation* current=nullptr;
 	STATUS status;
+	bool back = false;
 };
 
 #endif
