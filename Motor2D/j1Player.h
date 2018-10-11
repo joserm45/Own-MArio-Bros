@@ -10,6 +10,7 @@
 #define PLAYER_SPEED 2
 #define PLAYER_JUMP 50
 #define ANIMATION_SPEED 0.045f
+#define GRAVITY 1
 
 enum STATUS
 {
@@ -17,6 +18,7 @@ enum STATUS
 	LEFT,
 	RIGHT,
 	JUMP,
+	DUCK,
 	DIE,
 };
 
@@ -56,9 +58,9 @@ public:
 	iPoint position;
 private:
 	SDL_Texture * text_player = nullptr;
-	//uint gravity = 3;
 	//uint velocity_y = 0;
 	bool moving = false;
+	//bool duck = false;
 	//bool air = false;
 	
 
@@ -69,7 +71,10 @@ private:
 	Animation move_left;
 	Animation right_jump;
 	Animation left_jump;
-	Animation die;
+	Animation right_duck;
+	Animation left_duck;
+	Animation right_die;
+	Animation left_die;
 	Animation* current=nullptr;
 	STATUS status;
 	bool back = false;

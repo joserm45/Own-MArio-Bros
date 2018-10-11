@@ -39,14 +39,28 @@ j1Player::j1Player() : j1Module()
 	move_left.PushBack({ 166,1,16,32 });
 	move_left.speed = ANIMATION_SPEED;
 	//Jump 
-	right_jump.PushBack({ 369,2,16,32 });
-	left_jump.PushBack({ 128,2,16,32 });
+	//right_jump.PushBack({ 350,1,16,32 });
+	right_jump.PushBack({ 369,1,16,32 });
+	//right_jump.PushBack({ 388,1,16,32 });
+	//right_jump.speed = ANIMATION_SPEED;
+	//right_jump.loop = 0;
+
+	//left_jump.PushBack({ 147,1,16,32 });
+	left_jump.PushBack({ 128,1,16,32 });
+	//left_jump.PushBack({ 111,1,16,32 });
+	//left_jump.speed = ANIMATION_SPEED;
+	//left_jump.loop = 0;
 
 	//little mario
 	//jump = { 126,220,34,32 };
 
+	//duck
+	right_duck.PushBack({ 277, 1, 16, 32 });
+	left_duck.PushBack({ 220, 1, 16, 32 });
+
 	//Die 
-	die.PushBack({ 277, 11, 16, 22 });
+	right_die.PushBack({ 277, 1, 16, 32 });
+	left_die.PushBack({ 220, 1, 16, 32 });
 
 	//Litlle mario
 	//die = { 127,263,32,28 };
@@ -92,7 +106,7 @@ bool j1Player::Update(float dt)
 
 	//Movement
 	moving = false;
-	//position.y += gravity;
+	//position.y += GRAVITY;
 
 	//right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
@@ -117,16 +131,25 @@ bool j1Player::Update(float dt)
 		status = JUMP;
 		moving = true;
 	}
-	//down
+	//duck
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
-		position.y += PLAYER_SPEED;
+		//position.y -= PLAYER_SPEED;
+		status = DUCK;
+		moving = true;
+	}
+
+	//die
+	//to check if animation works for the moment
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
 		status = DIE;
+		position.y -= 100;
 		moving = true;
 	}
 
 	//status check
-	if (moving == false)
+	if (moving == false && status != DIE)
 	{
 		status = IDLE;
 	}
@@ -143,6 +166,7 @@ bool j1Player::PostUpdate()
 	Draw();
 	//Blit
 	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
+
 
 	return ret;
 }
@@ -231,10 +255,31 @@ void j1Player::Draw()
 				break;
 			}
 		}
+		case DUCK:
+		{
+			if (back == false)
+			{
+				current = &right_duck;
+				break;
+			}
+			else if (back == true)
+			{
+				current = &left_duck;
+				break;
+			}
+		}
 		case DIE:
 		{
-			current = &die;
-			break;
+			if (back == false)
+			{
+				current = &right_die;
+				break;
+			}
+			else if (back == true)
+			{
+				current = &left_die;
+				break;
+			}
 		}
 	}
 
