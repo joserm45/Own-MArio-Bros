@@ -7,7 +7,7 @@
 #include "j1Textures.h"
 #include "Animation.h"
 
-#define PLAYER_SPEED 1
+#define PLAYER_SPEED 2
 #define PLAYER_JUMP 50
 #define ANIMATION_SPEED 0.045f
 
@@ -48,13 +48,14 @@ public:
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
 
+	void CameraMovement();
 	// Animation
 	void Draw();
 
 public:
 	iPoint position;
 private:
-	SDL_Texture * graph = nullptr;
+	SDL_Texture * text_player = nullptr;
 	//uint gravity = 3;
 	//uint velocity_y = 0;
 	bool moving = false;

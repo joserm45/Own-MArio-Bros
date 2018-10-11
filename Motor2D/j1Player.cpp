@@ -61,8 +61,8 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node&)
 {
 	bool ret = true;
-	position.x = 0;
-	position.y = 0;
+	position.x = 86;
+	position.y = 174;
 	//current = &sprite_idle;
 	status = IDLE;
 	return ret;
@@ -70,13 +70,13 @@ bool j1Player::Awake(pugi::xml_node&)
 
 bool j1Player::Start()
 {
-	bool ret = true;
+	
 	//load texture
-	graph = App->tex->Load("textures/characters.png");
+	text_player = App->tex->Load("textures/characters.png");
 
 	//load collider
 
-	return ret;
+	return true;
 }
 
 bool j1Player::PreUpdate()
@@ -131,6 +131,7 @@ bool j1Player::Update(float dt)
 		status = IDLE;
 	}
 
+	CameraMovement();
 
 	return ret;
 }
@@ -141,7 +142,7 @@ bool j1Player::PostUpdate()
 
 	Draw();
 	//Blit
-	App->render->Blit(graph, position.x, position.y, &current->GetCurrentFrame());
+	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
 
 	return ret;
 }
@@ -165,6 +166,28 @@ bool j1Player::Load(pugi::xml_node&)
 	bool ret = true;
 	//load
 	return ret;
+}
+
+void j1Player::CameraMovement()
+{
+	int relative_pos_player = position.x + App->render->camera.x;
+
+	if (relative_pos_player < App->render->border)
+	{
+		App->render->camera.x = -(position.x - App->render->border);
+	}
+	if (relative_pos_player > App->render->camera.w - App->render->border)
+	{
+		App->render->camera.x = -(position.x - (App->render->camera.w - App->render->border));
+	}
+	if (App->render->camera.x > 0)
+	{
+		App->render->camera.x = 0;
+	}
+	if (App->render->camera.x < -2800)
+	{
+		App->render->camera.x = -2800;
+	}
 }
 
 void j1Player::Draw()
