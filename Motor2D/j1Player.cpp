@@ -15,7 +15,7 @@ j1Player::j1Player() : j1Module()
 	name.create("player");
 
 	//little mario
-	//sprite_idle = { 277,44,12,16 };
+	//right_idle = { 277,44,12,16 };
 
 	right_idle.PushBack({ 258,1,16,32 });
 	left_idle.PushBack({ 239,1,16,32 });
@@ -59,8 +59,18 @@ j1Player::j1Player() : j1Module()
 	left_duck.PushBack({ 220, 1, 16, 32 });
 
 	//Die 
-	right_die.PushBack({ 277, 1, 16, 32 });
-	left_die.PushBack({ 220, 1, 16, 32 });
+	//right_die.PushBack({ 277, 1, 16, 32 });
+	//left_die.PushBack({ 220, 1, 16, 32 });
+
+	//Die option 2 
+	die.PushBack({ 516, 1, 24, 34 });
+	die.PushBack({ 540, 1, 24, 34 });
+	die.PushBack({ 564, 1, 24, 34 });
+	die.PushBack({ 588, 1, 24, 34 });
+	die.PushBack({ 612, 1, 24, 34 });
+	die.PushBack({ 636, 1, 24, 34 });
+	die.PushBack({ 660, 1, 24, 34 });
+	die.speed = ANIMATION_SPEED;
 
 	//Litlle mario
 	//die = { 127,263,32,28 };
@@ -77,7 +87,7 @@ bool j1Player::Awake(pugi::xml_node&)
 	bool ret = true;
 	position.x = 86;
 	position.y = 174;
-	//current = &sprite_idle;
+	//current = &right_idle;
 	status = IDLE;
 	return ret;
 }
@@ -86,7 +96,7 @@ bool j1Player::Start()
 {
 	
 	//load texture
-	text_player = App->tex->Load("textures/characters.png");
+	text_player = App->tex->Load("textures/mario.png");
 
 	//load collider
 
@@ -270,7 +280,7 @@ void j1Player::Draw()
 		}
 		case DIE:
 		{
-			if (back == false)
+			/*if (back == false)
 			{
 				current = &right_die;
 				break;
@@ -279,7 +289,8 @@ void j1Player::Draw()
 			{
 				current = &left_die;
 				break;
-			}
+			}*/
+			current = &die;
 		}
 	}
 

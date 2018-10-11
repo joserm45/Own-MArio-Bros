@@ -73,8 +73,9 @@ private:
 	Animation left_jump;
 	Animation right_duck;
 	Animation left_duck;
-	Animation right_die;
-	Animation left_die;
+	//Animation right_die;
+	//Animation left_die;
+	Animation die;
 	Animation* current=nullptr;
 	STATUS status;
 	bool back = false;
