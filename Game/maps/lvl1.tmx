@@ -3459,7 +3459,7 @@
  <layer name="cloud_layer_parallax" width="226" height="15">
   <properties>
    <property name="Colliders" type="bool" value="false"/>
-   <property name="Parallax" type="float" value="0.3"/>
+   <property name="Parallax" type="float" value="0.4"/>
   </properties>
   <data>
    <tile gid="0"/>

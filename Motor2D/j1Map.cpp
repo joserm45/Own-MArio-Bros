@@ -39,21 +39,36 @@ void j1Map::Draw()
 
 	p2List_item <TileSet*>* data_tilset = data.tilesets.start;
 	p2List_item <Layer*>* data_layer = data.layers.start;
-
-	for (uint x = 0; x < data.width; x++)
+	//char * layers = map_file.child("layer").attribute("name").as_string();
+	while (data_layer != NULL)
 	{
-		for (uint y = 0; y < data.height; y++)
+		for (uint x = 0; x < data.width; x++)
 		{
-			iPoint position = MapToWorld(x, y);
+			for (uint y = 0; y < data.height; y++)
+			{
+				iPoint position = MapToWorld(x, y);
 
-			int id = data_layer->data->Get(x, y);
+				int id = data_layer->data->Get(x, y);
 
-			SDL_Rect rect = data_tilset->data->GetTileRect(id);
+				SDL_Rect rect = data_tilset->data->GetTileRect(id);
+				if (data_layer->data->name == "layer_map_lvl1")
+				{
+					App->render->Blit(data_tilset->data->texture, position.x, position.y, &rect);
+					data_tilset->next;
+				}
 
-			App->render->Blit(data_tilset->data->texture, position.x, position.y, &rect);
+				else if (data_layer->data->name == "cloud_layer_parallax")
+				{
+					App->render->Blit(data_tilset->data->texture, position.x - (App->render->camera.x * data_layer->data->parallax_speed), position.y, &rect);
+				}
+			}
+
 		}
-
+		data_layer = data_layer->next;
 	}
+		
+		//map_file.child("map").child("layer").next_sibling();
+	
 
 }
 
@@ -366,6 +381,23 @@ bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 	{
 		layer->gid[i] = tile_iteration.attribute("gid").as_int();
 		tile_iteration = tile_iteration.next_sibling();
+	}
+
+	//PARALLAX
+
+	for (pugi::xml_node it = node.child("properties").child("property"); it != NULL; it = it.next_sibling())
+	{
+		p2SString layer_name = it.attribute("name").as_string();
+
+		if (layer_name == "Parallax")
+		{
+			layer->parallax_speed = it.attribute("value").as_float();
+		}
+		if (layer_name == "Colliders")
+		{
+			layer->iscollision = it.attribute("value").as_bool();
+		}
+
 	}
 
 	return true;

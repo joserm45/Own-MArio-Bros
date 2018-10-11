@@ -16,6 +16,9 @@ struct Layer
 	uint height = 0;
 	uint tile_size = 0;
 	uint* gid = nullptr;
+	bool iscollision = false;
+	float parallax_speed = 0;
+
 	inline uint Get(int x, int y) const;
 	~Layer();
 	
