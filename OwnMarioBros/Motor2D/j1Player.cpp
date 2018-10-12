@@ -174,7 +174,7 @@ bool j1Player::PostUpdate()
 	bool ret = true;
 
 	Draw();
-	//Blit
+	//Blit player
 	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
 
 
@@ -218,9 +218,9 @@ void j1Player::CameraMovement()
 	{
 		App->render->camera.x = 0;
 	}
-	if (App->render->camera.x < -2800)
+	if (App->render->camera.x < -2555)
 	{
-		App->render->camera.x = -2800;
+		App->render->camera.x = -2555;
 	}
 }
 

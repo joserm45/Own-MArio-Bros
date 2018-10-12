@@ -8,8 +8,8 @@
 #include "Animation.h"
 
 #define PLAYER_SPEED 2
-#define PLAYER_JUMP 50
-#define ANIMATION_SPEED 0.045f
+#define PLAYER_JUMP 5
+#define ANIMATION_SPEED 0.145f
 #define GRAVITY 1
 
 enum STATUS
