@@ -40,6 +40,8 @@ public:
 
 	void LoadLevel(int level);
 
+	bool god_mode = false;
+
 private:
 };
 

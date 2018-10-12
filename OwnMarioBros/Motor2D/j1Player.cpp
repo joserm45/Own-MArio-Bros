@@ -15,66 +15,7 @@ j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 
-	//little mario
-	//right_idle = { 277,44,12,16 };
-
-	right_idle.PushBack({ 258,1,16,32 });
-	left_idle.PushBack({ 239,1,16,32 });
-
-	//Walk right
-	move_right.PushBack({ 296,3,16,30 });
-	move_right.PushBack({ 315,2,14,31 });
-	move_right.PushBack({ 331,1,16,32 });
-	move_right.speed = ANIMATION_SPEED;
-	/*Litlle Mario
-	move_right.PushBack({54,181,27,32});
-	move_right.PushBack({ 93,181,27,32 });
-	move_right.PushBack({ 11,220,27,32 });
-	move_right.PushBack({ 54,218,27,32 });
-	move_right.PushBack({ 91,219,27,32 });
-	*/
-	
-	//Walk left
-	move_left.PushBack({ 201,3,16,30 });
-	move_left.PushBack({ 184,2,14,31 });
-	move_left.PushBack({ 166,1,16,32 });
-	move_left.speed = ANIMATION_SPEED;
-	//Jump 
-	//right_jump.PushBack({ 350,1,16,32 });
-	right_jump.PushBack({ 369,1,16,32 });
-	//right_jump.PushBack({ 388,1,16,32 });
-	//right_jump.speed = ANIMATION_SPEED;
-	//right_jump.loop = 0;
-
-	//left_jump.PushBack({ 147,1,16,32 });
-	left_jump.PushBack({ 128,1,16,32 });
-	//left_jump.PushBack({ 111,1,16,32 });
-	//left_jump.speed = ANIMATION_SPEED;
-	//left_jump.loop = 0;
-
-	//little mario
-	//jump = { 126,220,34,32 };
-
-	//duck
-	right_duck.PushBack({ 277, 1, 16, 32 });
-	left_duck.PushBack({ 220, 1, 16, 32 });
-
-	//Die 
-	//right_die.PushBack({ 277, 1, 16, 32 });
-	//left_die.PushBack({ 220, 1, 16, 32 });
-
-	//Die option 2 
-	die.PushBack({ 516, 1, 24, 34 });
-	die.PushBack({ 540, 1, 24, 34 });
-	die.PushBack({ 564, 1, 24, 34 });
-	die.PushBack({ 588, 1, 24, 34 });
-	die.PushBack({ 612, 1, 24, 34 });
-	die.PushBack({ 636, 1, 24, 34 });
-	die.PushBack({ 660, 1, 24, 34 });
-	die.speed = ANIMATION_SPEED;
-
-	//Litlle mario
-	//die = { 127,263,32,28 };
+	Load_Animation();
 	
 }
 
@@ -168,7 +109,22 @@ bool j1Player::Update(float dt)
 		status = DIE;
 		position.y -= 100;
 		moving = false;
-		App->audio->PlayMusic("audio/music/life_lost.ogg");
+		App->audio->PlayMusic("audio/music/life_lost.ogg", 0.3);
+	}
+
+	//god mode
+	if (App->scene->god_mode == true)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			position.y -= PLAYER_SPEED;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		{
+			position.y += PLAYER_SPEED;
+		}
+
 	}
 
 	//status check
@@ -176,8 +132,6 @@ bool j1Player::Update(float dt)
 	{
 		status = IDLE;
 	}
-
-	
 
 	CameraMovement();
 
@@ -241,72 +195,230 @@ void j1Player::CameraMovement()
 
 void j1Player::Draw()
 {
-	//Load Animations
+	//Draw Animations
 	switch (status)
 	{
 		case IDLE:
 		{
-			if (back == false)
+			if (App->scene->god_mode == false) 
 			{
-				current = &right_idle;
-				break;
+				if (back == false)
+				{
+					current = &right_idle;
+					break;
+				}
+				else if (back == true)
+				{
+					current = &left_idle;
+					break;
+				}
 			}
-			else if (back == true)
+			else if (App->scene->god_mode == true)
 			{
-				current = &left_idle;
-				break;
+				if (back == false)
+				{
+					current = &god_right_idle;
+					break;
+				}
+				else if (back == true)
+				{
+					current = &god_left_idle;
+					break;
+				}
 			}
 		}
 		case LEFT:
 		{
-			current = &move_left;
-			break;
+			if (App->scene->god_mode == false)
+			{
+				current = &move_left;
+				break;
+			}
+			else if (App->scene->god_mode == true)
+			{
+				current = &god_move_left;
+				break;
+			}
 		}
 		case RIGHT:
 		{
-			current = &move_right;
-			break;
+			if (App->scene->god_mode == false)
+			{
+				current = &move_right;
+				break;
+			}
+			else if (App->scene->god_mode == true)
+			{
+				current = &god_move_right;
+				break;
+			}
 		}
 		case JUMP:
 		{
-			if (back == false)
+			if (App->scene->god_mode == false)
 			{
-				current = &right_jump;
-				break;
+				if (back == false)
+				{
+					current = &right_jump;
+					break;
+				}
+				else if (back == true)
+				{
+					current = &left_jump;
+					break;
+				}
 			}
-			else if (back == true)
+			else if (App->scene->god_mode == true)
 			{
-				current = &left_jump;
-				break;
+				if (back == false)
+				{
+					current = &god_right_jump;
+					break;
+				}
+				else if (back == true)
+				{
+					current = &god_left_jump;
+					break;
+				}
 			}
 		}
 		case DUCK:
 		{
-			if (back == false)
+			if (App->scene->god_mode == false)
 			{
-				current = &right_duck;
-				break;
+				if (back == false)
+				{
+					current = &right_duck;
+					break;
+				}
+				else if (back == true)
+				{
+					current = &left_duck;
+					break;
+				}
 			}
-			else if (back == true)
+			else if (App->scene->god_mode == true)
 			{
-				current = &left_duck;
-				break;
+				if (back == false)
+				{
+					current = &god_right_duck;
+					break;
+				}
+				else if (back == true)
+				{
+					current = &god_left_duck;
+					break;
+				}
 			}
 		}
 		case DIE:
 		{
-			/*if (back == false)
-			{
-				current = &right_die;
-				break;
-			}
-			else if (back == true)
-			{
-				current = &left_die;
-				break;
-			}*/
 			current = &die;
 		}
 	}
+
+}
+
+void j1Player::Load_Animation()
+{
+	//MARIO
+
+	//idle
+	right_idle.PushBack({ 258,1,16,32 });
+	left_idle.PushBack({ 239,1,16,32 });
+
+	//Walk right
+	move_right.PushBack({ 296,3,16,30 });
+	move_right.PushBack({ 315,2,14,31 });
+	move_right.PushBack({ 331,1,16,32 });
+	move_right.speed = ANIMATION_SPEED;
+
+	//Walk left
+	move_left.PushBack({ 201,3,16,30 });
+	move_left.PushBack({ 184,2,14,31 });
+	move_left.PushBack({ 166,1,16,32 });
+	move_left.speed = ANIMATION_SPEED;
+
+	//Jump 
+	//right_jump.PushBack({ 350,1,16,32 });
+	right_jump.PushBack({ 369,1,16,32 });
+	//right_jump.PushBack({ 388,1,16,32 });
+	//right_jump.speed = ANIMATION_SPEED;
+	//right_jump.loop = 0;
+
+	//left_jump.PushBack({ 147,1,16,32 });
+	left_jump.PushBack({ 128,1,16,32 });
+	//left_jump.PushBack({ 111,1,16,32 });
+	//left_jump.speed = ANIMATION_SPEED;
+	//left_jump.loop = 0;
+
+	//duck
+	right_duck.PushBack({ 277, 1, 16, 32 });
+	left_duck.PushBack({ 220, 1, 16, 32 });
+
+	//die 
+	die.PushBack({ 516, 1, 24, 34 });
+	die.PushBack({ 540, 1, 24, 34 });
+	die.PushBack({ 564, 1, 24, 34 });
+	die.PushBack({ 588, 1, 24, 34 });
+	die.PushBack({ 612, 1, 24, 34 });
+	die.PushBack({ 636, 1, 24, 34 });
+	die.PushBack({ 660, 1, 24, 34 });
+	die.speed = ANIMATION_SPEED;
+
+
+	//GOD MODE MARIO
+
+	//idle
+	god_right_idle.PushBack({ 258,129,16,32 });
+	god_left_idle.PushBack({ 239,129,16,32 });
+
+	//Walk right
+	god_move_right.PushBack({ 296,131,16,30 });
+	god_move_right.PushBack({ 315,130,14,31 });
+	god_move_right.PushBack({ 331,129,16,32 });
+	god_move_right.speed = ANIMATION_SPEED;
+
+	//Walk left
+	god_move_left.PushBack({ 201,131,16,30 });
+	god_move_left.PushBack({ 184,130,14,31 });
+	god_move_left.PushBack({ 166,129,16,32 });
+	god_move_left.speed = ANIMATION_SPEED;
+
+	//Jump 
+	//god_right_jump.PushBack({ 350,129,16,32 });
+	god_right_jump.PushBack({ 369,129,16,32 });
+	//god_right_jump.PushBack({ 388,129,16,32 });
+	//god_right_jump.speed = ANIMATION_SPEED;
+	//god_right_jump.loop = 0;
+
+	//god_left_jump.PushBack({ 147,129,16,32 });
+	god_left_jump.PushBack({ 128,129,16,32 });
+	//god_left_jump.PushBack({ 111,129,16,32 });
+	//god_left_jump.speed = ANIMATION_SPEED;
+	//god_left_jump.loop = 0;
+
+	//duck
+	god_right_duck.PushBack({ 277, 129, 16, 32 });
+	god_left_duck.PushBack({ 220, 129, 16, 32 });
+	
+
+
+
+	/*
+	//LITTLE MARIO
+	right_idle = { 277,44,12,16 };
+
+	move_right.PushBack({ 54,181,27,32 });
+	move_right.PushBack({ 93,181,27,32 });
+	move_right.PushBack({ 11,220,27,32 });
+	move_right.PushBack({ 54,218,27,32 });
+	move_right.PushBack({ 91,219,27,32 });
+	
+	jump = { 126,220,34,32 };
+	
+	//die = { 127,263,32,28 };
+	*/
+
 
 }

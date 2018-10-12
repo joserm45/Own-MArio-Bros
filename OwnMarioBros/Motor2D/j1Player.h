@@ -52,7 +52,9 @@ public:
 
 	void CameraMovement();
 	// Animation
+	void Load_Animation();
 	void Draw();
+
 
 public:
 	
@@ -64,6 +66,8 @@ private:
 	//bool duck = false;
 	//bool air = false;
 	
+	STATUS status;
+	bool back = false;
 
 	//animations
 	Animation right_idle;
@@ -74,12 +78,18 @@ private:
 	Animation left_jump;
 	Animation right_duck;
 	Animation left_duck;
-	//Animation right_die;
-	//Animation left_die;
 	Animation die;
 	Animation* current=nullptr;
-	STATUS status;
-	bool back = false;
+		//god mode
+	Animation god_right_idle;
+	Animation god_left_idle;
+	Animation god_move_right;
+	Animation god_move_left;
+	Animation god_right_jump;
+	Animation god_left_jump;
+	Animation god_right_duck;
+	Animation god_left_duck;
+	
 };
 
 #endif
