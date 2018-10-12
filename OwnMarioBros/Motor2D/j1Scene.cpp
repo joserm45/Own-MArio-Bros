@@ -31,10 +31,17 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	if(current_lvl == 1)
-	App->map->Load("lvl1.tmx");
-	else if(current_lvl == 2)
+	
+	if (current_lvl == 1)
+	{
+		App->map->Load("lvl1.tmx");
+		App->audio->PlayMusic("audio/music/lvl_1.ogg");
+	}
+	else if (current_lvl == 2)
+	{
 		App->map->Load("lvl2.tmx");
+		App->audio->PlayMusic("audio/music/lvl_2.ogg");
+	}
 	return true;
 }
 

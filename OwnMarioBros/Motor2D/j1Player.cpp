@@ -9,6 +9,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "j1Collision.h"
 
 j1Player::j1Player() : j1Module()
 {
@@ -167,6 +168,7 @@ bool j1Player::Update(float dt)
 		status = DIE;
 		position.y -= 100;
 		moving = false;
+		App->audio->PlayMusic("audio/music/life_lost.ogg");
 	}
 
 	//status check
