@@ -11,6 +11,7 @@ public:
 
 	j1Scene();
 
+	
 	// Destructor
 	virtual ~j1Scene();
 
@@ -31,6 +32,13 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+public:
+	pugi::xml_document config;
+	int current_lvl = 1;
+
+
+	void LoadLevel(int level);
 
 private:
 };

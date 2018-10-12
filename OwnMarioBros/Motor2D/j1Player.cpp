@@ -82,11 +82,20 @@ j1Player::~j1Player()
 
 }
 
-bool j1Player::Awake(pugi::xml_node&)
+bool j1Player::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
-	position.x = 86;
-	position.y = 174;
+	if (node != NULL)
+	{
+		position.x = node.child("player").child("position").attribute("x").as_int();
+		position.y = node.child("player").child("position").attribute("y").as_int();;
+	}
+	else
+	{
+		position.x = 86;
+		position.y = 174;
+	}
+	
 	//current = &right_idle;
 	status = IDLE;
 	return ret;
@@ -117,6 +126,8 @@ bool j1Player::Update(float dt)
 	//Movement
 	moving = false;
 	//position.y += GRAVITY;
+
+
 
 	//right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
@@ -155,7 +166,7 @@ bool j1Player::Update(float dt)
 	{
 		status = DIE;
 		position.y -= 100;
-		moving = true;
+		moving = false;
 	}
 
 	//status check
@@ -163,6 +174,8 @@ bool j1Player::Update(float dt)
 	{
 		status = IDLE;
 	}
+
+	
 
 	CameraMovement();
 

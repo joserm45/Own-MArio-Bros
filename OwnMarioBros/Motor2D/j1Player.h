@@ -55,6 +55,7 @@ public:
 	void Draw();
 
 public:
+	
 	iPoint position;
 private:
 	SDL_Texture * text_player = nullptr;

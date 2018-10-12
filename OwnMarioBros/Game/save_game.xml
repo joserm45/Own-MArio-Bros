@@ -1,7 +1,11 @@
 <!-- Save game for the game -->
 
 <game_state>
-
+  <scene current_lvl ="1"/>
+  <player>
+    <position x="86" y="174"/>
+    
+  </player>
   <renderer>
     <camera x="100" y="0"/>
   </renderer>

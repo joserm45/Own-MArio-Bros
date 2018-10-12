@@ -31,7 +31,10 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
+	if(current_lvl == 1)
 	App->map->Load("lvl1.tmx");
+	else if(current_lvl == 2)
+		App->map->Load("lvl2.tmx");
 	return true;
 }
 
@@ -44,23 +47,20 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		LoadLevel(current_lvl);
+		
+	}
+
+	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->LoadGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->SaveGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 1;
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 1;
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
@@ -93,4 +93,31 @@ bool j1Scene::CleanUp()
 	LOG("Freeing scene");
 
 	return true;
+}
+
+void j1Scene::LoadLevel(int current_level)
+{
+	pugi::xml_node node;
+	
+	pugi::xml_parse_result result = config.load_file("save_game.xml");
+	if (result != NULL)
+	{
+		node = config.child("game_state");
+
+
+		App->player->CleanUp();
+		App->player->Awake(config);
+
+	}
+	else
+	{
+
+	}
+
+	App->render->camera.x = 0;
+	App->render->camera.y = 0;
+	if (current_level == 1)
+		App->map->Load("lvl1.tmx");
+	else if (current_level == 2)
+		App->map->Load("lvl2.tmx");
 }

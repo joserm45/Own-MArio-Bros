@@ -54,7 +54,7 @@ void j1Map::Draw()
 				if (data_layer->data->name == "layer_map_lvl1")
 				{
 					App->render->Blit(data_tilset->data->texture, position.x, position.y, &rect);
-					data_tilset->next;
+					//data_tilset->next;
 				}
 
 				else if (data_layer->data->name == "cloud_layer_parallax")
@@ -407,6 +407,11 @@ bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 //bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 //{
 //}
+void j1Map::UnloadMap()
+{
+	data.tilesets.clear();
+	data.layers.clear();
+}
 
 inline uint Layer::Get(int x, int y) const
 {
