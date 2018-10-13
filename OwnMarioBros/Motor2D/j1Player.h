@@ -12,8 +12,9 @@
 #define ANIMATION_SPEED 0.145f
 #define GRAVITY 1
 #define MARIO_HEIGHT 32
-#define MARIO_WITH 16
-
+#define MARIO_WIDTH 16
+#define TILE_WIDTH 16
+#define TiLE_HEIGHT 16
 
 enum STATUS
 {
@@ -57,19 +58,24 @@ public:
 	// Animation
 	void Load_Animation();
 	void Draw();
-
+	bool Falling();
 
 public:
 	
-	iPoint position;
+	fPoint position;
+
+	iPoint				player_quadrant_1;
+	iPoint				player_quadrant_2;
+
+	STATUS status;
+	uint count_jump = 0;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;
 	bool moving = false;
-	//bool duck = false;
-	//bool air = false;
+	bool jumping = false;
+	bool jumping_over = false;
 	
-	STATUS status;
 	bool back = false;
 
 	//animations

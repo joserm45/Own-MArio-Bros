@@ -48,9 +48,14 @@ bool j1Player::Start()
 	
 	//load texture
 	text_player = App->tex->Load("textures/mario.png");
-	collider_player = App->collision->AddCollider({ position.x,position.y,MARIO_WITH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	//load collider
+	collider_player = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
+	
+	player_quadrant_1.x = position.x / TILE_WIDTH;
+	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
 
+	player_quadrant_1.y = position.y / TILE_WIDTH;
+	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
 	return true;
 }
 
@@ -67,31 +72,40 @@ bool j1Player::Update(float dt)
 
 	//Movement
 	moving = false;
-	position.y += GRAVITY;
+	
 
 
 
 	//right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
-		position.x += PLAYER_SPEED;
 		status = RIGHT;
+		if (App->map->Walkability() == true)
+		{
+			position.x += PLAYER_SPEED;
+		}
+		
+		
 		moving = true;
 		back = false;
 	}
 	//left
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
-		position.x -= PLAYER_SPEED;
 		status = LEFT;
+		if (App->map->Walkability() == true)
+		{
+			position.x -= PLAYER_SPEED;
+		}
+		
 		moving = true;
 		back = true;
 	}
 	//jump
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		position.y -= PLAYER_JUMP;
 		status = JUMP;
+		jumping = true;
 		moving = true;
 	}
 	//duck
@@ -117,12 +131,18 @@ bool j1Player::Update(float dt)
 	{
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 		{
-			position.y -= PLAYER_SPEED;
+			if (App->map->Walkability() == true)
+			{
+				position.y -= PLAYER_SPEED;
+			}
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		{
-			position.y += PLAYER_SPEED;
+			if (App->map->Walkability() == true)
+			{
+				position.y += PLAYER_SPEED;
+			}
 		}
 
 	}
@@ -135,8 +155,35 @@ bool j1Player::Update(float dt)
 
 	CameraMovement();
 
+
 	collider_player->SetPos(position.x, position.y);
 
+	if (jumping_over == false)
+	{
+		if (jumping == true)
+		{
+			if (count_jump < 15)
+			{
+				position.y -= PLAYER_JUMP;
+				count_jump++;
+			}
+			else
+			{
+				jumping_over = true;
+			}
+		}
+		
+	}
+	else
+	{
+		if (Falling() == true)
+		{
+			position.y += GRAVITY;
+		}
+	}
+	
+
+	
 	return ret;
 }
 
@@ -147,8 +194,13 @@ bool j1Player::PostUpdate()
 	Draw();
 	//Blit player
 	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
+	
+	/*player_quadrant_1.x = position.x / TILE_WIDTH;
+	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
 
-
+	player_quadrant_1.y = position.y / TILE_WIDTH;
+	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
+	*/
 	return ret;
 }
 
@@ -422,5 +474,39 @@ void j1Player::Load_Animation()
 	//die = { 127,263,32,28 };
 	*/
 
+}
 
+bool j1Player::Falling()
+{
+	bool ret = false;
+	p2List_item<Layer*>* iterator;
+	p2List_item<Layer*>* layer = nullptr;
+
+	for (iterator = App->map->data.layers.start; iterator != NULL; iterator = iterator->next)
+	{
+		if (iterator->data->name == "logic")
+		{
+			layer = iterator;
+		}
+	}
+
+	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
+	uint* nextGid1 = &layer->data->gid[1 + player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
+	uint* nextGid2 = &layer->data->gid[1 + player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
+
+
+	if (*nextGid1 != 650 && *nextGid2 != 650)
+	{
+		ret = true;
+		//jumping = true;
+	}
+	if (*nextGid1 == 649 || *nextGid2 == 649)
+	{
+		count_jump = 0;
+		jumping = false;
+		jumping_over = false;
+	}
+
+
+	return ret;
 }

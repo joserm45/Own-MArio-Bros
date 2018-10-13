@@ -431,6 +431,48 @@ Layer::~Layer()
 	}
 }
 
+bool j1Map::Walkability()
+{
+
+	bool ret = true;
+	int player_x = App->player->position.x / 16; //check next tile right
+	int player_y = (App->player->position.y + 16) / 16;
+
+	p2List_item<Layer*>* iterator;
+	p2List_item<Layer*>* layer = nullptr;
+
+	for (iterator = data.layers.start; iterator != NULL; iterator = iterator->next)
+	{
+		if (iterator->data->name == "logic")
+		{
+			layer = iterator;
+		}
+	}
+
+	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
+	uint* nextGid = &layer->data->gid[player_x + player_y * layer->data->width ];
+
+	if (App->player->status == RIGHT)
+	{
+		nextGid++;
+		if (*nextGid == 650)
+			ret = false;
+		else if (*nextGid != 650)
+			ret = true;
+	}
+	else if (App->player->status == LEFT)
+	{
+		nextGid;
+		if (*nextGid == 650)
+			ret = false;
+		else if (*nextGid != 650)
+			ret = true;
+	}
+
+
+	return ret;
+}
+
 /*int GetX() const
 {
 	return x;
