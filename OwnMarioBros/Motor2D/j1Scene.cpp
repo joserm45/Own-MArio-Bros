@@ -115,12 +115,18 @@ bool j1Scene::CleanUp()
 void j1Scene::LoadLevel(int current_level)
 {
 
-
 	App->map->UnloadMap();
 	if (current_level == 1)
+	{
 		App->map->Load("lvl1.tmx");
+		App->audio->PlayMusic("audio/music/lvl_1.ogg");
+	}
 	else if (current_level == 2)
+	{
 		App->map->Load("lvl2.tmx");
+		App->audio->PlayMusic("audio/music/lvl_2.ogg");
+	}
+
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;

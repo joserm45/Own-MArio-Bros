@@ -58,7 +58,7 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Capa de Patrones 1" width="226" height="15">
+ <layer name="layer_map_lvl2" width="226" height="15">
   <properties>
    <property name="Colliders" type="bool" value="true"/>
    <property name="Parallax" type="float" value="0"/>

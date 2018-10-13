@@ -51,7 +51,7 @@ void j1Map::Draw()
 				int id = data_layer->data->Get(x, y);
 
 				SDL_Rect rect = data_tilset->data->GetTileRect(id);
-				if (data_layer->data->name == "layer_map_lvl1")
+				if (data_layer->data->name == "layer_map_lvl1" || data_layer->data->name == "layer_map_lvl2")
 				{
 					App->render->Blit(data_tilset->data->texture, position.x, position.y, &rect);
 					//data_tilset->next;
@@ -61,6 +61,7 @@ void j1Map::Draw()
 				{
 					App->render->Blit(data_tilset->data->texture, position.x - (App->render->camera.x * data_layer->data->parallax_speed), position.y, &rect);
 				}
+
 			}
 
 		}
