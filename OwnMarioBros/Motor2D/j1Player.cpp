@@ -48,7 +48,7 @@ bool j1Player::Start()
 	
 	//load texture
 	text_player = App->tex->Load("textures/mario.png");
-
+	collider_player = App->collision->AddCollider({ position.x,position.y,MARIO_WITH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	//load collider
 
 	return true;
@@ -67,7 +67,7 @@ bool j1Player::Update(float dt)
 
 	//Movement
 	moving = false;
-	//position.y += GRAVITY;
+	position.y += GRAVITY;
 
 
 
@@ -134,6 +134,8 @@ bool j1Player::Update(float dt)
 	}
 
 	CameraMovement();
+
+	collider_player->SetPos(position.x, position.y);
 
 	return ret;
 }

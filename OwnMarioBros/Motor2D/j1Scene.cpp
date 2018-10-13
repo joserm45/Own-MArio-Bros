@@ -77,7 +77,17 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		god_mode = !god_mode;
 
-
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
+		if (App->map->logic == false)
+		{
+			App->map->logic = true;
+		}
+		else if (App->map->logic == true)
+		{
+			App->map->logic = false;
+		}
+	}
 
 	//App->render->Blit(img, 0, 0);
 	App->map->Draw();
@@ -116,13 +126,16 @@ void j1Scene::LoadLevel(int current_level)
 {
 
 	App->map->UnloadMap();
+
 	if (current_level == 1)
 	{
+		this->current_lvl = current_level;
 		App->map->Load("lvl1.tmx");
 		App->audio->PlayMusic("audio/music/lvl_1.ogg");
 	}
 	else if (current_level == 2)
 	{
+		this->current_lvl = current_level;
 		App->map->Load("lvl2.tmx");
 		App->audio->PlayMusic("audio/music/lvl_2.ogg");
 	}

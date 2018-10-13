@@ -11,6 +11,9 @@
 #define PLAYER_JUMP 5
 #define ANIMATION_SPEED 0.145f
 #define GRAVITY 1
+#define MARIO_HEIGHT 32
+#define MARIO_WITH 16
+
 
 enum STATUS
 {
@@ -79,7 +82,7 @@ private:
 	Animation right_duck;
 	Animation left_duck;
 	Animation die;
-	Animation* current=nullptr;
+	Animation* current = nullptr;
 		//god mode
 	Animation god_right_idle;
 	Animation god_left_idle;
@@ -90,6 +93,7 @@ private:
 	Animation god_right_duck;
 	Animation god_left_duck;
 	
+	Collider* collider_player = nullptr;
 };
 
 #endif

@@ -112,6 +112,7 @@ public:
 
 	MapData data;
 
+	bool logic = false;
 private:
 
 	pugi::xml_document	map_file;

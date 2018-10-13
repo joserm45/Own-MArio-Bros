@@ -62,6 +62,10 @@ void j1Map::Draw()
 					App->render->Blit(data_tilset->data->texture, position.x - (App->render->camera.x * data_layer->data->parallax_speed), position.y, &rect);
 				}
 
+				else if (data_layer->data->name == "logic" && logic != false)
+				{
+					App->render->Blit(data_tilset->data->texture, position.x - (App->render->camera.x * data_layer->data->parallax_speed), position.y, &rect);
+				}
 			}
 
 		}
