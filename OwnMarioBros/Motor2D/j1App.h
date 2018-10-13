@@ -3,6 +3,7 @@
 
 #include "p2List.h"
 #include "j1Module.h"
+#include "j1Timer.h"
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
@@ -46,6 +47,7 @@ public:
 	const char* GetArgv(int index) const;
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+	float GetDT() const;
 
 	void LoadGame();
 	void SaveGame() const;
@@ -89,7 +91,8 @@ public:
 	j1Collision*	collision;
 
 private:
-
+	j1Timer				frame_time;
+	j1Timer				last_sec_frame_time;
 	p2List<j1Module*>	modules;
 	uint				frames;
 	float				dt;

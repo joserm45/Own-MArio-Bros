@@ -59,6 +59,7 @@ public:
 	void Load_Animation();
 	void Draw();
 	bool Falling();
+	bool Jump();
 
 public:
 	
@@ -75,8 +76,10 @@ private:
 	bool moving = false;
 	bool jumping = false;
 	bool jumping_over = false;
-	
+	bool dead = false;
 	bool back = false;
+	bool jump1_on = false;
+	bool jump2_on = false;
 
 	//animations
 	Animation right_idle;
@@ -99,7 +102,7 @@ private:
 	Animation god_right_duck;
 	Animation god_left_duck;
 
-	int death = 0;
+	uint jump_height = 0;
 	
 	Collider* collider_player = nullptr;
 };

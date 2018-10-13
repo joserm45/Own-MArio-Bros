@@ -32,11 +32,6 @@ bool j1Player::Awake(pugi::xml_node& node)
 		position.x = node.child("player").child("position").attribute("x").as_int();
 		position.y = node.child("player").child("position").attribute("y").as_int();;
 	}
-	else
-	{
-		position.x = 86;
-		position.y = 174;
-	}
 	
 	//current = &right_idle;
 	status = IDLE;
@@ -45,7 +40,8 @@ bool j1Player::Awake(pugi::xml_node& node)
 
 bool j1Player::Start()
 {
-	
+	position.x = 86;
+	position.y = 100;
 	//load texture
 	text_player = App->tex->Load("textures/mario.png");
 	//load collider
@@ -77,7 +73,6 @@ bool j1Player::Update(float dt)
 	//duck
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
-		//position.y -= PLAYER_SPEED;
 		status = DUCK;
 		moving = true;
 	}
@@ -112,15 +107,7 @@ bool j1Player::Update(float dt)
 			moving = true;
 			back = true;
 		}
-	}
-	//jump
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		status = JUMP;
-		jumping = true;
-		moving = true;
-	}
-	
+	}	
 
 	//die
 	//to check if animation works for the moment
@@ -158,7 +145,7 @@ bool j1Player::Update(float dt)
 		{
 			if (App->map->Walkability() == true)
 			{
-				position.y -= PLAYER_SPEED;
+				position.y -= PLAYER_SPEED * dt;
 			}
 		}
 
@@ -166,7 +153,7 @@ bool j1Player::Update(float dt)
 		{
 			if (App->map->Walkability() == true)
 			{
-				position.y += PLAYER_SPEED;
+				position.y += PLAYER_SPEED * dt;
 			}
 		}
 
@@ -178,12 +165,30 @@ bool j1Player::Update(float dt)
 		status = IDLE;
 	}
 
+	if (!jump1_on)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			App->audio->PlayFx(1);
+			jumping = true;
+			jump_height = position.y - 40;
+			jump1_on = true;
+		}
+	}
+	else if (!jump2_on)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			App->audio->PlayFx(2);
+			jumping = true;
+			jump_height = position.y - 25;
+			jump2_on = true;
+		}
+	}
+
 	CameraMovement();
 
-
-	collider_player->SetPos(position.x, position.y);
-
-	if (jumping_over == false)
+	/*if (jumping_over == false)
 	{
 		if (jumping == true)
 		{
@@ -207,14 +212,54 @@ bool j1Player::Update(float dt)
 			position.y += GRAVITY;
 			status = JUMP;
 		}
+	}*/
+	if (dead != true)
+	{
+		
+		if (jumping != false)
+		{
+ 			if (Jump() != false)
+			{
+				position.y -= 150 * dt;
+			}
+		}
+		else
+		{
+			if (Falling())
+			{
+				position.y += 150 * dt;
+			}
+		}
+				
 	}
-	
 
+	if (dead)
+	{
+		App->scene->LoadLevel(App->scene->current_lvl);
+	}
+
+	collider_player->SetPos(position.x, position.y);
 
 	
 	return ret;
 }
 
+bool j1Player::Jump()
+{
+	bool ret;
+	if (position.y > jump_height)
+	{
+		ret = true;
+	}
+	else
+	{
+		jumping = false;
+		ret = false;
+		jump_height = 0;
+		
+	}
+	return ret;
+}
 bool j1Player::PostUpdate()
 {
 	bool ret = true;
@@ -223,12 +268,12 @@ bool j1Player::PostUpdate()
 	//Blit player
 	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
 	
-	/*player_quadrant_1.x = position.x / TILE_WIDTH;
+	player_quadrant_1.x = position.x / TILE_WIDTH;
 	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
 
 	player_quadrant_1.y = position.y / TILE_WIDTH;
 	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
-	*/
+	
 	return ret;
 }
 
@@ -236,6 +281,7 @@ bool j1Player::CleanUp()
 {
 	bool ret = true;
 
+	collider_player->to_delete = true;
 	return ret;
 }
 
@@ -519,19 +565,21 @@ bool j1Player::Falling()
 	}
 
 	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
-	uint* nextGid1 = &layer->data->gid[1 + player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
-	uint* nextGid2 = &layer->data->gid[1 + player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
+    uint* nextGid1 = &layer->data->gid[ player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
+	uint* nextGid2 = &layer->data->gid[ player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
 
 
-	if (*nextGid1 != 650 && *nextGid2 != 650)
+	if (*nextGid1 == 0 && *nextGid2 == 0)
 	{
 		ret = true;
-		//jumping = true;
+		jump1_on = true;
 	}
-	if (*nextGid1 == 649 || *nextGid2 == 649)
+	if (*nextGid1 == 650 || *nextGid2 == 650)
 	{
-		count_jump = 0;
-		jumping = false;
+		
+		//jumping = false;
+		jump2_on = false;
+		jump1_on = false;
 		jumping_over = false;
 	}
 

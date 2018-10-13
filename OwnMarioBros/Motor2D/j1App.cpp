@@ -157,6 +157,8 @@ pugi::xml_node j1App::LoadConfig(pugi::xml_document& config_file) const
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	dt = frame_time.ReadSec();
+	frame_time.Start();
 }
 
 // ---------------------------------------------
@@ -368,4 +370,8 @@ bool j1App::SavegameNow() const
 	data.reset();
 	want_to_save = false;
 	return ret;
+}
+float j1App::GetDT() const
+{
+	return dt;
 }
