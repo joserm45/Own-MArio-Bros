@@ -54,11 +54,18 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		LoadLevel(1);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		LoadLevel(current_lvl);
-		
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		LoadLevel(2);
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
@@ -107,7 +114,17 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadLevel(int current_level)
 {
-	pugi::xml_node node;
+
+
+	App->map->UnloadMap();
+	if (current_level == 1)
+		App->map->Load("lvl1.tmx");
+	else if (current_level == 2)
+		App->map->Load("lvl2.tmx");
+
+	App->render->camera.x = 0;
+	App->render->camera.y = 0;
+	/*pugi::xml_node node;
 	
 	pugi::xml_parse_result result = config.load_file("save_game.xml");
 	if (result != NULL)
@@ -122,12 +139,7 @@ void j1Scene::LoadLevel(int current_level)
 	else
 	{
 
-	}
+	}*/
 
-	App->render->camera.x = 0;
-	App->render->camera.y = 0;
-	if (current_level == 1)
-		App->map->Load("lvl1.tmx");
-	else if (current_level == 2)
-		App->map->Load("lvl2.tmx");
+
 }
