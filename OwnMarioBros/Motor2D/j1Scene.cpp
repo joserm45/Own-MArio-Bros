@@ -36,6 +36,8 @@ bool j1Scene::Start()
 	{
 		App->map->Load("lvl1.tmx");
 		App->audio->PlayMusic("audio/music/lvl_1.ogg");
+		death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
+		level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
 	}
 	else if (current_lvl == 2)
 	{

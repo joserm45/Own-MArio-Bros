@@ -98,6 +98,8 @@ private:
 	Animation god_left_jump;
 	Animation god_right_duck;
 	Animation god_left_duck;
+
+	int death = 0;
 	
 	Collider* collider_player = nullptr;
 };

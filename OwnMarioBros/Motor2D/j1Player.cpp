@@ -74,40 +74,6 @@ bool j1Player::Update(float dt)
 	moving = false;
 	
 
-
-
-	//right
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
-	{
-		status = RIGHT;
-		if (App->map->Walkability() == true)
-		{
-			position.x += PLAYER_SPEED;
-		}
-		
-		
-		moving = true;
-		back = false;
-	}
-	//left
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
-	{
-		status = LEFT;
-		if (App->map->Walkability() == true)
-		{
-			position.x -= PLAYER_SPEED;
-		}
-		
-		moving = true;
-		back = true;
-	}
-	//jump
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		status = JUMP;
-		jumping = true;
-		moving = true;
-	}
 	//duck
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
@@ -116,6 +82,46 @@ bool j1Player::Update(float dt)
 		moving = true;
 	}
 
+	//right
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+	{
+		if (status != DUCK)
+		{
+			status = RIGHT;
+			if (App->map->Walkability() == true)
+			{
+				position.x += PLAYER_SPEED;
+			}
+
+
+			moving = true;
+			back = false;
+		}
+	}
+	//left
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+	{
+		if (status != DUCK)
+		{
+			status = LEFT;
+			if (App->map->Walkability() == true)
+			{
+				position.x -= PLAYER_SPEED;
+			}
+
+			moving = true;
+			back = true;
+		}
+	}
+	//jump
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		status = JUMP;
+		jumping = true;
+		moving = true;
+	}
+	
+
 	//die
 	//to check if animation works for the moment
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
@@ -123,8 +129,27 @@ bool j1Player::Update(float dt)
 		status = DIE;
 		position.y -= 100;
 		moving = false;
-		App->audio->PlayMusic("audio/music/life_lost.ogg", 0.3);
+		App->audio->StopMusic();
+		App->audio->PlayFx(App->scene->death_sound, 0);
 	}
+
+	//respawn
+	//to check if it works for the moment
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		status = IDLE;
+		if (App->scene->current_lvl == 1)
+		{
+			position.x = 86;
+			position.y = 174;
+			App->audio->PlayMusic("audio/music/lvl_1.ogg");
+		}
+		else if (App->scene->current_lvl == 2)
+		{
+			App->audio->PlayMusic("audio/music/lvl_2.ogg");
+		}
+	}
+
 
 	//god mode
 	if (App->scene->god_mode == true)
@@ -162,10 +187,11 @@ bool j1Player::Update(float dt)
 	{
 		if (jumping == true)
 		{
-			if (count_jump < 15)
+			if (count_jump < 13)
 			{
 				position.y -= PLAYER_JUMP;
 				count_jump++;
+				status = JUMP;
 			}
 			else
 			{
@@ -179,9 +205,11 @@ bool j1Player::Update(float dt)
 		if (Falling() == true)
 		{
 			position.y += GRAVITY;
+			status = JUMP;
 		}
 	}
 	
+
 
 	
 	return ret;

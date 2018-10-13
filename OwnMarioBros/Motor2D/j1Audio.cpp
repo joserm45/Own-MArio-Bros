@@ -133,6 +133,12 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	return ret;
 }
 
+// Stop music
+void j1Audio::StopMusic() const {
+	Mix_FadeOutMusic(300);
+}
+
+
 // Load WAV
 unsigned int j1Audio::LoadFx(const char* path)
 {

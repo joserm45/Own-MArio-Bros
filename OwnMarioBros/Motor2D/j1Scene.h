@@ -37,6 +37,9 @@ public:
 	pugi::xml_document config;
 	int current_lvl = 1;
 
+	//audio
+	uint death_sound = 0;
+	uint level_sound = 0;
 
 	void LoadLevel(int level);
 
