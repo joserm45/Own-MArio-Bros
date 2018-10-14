@@ -7,6 +7,8 @@
 
 j1Collision::j1Collision()
 {
+	name.create("player");
+
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 

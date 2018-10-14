@@ -61,6 +61,7 @@ public:
 	bool Falling();
 	bool Jump();
 
+
 public:
 	
 	fPoint position;

@@ -293,17 +293,25 @@ bool j1Player::CleanUp()
 	return ret;
 }
 
-bool j1Player::Save(pugi::xml_node&) const
+bool j1Player::Save(pugi::xml_node& node) const
 {
 	bool ret = true;
 	//save 
+	pugi::xml_node root = node.append_child("position");
+	root.append_attribute("x") = position.x;
+	root.append_attribute("y") = position.y;
+
 	return ret;
 }
 
-bool j1Player::Load(pugi::xml_node&)
+bool j1Player::Load(pugi::xml_node& node)
 {
 	bool ret = true;
 	//load
+	pugi::xml_node root = node.child("position");
+	position.x = root.attribute("x").as_int();
+	position.y = root.attribute("y").as_int();
+
 	return ret;
 }
 

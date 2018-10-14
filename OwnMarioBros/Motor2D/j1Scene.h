@@ -35,13 +35,15 @@ public:
 
 public:
 	pugi::xml_document config;
-	int current_lvl = 1;
+	uint current_lvl = 1;
 
 	//audio
 	uint death_sound = 0;
 	uint level_sound = 0;
 
 	void LoadLevel(int level);
+	bool Save(pugi::xml_node&)const;
+	bool Load(pugi::xml_node&);
 
 	bool god_mode = false;
 

@@ -77,10 +77,10 @@ bool j1Scene::Update(float dt)
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
-		App->LoadGame();
+		App->SaveGame();
 
 	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
-		App->SaveGame();
+		App->LoadGame();
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		god_mode = !god_mode;
@@ -159,8 +159,6 @@ void j1Scene::LoadLevel(int level)
 		App->audio->PlayMusic("audio/music/lvl_2.ogg");
 		current_lvl = level;
 	}
-
-
 	/*pugi::xml_node node;
 	
 	pugi::xml_parse_result result = config.load_file("save_game.xml");
@@ -177,6 +175,14 @@ void j1Scene::LoadLevel(int level)
 	{
 
 	}*/
-
-
+}
+bool j1Scene::Save(pugi::xml_node& node)const
+{
+	node.append_attribute("current_lvl") = current_lvl;
+	return true;
+}
+bool j1Scene::Load(pugi::xml_node& node)
+{
+	LoadLevel(node.attribute("current_lvl").as_uint());
+	return true;
 }
