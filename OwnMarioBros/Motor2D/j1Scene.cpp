@@ -62,6 +62,7 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	current_time += dt;
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
 		LoadLevel(1);
@@ -112,17 +113,41 @@ bool j1Scene::Update(float dt)
 	if (App->map->lvl1_complete == true)
 	{
 		App->audio->StopMusic();
-		LoadLevel(2);
-		App->map->lvl1_complete = false;
-		current_lvl = 2;
+		App->audio->PlayFx(App->scene->level_sound);
+		App->player->moving = false;
+		App->player->position.x += 20 * dt;
+		if (App->map->init_timer == true)
+		{
+			init_time = current_time;
+			App->map->init_timer = false;
+		}
+		if ((current_time - init_time * dt) >= init_time + 2)
+		{
+			LoadLevel(2);
+			App->map->lvl1_complete = false;
+			current_lvl = 2;
+			App->player->status = IDLE;
+		}
 	}
 
 	if (App->map->lvl2_complete == true)
 	{
 		App->audio->StopMusic();
-		LoadLevel(1);
-		App->map->lvl2_complete = false;
-		current_lvl = 1;
+		App->audio->PlayFx(App->scene->level_sound);
+		App->player->moving = false;
+		App->player->position.x += 20 * dt;
+		if (App->map->init_timer == true)
+		{
+			init_time = current_time;
+			App->map->init_timer = false;
+		}
+		if ((current_time - init_time * dt) >= init_time + 2)
+		{
+			LoadLevel(1);
+			App->map->lvl2_complete = false;
+			current_lvl = 1;
+			App->player->status = IDLE;
+		}
 	}
 	
 	return true;

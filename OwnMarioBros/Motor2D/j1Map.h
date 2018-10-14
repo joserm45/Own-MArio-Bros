@@ -117,11 +117,13 @@ public:
 	bool logic = false;
 	bool lvl1_complete = false;
 	bool lvl2_complete = false;
+	bool init_timer = false;
 private:
 
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
+	
 };
 
 #endif // __j1MAP_H__

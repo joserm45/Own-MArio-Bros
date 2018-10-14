@@ -461,10 +461,16 @@ bool j1Map::Walkability()
 			ret = true;
 		if (*nextGid == 708)
 		{
-			if(App->scene->current_lvl == 1)
-			lvl1_complete = true;
+			if (App->scene->current_lvl == 1)
+			{
+				lvl1_complete = true;
+				init_timer = true;
+			}
 			if (App->scene->current_lvl == 2)
-			lvl2_complete = true;
+			{
+				lvl2_complete = true;
+				init_timer = true;
+			}
 		}
 			
 	}

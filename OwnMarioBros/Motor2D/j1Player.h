@@ -60,6 +60,7 @@ public:
 	void Draw();
 	bool Falling();
 	bool Jump();
+	void Input();
 
 
 public:
@@ -71,17 +72,21 @@ public:
 
 	STATUS status;
 	uint count_jump = 0;
-	//bool dead = false;
+	bool moving = false;
+	float current_time = 0;
+	float init_time = 0;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;
-	bool moving = false;
+	bool sprite_moving = false;
 	bool jumping = false;
 	bool jumping_over = false;
 	bool dead = false;
 	bool back = false;
 	bool jump1_on = false;
 	bool jump2_on = false;
+
+	bool init_timer = false;
 
 	//animations
 	Animation right_idle;

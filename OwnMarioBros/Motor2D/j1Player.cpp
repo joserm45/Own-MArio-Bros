@@ -42,7 +42,8 @@ bool j1Player::Start()
 {
 	position.x = 112;
 	position.y = 176;
-	
+	moving = true;
+
 	//load texture
 	text_player = App->tex->Load("textures/mario.png");
 
@@ -67,127 +68,6 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	bool ret = true;
-
-	//Movement
-	moving = false;
-	
-	//duck
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-		status = DUCK;
-		moving = true;
-	}
-
-	//right
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
-	{
-		if (status != DUCK)
-		{
-			status = RIGHT;
-			if (App->map->Walkability() == true)
-			{
-				position.x += PLAYER_SPEED;
-			}
-
-			moving = true;
-			back = false;
-		}
-	}
-	//left
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
-	{
-		if (status != DUCK)
-		{
-			status = LEFT;
-			if (App->map->Walkability() == true)
-			{
-				position.x -= PLAYER_SPEED;
-			}
-
-			moving = true;
-			back = true;
-		}
-	}	
-
-	//die
-	//to check if animation works for the moment
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-	{
-		status = DIE;
-		position.y -= 150;
-		moving = false;
-		App->audio->StopMusic();
-		App->audio->PlayFx(App->scene->death_sound, 0);
-	}
-
-	//respawn
-	//to check if it works for the moment
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	{
-		status = IDLE;
-		if (App->scene->current_lvl == 1)
-		{
-			position.x = 86;
-			position.y = 174;
-			App->audio->PlayMusic("audio/music/lvl_1.ogg");
-		}
-		else if (App->scene->current_lvl == 2)
-		{
-			App->audio->PlayMusic("audio/music/lvl_2.ogg");
-		}
-	}
-
-
-	//god mode
-	if (App->scene->god_mode == true)
-	{
-	
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
-		{
-			jumping = true;
-			jump_height = position.y - 40;
-			jump1_on = true;
-		}
-		
-
-		/*if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		{
-			if (App->map->Walkability() == true)
-			{
-				position.y += PLAYER_SPEED * dt;
-			}
-		}*/
-
-	}
-
-	//status check
-	if (moving == false && status != DIE)
-	{
-		status = IDLE;
-	}
-
-	if (!jump1_on)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		{
-			App->audio->PlayFx(1);
-			jumping = true;
-			jump_height = position.y - 40;
-			jump1_on = true;
-		}
-	}
-	else if (!jump2_on)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		{
-			App->audio->PlayFx(2);
-			jumping = true;
-			jump_height = position.y - 25;
-			jump2_on = true;
-		}
-	}
-
-	CameraMovement();
 
 	/*if (jumping_over == false)
 	{
@@ -214,9 +94,19 @@ bool j1Player::Update(float dt)
 			status = JUMP;
 		}
 	}*/
+	current_time += dt;
+
 	if (dead != true)
 	{
-		
+		sprite_moving = false;
+		if(moving == true)
+		Input();
+		//status check
+		if (sprite_moving == false && status != DIE)
+		{
+			status = IDLE;
+		}
+
 		if (jumping != false)
 		{
  			if (Jump() != false)
@@ -235,14 +125,27 @@ bool j1Player::Update(float dt)
 	}
 	if (dead == true)
 	{
-		dead = false;
-		moving = false;
+		status = DIE;
 		App->audio->StopMusic();
-		App->scene->LoadLevel(App->scene->current_lvl);
+		App->audio->PlayFx(App->scene->death_sound, 0);
+		position.y -= 30 * dt;
+
+		if (init_timer == true)
+		{
+			init_time = current_time;
+			init_timer = false;
+		}
+		if ((current_time - init_time * dt) >= init_time + 3)
+		{
+			dead = false;
+			sprite_moving = false;
+			App->scene->LoadLevel(App->scene->current_lvl);
+			status = IDLE;
+		}
 		
 	}
 	
-	
+	CameraMovement();
 
 	collider_player->SetPos(position.x, position.y);
 
@@ -602,8 +505,127 @@ bool j1Player::Falling()
 	if (*nextGid1 == 679 || *nextGid2 == 679)
 	{
 		if (App->scene->god_mode != true)
-		dead = true;
+		{
+			dead = true;
+			init_timer = true;
+		}
+	
 	}
 
 	return ret;
+}
+
+void j1Player::Input()
+{
+	//Movement
+
+	//duck
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		status = DUCK;
+		sprite_moving = true;
+	}
+
+	//right
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+	{
+		if (status != DUCK)
+		{
+			status = RIGHT;
+			if (App->map->Walkability() == true)
+			{
+				position.x += PLAYER_SPEED;
+			}
+
+			sprite_moving = true;
+			back = false;
+		}
+	}
+	//left
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+	{
+		if (status != DUCK)
+		{
+			status = LEFT;
+			if (App->map->Walkability() == true)
+			{
+				position.x -= PLAYER_SPEED;
+			}
+
+			sprite_moving = true;
+			back = true;
+		}
+	}
+
+	//die
+	//to check if animation works for the moment
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		status = DIE;
+		position.y -= 150;
+		sprite_moving = false;
+		App->audio->StopMusic();
+		App->audio->PlayFx(App->scene->death_sound, 0);
+	}
+
+	//respawn
+	//to check if it works for the moment
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		status = IDLE;
+		if (App->scene->current_lvl == 1)
+		{
+			position.x = 86;
+			position.y = 174;
+			App->audio->PlayMusic("audio/music/lvl_1.ogg");
+		}
+		else if (App->scene->current_lvl == 2)
+		{
+			App->audio->PlayMusic("audio/music/lvl_2.ogg");
+		}
+	}
+
+
+	//god mode
+	if (App->scene->god_mode == true)
+	{
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+		{
+			jumping = true;
+			jump_height = position.y - 40;
+			jump1_on = true;
+		}
+
+
+		/*if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		{
+		if (App->map->Walkability() == true)
+		{
+		position.y += PLAYER_SPEED * dt;
+		}
+		}*/
+
+	}
+
+	if (!jump1_on)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			App->audio->PlayFx(1);
+			jumping = true;
+			jump_height = position.y - 40;
+			jump1_on = true;
+		}
+	}
+	else if (!jump2_on)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			App->audio->PlayFx(2);
+			jumping = true;
+			jump_height = position.y - 25;
+			jump2_on = true;
+		}
+	}
 }

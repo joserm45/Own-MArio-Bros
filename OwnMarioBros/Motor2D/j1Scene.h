@@ -47,6 +47,9 @@ public:
 
 	bool god_mode = false;
 
+	float current_time = 0;
+	float init_time = 0;
+
 private:
 };
 
