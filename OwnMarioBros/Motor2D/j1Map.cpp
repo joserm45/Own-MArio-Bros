@@ -65,6 +65,10 @@ void j1Map::Draw()
 				else if (data_layer->data->name == "logic" && logic != false)
 				{
 					App->render->Blit(data_tilset->data->texture, position.x - (App->render->camera.x * data_layer->data->parallax_speed), position.y, &rect);
+					/*if (id) == 621)
+					{
+						App->player->position.x = 
+					}*/
 				}
 			}
 
@@ -84,6 +88,15 @@ iPoint j1Map::MapToWorld(int x, int y) const
 
 	ret.x = x * data.tile_width;
 	ret.y = y * data.tile_height;
+
+	return ret;
+}
+iPoint j1Map::WorldToMap(int x, int y) const
+{
+	iPoint ret;
+
+	ret.x = x / data.tile_width;
+	ret.y = y / data.tile_height;
 
 	return ret;
 }
@@ -450,7 +463,7 @@ bool j1Map::Walkability()
 	}
 
 	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
-	uint* nextGid = &layer->data->gid[player_x + player_y * layer->data->width ];
+	uint* nextGid = &layer->data->gid[ player_x + player_y * layer->data->width ];
 
 	if (App->player->status == RIGHT)
 	{
@@ -485,6 +498,10 @@ bool j1Map::Walkability()
 
 
 	return ret;
+}
+void j1Map::LoadPlayerFromTiled()
+{
+
 }
 
 /*int GetX() const

@@ -116,9 +116,12 @@ bool j1Scene::Update(float dt)
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->level_sound);
 		App->player->moving = false;
+
 		if (App->player->position.y < 169)
 			App->player->position.y += 50 * dt;
+
 		App->player->position.x += 20 * dt;
+
 		if (App->map->init_timer == true)
 		{
 			init_time = current_time;

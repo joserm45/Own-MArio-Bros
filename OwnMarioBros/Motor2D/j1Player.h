@@ -7,11 +7,12 @@
 #include "j1Textures.h"
 #include "Animation.h"
 
-#define PLAYER_SPEED 2
-#define PLAYER_JUMP 5
+#define PLAYER_SPEED 2.0f
+#define PLAYER_JUMP 150.0f
 #define ANIMATION_SPEED 0.145f
-#define GRAVITY 1
+#define GRAVITY 1.0f
 #define MARIO_HEIGHT 32
+#define MARIO_HIGHT 16
 #define MARIO_WIDTH 16
 #define TILE_WIDTH 16
 #define TiLE_HEIGHT 16
@@ -62,6 +63,7 @@ public:
 	bool Falling();
 	bool Jump();
 	void Input();
+	void LoadPlayerFromTiled();
 
 
 public:
@@ -76,11 +78,12 @@ public:
 	bool moving = false;
 	float current_time = 0;
 	float init_time = 0;
+	bool jumping = false;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;
 	bool sprite_moving = false;
-	bool jumping = false;
+	
 	bool jumping_over = false;
 	bool dead = false;
 	bool back = false;
@@ -114,6 +117,8 @@ private:
 	uint jump_height = 0;
 	
 	Collider* collider_player = nullptr;
+	Collider* quadrant1 = nullptr;
+	Collider* quadrant2 = nullptr;
 };
 
 #endif

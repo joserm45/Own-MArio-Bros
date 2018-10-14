@@ -27,11 +27,7 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
-	if (node != NULL)
-	{
-		position.x = node.child("player").child("position").attribute("x").as_int();
-		position.y = node.child("player").child("position").attribute("y").as_int();;
-	}
+
 	status = IDLE;
 	//current = &right_idle;
 	
@@ -40,8 +36,8 @@ bool j1Player::Awake(pugi::xml_node& node)
 
 bool j1Player::Start()
 {
-	position.x = 112;
-	position.y = 176;
+	position.x = 112.0f;
+	position.y = 176.0f;
 	moving = true;
 
 	//load texture
@@ -55,6 +51,8 @@ bool j1Player::Start()
 
 	player_quadrant_1.y = position.y / TILE_WIDTH;
 	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
+
+
 	return true;
 }
 
@@ -107,35 +105,48 @@ bool j1Player::Update(float dt)
 			status = IDLE;
 		}
 
-		if (jumping != false)
+		if (jumping)
 		{
  			if (Jump() != false)
 			{
-				position.y -= 150 * dt;
+				position.y -= PLAYER_JUMP * dt;
 			}
 		}
 		else
 		{
 			if (Falling())
 			{
-				position.y += 150 * dt;
+				position.y += PLAYER_JUMP * dt;
 			}
 		}
 				
 	}
 	if (dead == true)
 	{
+		bool tmp = false;
+
 		status = DIE;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->death_sound, 0);
-		position.y -= 30 * dt;
+
+		if (position.y <= 165)
+		{
+			position.y += 120.0f * dt;
+			tmp = true;
+		}
+
+		if (position.y > 165 && tmp == false)
+		{
+			position.y -= 100.0f * dt;
+		}
+
 
 		if (init_timer == true)
 		{
 			init_time = current_time;
 			init_timer = false;
 		}
-		if ((current_time - init_time * dt) >= init_time + 3)
+		if ((current_time - init_time * dt) >= init_time + 2.5f)
 		{
 			dead = false;
 			sprite_moving = false;
@@ -146,6 +157,9 @@ bool j1Player::Update(float dt)
 	}
 	
 	CameraMovement();
+
+	/*if (position.y > 250 || position.y < 0)
+		position.y = 176;*/
 
 	collider_player->SetPos(position.x, position.y);
 
@@ -177,12 +191,6 @@ bool j1Player::PostUpdate()
 	Draw();
 	//Blit player
 	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
-	
-	player_quadrant_1.x = position.x / TILE_WIDTH;
-	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
-
-	player_quadrant_1.y = position.y / TILE_WIDTH;
-	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
 	
 	return ret;
 }
@@ -361,10 +369,12 @@ void j1Player::Draw()
 		case DIE:
 		{
 			current = &die;
+			break;
 		}
 		case WIN:
 		{
 			current = &win;
+			break;
 		}
 	}
 
@@ -490,53 +500,6 @@ void j1Player::Load_Animation()
 
 }
 
-bool j1Player::Falling()
-{
-	bool ret = false;
-	if (status != WIN)
-	{
-		p2List_item<Layer*>* iterator;
-		p2List_item<Layer*>* layer = nullptr;
-
-		for (iterator = App->map->data.layers.start; iterator != NULL; iterator = iterator->next)
-		{
-			if (iterator->data->name == "logic")
-			{
-				layer = iterator;
-			}
-		}
-
-		//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
-		uint* nextGid1 = &layer->data->gid[player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
-		uint* nextGid2 = &layer->data->gid[player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
-
-
-		if (*nextGid1 == 0 && *nextGid2 == 0)
-		{
-			ret = true;
-			jump1_on = true;
-		}
-		if (*nextGid1 == 650 || *nextGid2 == 650)
-		{
-
-			//jumping = false;
-			jump2_on = false;
-			jump1_on = false;
-			jumping_over = false;
-		}
-
-		if (*nextGid1 == 679 || *nextGid2 == 679)
-		{
-			if (App->scene->god_mode != true)
-			{
-				dead = true;
-				init_timer = true;
-			}
-
-		}
-	}
-	return ret;
-}
 
 void j1Player::Input()
 {
@@ -651,4 +614,66 @@ void j1Player::Input()
 			jump2_on = true;
 		}
 	}
+}
+
+bool j1Player::Falling()
+{
+	bool ret = false;
+	if (status != WIN)
+	{
+		p2List_item<Layer*>* iterator;
+		p2List_item<Layer*>* layer = nullptr;
+
+		for (iterator = App->map->data.layers.start; iterator != NULL; iterator = iterator->next)
+		{
+			if (iterator->data->name == "logic")
+			{
+				layer = iterator;
+			}
+		}
+
+		//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
+		uint* nextGid1 = &layer->data->gid[ player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
+		uint* nextGid2 = &layer->data->gid[ player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
+
+
+		if (*nextGid1 == 0 && *nextGid2 == 0)
+		{
+			ret = true;
+			jump1_on = true;
+		}
+		if (*nextGid1 == 650 || *nextGid2 == 650)
+		{
+
+			//jumping = false;
+			jump2_on = false;
+			jump1_on = false;
+			jumping_over = false;
+		}
+
+		if (*nextGid1 == 679 || *nextGid2 == 679)
+		{
+			if (App->scene->god_mode != true)
+			{
+				dead = true;
+				init_timer = true;
+			}
+
+		}
+
+		if (*nextGid1 == 708 || *nextGid2 == 708)
+		{
+			if (App->scene->current_lvl == 1)
+			{
+				App->map->lvl1_complete = true;
+				init_timer = true;
+			}
+			else if (App->scene->current_lvl == 2)
+			{
+				App->map->lvl2_complete = true;
+				init_timer = true;
+			}
+		}
+	}
+	return ret;
 }
