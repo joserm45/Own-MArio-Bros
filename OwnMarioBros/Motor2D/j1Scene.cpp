@@ -112,8 +112,17 @@ bool j1Scene::Update(float dt)
 	if (App->map->lvl1_complete == true)
 	{
 		App->audio->StopMusic();
+		LoadLevel(2);
+		App->map->lvl1_complete = false;
 		current_lvl = 2;
-		LoadLevel(current_lvl);
+	}
+
+	if (App->map->lvl2_complete == true)
+	{
+		App->audio->StopMusic();
+		LoadLevel(1);
+		App->map->lvl2_complete = false;
+		current_lvl = 1;
 	}
 	
 	return true;

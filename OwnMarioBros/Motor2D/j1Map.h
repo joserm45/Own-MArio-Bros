@@ -116,6 +116,7 @@ public:
 
 	bool logic = false;
 	bool lvl1_complete = false;
+	bool lvl2_complete = false;
 private:
 
 	pugi::xml_document	map_file;

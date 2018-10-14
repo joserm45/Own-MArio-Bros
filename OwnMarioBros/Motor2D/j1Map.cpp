@@ -463,6 +463,8 @@ bool j1Map::Walkability()
 		{
 			if(App->scene->current_lvl == 1)
 			lvl1_complete = true;
+			if (App->scene->current_lvl == 2)
+			lvl2_complete = true;
 		}
 			
 	}
