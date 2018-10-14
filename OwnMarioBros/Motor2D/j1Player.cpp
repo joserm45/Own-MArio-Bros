@@ -140,21 +140,22 @@ bool j1Player::Update(float dt)
 	//god mode
 	if (App->scene->god_mode == true)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 		{
-			if (App->map->Walkability() == true)
-			{
-				position.y -= PLAYER_SPEED * dt;
-			}
+			jumping = true;
+			jump_height = position.y - 40;
+			jump1_on = true;
 		}
+		
 
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		/*if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		{
 			if (App->map->Walkability() == true)
 			{
 				position.y += PLAYER_SPEED * dt;
 			}
-		}
+		}*/
 
 	}
 
@@ -235,7 +236,7 @@ bool j1Player::Update(float dt)
 	{
 		App->audio->StopMusic();
 		App->scene->LoadLevel(App->scene->current_lvl);
-		dead = false;
+		//dead = false;
 	}
 	
 	
@@ -249,6 +250,7 @@ bool j1Player::Update(float dt)
 bool j1Player::Jump()
 {
 	bool ret;
+	status = JUMP;
 	if (position.y > jump_height)
 	{
 		ret = true;
@@ -587,6 +589,7 @@ bool j1Player::Falling()
 
 	if (*nextGid1 == 679 || *nextGid2 == 679)
 	{
+		if (App->scene->god_mode != true)
 		dead = true;
 	}
 
