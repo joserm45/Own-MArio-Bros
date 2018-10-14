@@ -459,6 +459,12 @@ bool j1Map::Walkability()
 			ret = false;
 		else if (*nextGid != 650)
 			ret = true;
+		if (*nextGid == 708)
+		{
+			if(App->scene->current_lvl == 1)
+			lvl1_complete = true;
+		}
+			
 	}
 	else if (App->player->status == LEFT)
 	{

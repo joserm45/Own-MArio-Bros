@@ -32,16 +32,16 @@ bool j1Player::Awake(pugi::xml_node& node)
 		position.x = node.child("player").child("position").attribute("x").as_int();
 		position.y = node.child("player").child("position").attribute("y").as_int();;
 	}
-	
-	//current = &right_idle;
 	status = IDLE;
+	//current = &right_idle;
+	
 	return ret;
 }
 
 bool j1Player::Start()
 {
 	position.x = 86;
-	position.y = 100;
+	position.y = 86;
 	//load texture
 	text_player = App->tex->Load("textures/mario.png");
 	//load collider
@@ -69,7 +69,6 @@ bool j1Player::Update(float dt)
 	//Movement
 	moving = false;
 	
-
 	//duck
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
@@ -114,7 +113,7 @@ bool j1Player::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 		status = DIE;
-		position.y -= 100;
+		position.y -= 150;
 		moving = false;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->death_sound, 0);
@@ -232,11 +231,14 @@ bool j1Player::Update(float dt)
 		}
 				
 	}
-
-	if (dead)
+	if (dead == true)
 	{
+		App->audio->StopMusic();
 		App->scene->LoadLevel(App->scene->current_lvl);
+		dead = false;
 	}
+	
+	
 
 	collider_player->SetPos(position.x, position.y);
 
@@ -583,6 +585,10 @@ bool j1Player::Falling()
 		jumping_over = false;
 	}
 
+	if (*nextGid1 == 679 || *nextGid2 == 679)
+	{
+		dead = true;
+	}
 
 	return ret;
 }

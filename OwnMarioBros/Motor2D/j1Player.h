@@ -70,6 +70,7 @@ public:
 
 	STATUS status;
 	uint count_jump = 0;
+	//bool dead = false;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;

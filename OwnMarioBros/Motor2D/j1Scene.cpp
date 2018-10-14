@@ -107,6 +107,14 @@ bool j1Scene::Update(float dt)
 					App->map->data.tile_width, App->map->data.tile_height,
 					App->map->data.tilesets.count());*/
 	//p2SString title("%c", *App->win->SetTitle(title.GetString()));
+
+	//Changing Level
+	if (App->map->lvl1_complete == true)
+	{
+		App->audio->StopMusic();
+		current_lvl = 2;
+		LoadLevel(current_lvl);
+	}
 	
 	return true;
 }
@@ -148,7 +156,6 @@ void j1Scene::LoadLevel(int current_level)
 		App->map->Load("lvl2.tmx");
 		App->audio->PlayMusic("audio/music/lvl_2.ogg");
 	}
-
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;

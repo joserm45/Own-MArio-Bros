@@ -115,6 +115,7 @@ public:
 	MapData data;
 
 	bool logic = false;
+	bool lvl1_complete = false;
 private:
 
 	pugi::xml_document	map_file;
