@@ -112,16 +112,19 @@ bool j1Scene::Update(float dt)
 	//Changing Level
 	if (App->map->lvl1_complete == true)
 	{
+		App->player->status = WIN;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->level_sound);
 		App->player->moving = false;
+		if (App->player->position.y < 169)
+			App->player->position.y += 50 * dt;
 		App->player->position.x += 20 * dt;
 		if (App->map->init_timer == true)
 		{
 			init_time = current_time;
 			App->map->init_timer = false;
 		}
-		if ((current_time - init_time * dt) >= init_time + 2)
+		if ((current_time - init_time * dt) >= init_time + 4.5)
 		{
 			LoadLevel(2);
 			App->map->lvl1_complete = false;
@@ -132,16 +135,19 @@ bool j1Scene::Update(float dt)
 
 	if (App->map->lvl2_complete == true)
 	{
+		App->player->status = WIN;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->level_sound);
 		App->player->moving = false;
+		if (App->player->position.y < 169)
+			App->player->position.y += 50 * dt;
 		App->player->position.x += 20 * dt;
 		if (App->map->init_timer == true)
 		{
 			init_time = current_time;
 			App->map->init_timer = false;
 		}
-		if ((current_time - init_time * dt) >= init_time + 2)
+		if ((current_time - init_time * dt) >= init_time + 4.5)
 		{
 			LoadLevel(1);
 			App->map->lvl2_complete = false;

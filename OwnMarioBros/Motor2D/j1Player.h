@@ -24,6 +24,7 @@ enum STATUS
 	JUMP,
 	DUCK,
 	DIE,
+	WIN
 };
 
 class j1Player : public j1Module
@@ -98,6 +99,7 @@ private:
 	Animation right_duck;
 	Animation left_duck;
 	Animation die;
+	Animation win;
 	Animation* current = nullptr;
 		//god mode
 	Animation god_right_idle;

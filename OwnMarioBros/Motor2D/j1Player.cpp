@@ -102,7 +102,7 @@ bool j1Player::Update(float dt)
 		if(moving == true)
 		Input();
 		//status check
-		if (sprite_moving == false && status != DIE)
+		if (sprite_moving == false && status != DIE && status != WIN)
 		{
 			status = IDLE;
 		}
@@ -362,6 +362,10 @@ void j1Player::Draw()
 		{
 			current = &die;
 		}
+		case WIN:
+		{
+			current = &win;
+		}
 	}
 
 }
@@ -413,6 +417,23 @@ void j1Player::Load_Animation()
 	die.PushBack({ 660, 1, 24, 34 });
 	die.speed = ANIMATION_SPEED;
 
+	//win
+	win.PushBack({ 0, 64, 31, 43 });
+	win.PushBack({ 31, 64, 31, 43 });
+	win.PushBack({ 62, 64, 31, 43 });
+	win.PushBack({ 93, 64, 31, 43 });
+	win.PushBack({ 124, 64, 31, 43 });
+	win.PushBack({ 155, 64, 31, 43 });
+	win.PushBack({ 186, 64, 31, 43 });
+	win.PushBack({ 217, 64, 31, 43 });
+	win.PushBack({ 248, 64, 31, 43 });
+	win.PushBack({ 279, 64, 31, 43 });
+	win.PushBack({ 310, 64, 31, 43 });
+	win.PushBack({ 341, 64, 31, 43 });
+	win.PushBack({ 372, 64, 31, 43 });
+	win.PushBack({ 403, 64, 31, 43 });
+	win.PushBack({ 434, 64, 32, 43 });
+	win.speed = ANIMATION_SPEED;
 
 	//GOD MODE MARIO
 
@@ -472,46 +493,48 @@ void j1Player::Load_Animation()
 bool j1Player::Falling()
 {
 	bool ret = false;
-	p2List_item<Layer*>* iterator;
-	p2List_item<Layer*>* layer = nullptr;
-
-	for (iterator = App->map->data.layers.start; iterator != NULL; iterator = iterator->next)
+	if (status != WIN)
 	{
-		if (iterator->data->name == "logic")
+		p2List_item<Layer*>* iterator;
+		p2List_item<Layer*>* layer = nullptr;
+
+		for (iterator = App->map->data.layers.start; iterator != NULL; iterator = iterator->next)
 		{
-			layer = iterator;
+			if (iterator->data->name == "logic")
+			{
+				layer = iterator;
+			}
+		}
+
+		//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
+		uint* nextGid1 = &layer->data->gid[player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
+		uint* nextGid2 = &layer->data->gid[player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
+
+
+		if (*nextGid1 == 0 && *nextGid2 == 0)
+		{
+			ret = true;
+			jump1_on = true;
+		}
+		if (*nextGid1 == 650 || *nextGid2 == 650)
+		{
+
+			//jumping = false;
+			jump2_on = false;
+			jump1_on = false;
+			jumping_over = false;
+		}
+
+		if (*nextGid1 == 679 || *nextGid2 == 679)
+		{
+			if (App->scene->god_mode != true)
+			{
+				dead = true;
+				init_timer = true;
+			}
+
 		}
 	}
-
-	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
-    uint* nextGid1 = &layer->data->gid[ player_quadrant_1.x + player_quadrant_2.y * layer->data->width];
-	uint* nextGid2 = &layer->data->gid[ player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
-
-
-	if (*nextGid1 == 0 && *nextGid2 == 0)
-	{
-		ret = true;
-		jump1_on = true;
-	}
-	if (*nextGid1 == 650 || *nextGid2 == 650)
-	{
-		
-		//jumping = false;
-		jump2_on = false;
-		jump1_on = false;
-		jumping_over = false;
-	}
-
-	if (*nextGid1 == 679 || *nextGid2 == 679)
-	{
-		if (App->scene->god_mode != true)
-		{
-			dead = true;
-			init_timer = true;
-		}
-	
-	}
-
 	return ret;
 }
 
