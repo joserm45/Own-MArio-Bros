@@ -40,10 +40,12 @@ bool j1Player::Awake(pugi::xml_node& node)
 
 bool j1Player::Start()
 {
-	position.x = 86;
-	position.y = 86;
+	position.x = 112;
+	position.y = 176;
+	
 	//load texture
 	text_player = App->tex->Load("textures/mario.png");
+
 	//load collider
 	collider_player = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	
@@ -86,7 +88,6 @@ bool j1Player::Update(float dt)
 			{
 				position.x += PLAYER_SPEED;
 			}
-
 
 			moving = true;
 			back = false;
@@ -234,9 +235,11 @@ bool j1Player::Update(float dt)
 	}
 	if (dead == true)
 	{
+		dead = false;
+		moving = false;
 		App->audio->StopMusic();
 		App->scene->LoadLevel(App->scene->current_lvl);
-		//dead = false;
+		
 	}
 	
 	
@@ -286,6 +289,7 @@ bool j1Player::CleanUp()
 	bool ret = true;
 
 	collider_player->to_delete = true;
+	SDL_DestroyTexture(text_player);
 	return ret;
 }
 

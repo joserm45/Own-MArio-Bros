@@ -138,27 +138,29 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-void j1Scene::LoadLevel(int current_level)
+void j1Scene::LoadLevel(int level)
 {
 
 	App->map->UnloadMap();
 	App->player->CleanUp();
 	App->player->Start();
-	if (current_level == 1)
-	{
-		this->current_lvl = current_level;
-		App->map->Load("lvl1.tmx");
-		App->audio->PlayMusic("audio/music/lvl_1.ogg");
-	}
-	else if (current_level == 2)
-	{
-		this->current_lvl = current_level;
-		App->map->Load("lvl2.tmx");
-		App->audio->PlayMusic("audio/music/lvl_2.ogg");
-	}
-
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
+
+	if (level == 1)
+	{		
+		App->map->Load("lvl1.tmx");
+		App->audio->PlayMusic("audio/music/lvl_1.ogg");
+		current_lvl = level;
+	}
+	else if (level == 2)
+	{
+		App->map->Load("lvl2.tmx");
+		App->audio->PlayMusic("audio/music/lvl_2.ogg");
+		current_lvl = level;
+	}
+
+
 	/*pugi::xml_node node;
 	
 	pugi::xml_parse_result result = config.load_file("save_game.xml");
