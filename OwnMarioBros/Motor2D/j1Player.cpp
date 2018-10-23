@@ -109,7 +109,7 @@ bool j1Player::Update(float dt)
 		{
  			if (Jump() != false)
 			{
-				position.y -= PLAYER_JUMP * dt;
+				position.y -= 100 * dt;
 			}
 		}
 		else
@@ -192,6 +192,12 @@ bool j1Player::PostUpdate()
 	//Blit player
 	App->render->Blit(text_player, position.x, position.y, &current->GetCurrentFrame());
 	
+	player_quadrant_1.x = position.x / TILE_WIDTH;
+	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
+
+	player_quadrant_1.y = position.y / TILE_WIDTH;
+	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
+
 	return ret;
 }
 
@@ -637,7 +643,7 @@ bool j1Player::Falling()
 		uint* nextGid2 = &layer->data->gid[ player_quadrant_2.x + player_quadrant_2.y * layer->data->width];
 
 
-		if (*nextGid1 == 0 && *nextGid2 == 0)
+		if (*nextGid1 != 650 && *nextGid2 != 650)
 		{
 			ret = true;
 			jump1_on = true;
