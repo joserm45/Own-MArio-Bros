@@ -58,7 +58,7 @@ public:
 
 	void CameraMovement();
 	// Animation
-	void Load_Animation();
+	void LoadAnimation();
 	void Draw();
 	bool Falling();
 	bool Jump();

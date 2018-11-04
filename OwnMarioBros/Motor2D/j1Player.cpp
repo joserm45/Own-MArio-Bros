@@ -15,7 +15,7 @@ j1Player::j1Player() : j1Module()
 {
 	name.create("player");
 
-	Load_Animation();
+	LoadAnimation();
 	
 }
 
@@ -386,7 +386,7 @@ void j1Player::Draw()
 
 }
 
-void j1Player::Load_Animation()
+void j1Player::LoadAnimation()
 {
 	//MARIO
 
