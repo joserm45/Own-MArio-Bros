@@ -47,6 +47,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+	cap = "ON";
+	vsync = "ON";
 
 	PERF_PEEK(ptimer);
 }
@@ -96,6 +98,8 @@ bool j1App::Awake()
 
 	framerete_cap = app_config.attribute("framerate_cap").as_uint();
 
+	framerete_ms = 1000 / framerete_cap;
+
 	if(ret == true)
 	{
 		p2List_item<j1Module*>* item;
@@ -135,6 +139,19 @@ bool j1App::Start()
 // Called each loop iteration
 bool j1App::Update()
 {
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
+		if (framerete_ms == frame_time.Read())
+		{
+			framerete_ms = 1000 / framerete_cap;
+			cap = "ON";
+		}
+		else
+		{
+			cap = "OFF";
+		}
+	}
+
 	bool ret = true;
 	PrepareUpdate();
 
@@ -201,20 +218,30 @@ void j1App::FinishUpdate()
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
 	static char title[256];
-	sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
-		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+
+	/*sprintf_s(title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);*/
+	sprintf_s(title, 256, "FPS: %i Av.FPS: %.2f Last Frame Ms: %u Cap: %s Vsync: %s",
+		frames_on_last_update, avg_fps, last_frame_ms, cap.GetString(), vsync.GetString());
+	
 	App->win->SetTitle(title);
 
 	float init_sleep_timer = App->ptimer.ReadMs();
 	// TODO 2: Use SDL_Delay to make sure you get your capped framerate
 
-	LOG("Delay time: %i", (1000 / framerete_cap) - last_frame_ms);
-	SDL_Delay((1000 / framerete_cap) - last_frame_ms);
-	float final_sleep_timer = App->ptimer.ReadMs();
-	float sleep_timer = final_sleep_timer - init_sleep_timer;
-	// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
+	LOG("Delay time: %i", framerete_ms - last_frame_ms);
 
-	LOG("We waited for %i and got back in %f", ((1000 / framerete_cap) - last_frame_ms), sleep_timer);
+	if (last_frame_ms < framerete_ms && cap == "ON")
+	{
+		SDL_Delay(framerete_ms - last_frame_ms);
+
+		float final_sleep_timer = App->ptimer.ReadMs();
+		float sleep_timer = final_sleep_timer - init_sleep_timer;
+		// TODO3: Measure accurately the amount of time it SDL_Delay actually waits compared to what was expected
+
+		LOG("We waited for %i and got back in %f", (framerete_ms - last_frame_ms), sleep_timer);
+	}
+	
 }
 
 // Call modules before each loop iteration

@@ -107,10 +107,13 @@ private:
 
 	uint				frames = 0;
 	uint				framerete_cap = 0;
+	uint				framerete_ms = 0;
 	float				dt = 0;
 	int					argc = 0;
 	char**				args;
 
+	p2SString			cap;
+	p2SString			vsync;
 	p2SString			title;
 	p2SString			organization;
 
