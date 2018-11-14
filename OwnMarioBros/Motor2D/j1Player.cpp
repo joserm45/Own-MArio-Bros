@@ -66,7 +66,7 @@ bool j1Player::PreUpdate()
 bool j1Player::Update(float dt)
 {
 	bool ret = true;
-
+	
 	/*if (jumping_over == false)
 	{
 		if (jumping == true)
@@ -98,7 +98,7 @@ bool j1Player::Update(float dt)
 	{
 		sprite_moving = false;
 		if(moving == true)
-		Input();
+		Input(dt);
 		//status check
 		if (sprite_moving == false && status != DIE && status != WIN)
 		{
@@ -507,7 +507,7 @@ void j1Player::LoadAnimation()
 }
 
 
-void j1Player::Input()
+void j1Player::Input(float dt)
 {
 	//Movement
 
@@ -526,7 +526,7 @@ void j1Player::Input()
 			status = RIGHT;
 			if (App->map->Walkability() == true)
 			{
-				position.x += PLAYER_SPEED;
+				position.x += PLAYER_SPEED * dt;
 			}
 
 			sprite_moving = true;
@@ -541,7 +541,7 @@ void j1Player::Input()
 			status = LEFT;
 			if (App->map->Walkability() == true)
 			{
-				position.x -= PLAYER_SPEED;
+				position.x -= PLAYER_SPEED * dt;
 			}
 
 			sprite_moving = true;
@@ -585,7 +585,7 @@ void j1Player::Input()
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 		{
 			jumping = true;
-			jump_height = position.y - 40;
+			jump_height = position.y - 40 ;
 			jump1_on = true;
 		}
 
@@ -606,7 +606,7 @@ void j1Player::Input()
 		{
 			App->audio->PlayFx(1);
 			jumping = true;
-			jump_height = position.y - 40;
+			jump_height = position.y - 40 ;
 			jump1_on = true;
 		}
 	}
@@ -616,7 +616,7 @@ void j1Player::Input()
 		{
 			App->audio->PlayFx(2);
 			jumping = true;
-			jump_height = position.y - 25;
+			jump_height = position.y - 25 ;
 			jump2_on = true;
 		}
 	}

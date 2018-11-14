@@ -7,9 +7,9 @@
 #include "j1Textures.h"
 #include "Animation.h"
 
-#define PLAYER_SPEED 2.0f
+#define PLAYER_SPEED 112.0f
 #define PLAYER_JUMP 150.0f
-#define ANIMATION_SPEED 0.145f
+#define ANIMATION_SPEED 0.165f
 #define GRAVITY 1.0f
 #define MARIO_HEIGHT 32
 #define MARIO_HIGHT 16
@@ -62,7 +62,7 @@ public:
 	void Draw();
 	bool Falling();
 	bool Jump();
-	void Input();
+	void Input(float dt);
 	void LoadPlayerFromTiled();
 
 
@@ -78,6 +78,7 @@ public:
 	bool moving = false;
 	float current_time = 0;
 	float init_time = 0;
+	
 	bool jumping = false;
 private:
 	SDL_Texture * text_player = nullptr;

@@ -4,6 +4,7 @@
 #include "p2List.h"
 #include "j1Module.h"
 #include "j1Timer.h"
+#include "j1PerfTimer.h"
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
@@ -81,31 +82,40 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
-	j1Map*				map;
-	j1Player*			player;
-	j1Collision*	collision;
-	Enemy_Goomba*	goomba;
+	j1Window*			win = nullptr;
+	j1Input*			input = nullptr;
+	j1Render*			render = nullptr;
+	j1Textures*			tex = nullptr;
+	j1Audio*			audio = nullptr;
+	j1Scene*			scene = nullptr;
+	j1Map*				map = nullptr;
+	j1Player*			player = nullptr;
+	j1Collision*		collision = nullptr;
+	Enemy_Goomba*		goomba = nullptr;
 
 private:
+
+	j1PerfTimer			ptimer;
+	j1Timer				startup_time;
 	j1Timer				frame_time;
 	j1Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0;
+	uint32				prev_last_sec_frame_count = 0;
+	uint64				frame_count = 0;
+
 	p2List<j1Module*>	modules;
-	uint				frames;
-	float				dt;
-	int					argc;
+
+	uint				frames = 0;
+	uint				framerete_cap = 0;
+	float				dt = 0;
+	int					argc = 0;
 	char**				args;
 
 	p2SString			title;
 	p2SString			organization;
 
-	mutable bool		want_to_save;
-	bool				want_to_load;
+	mutable bool		want_to_save = false;
+	bool				want_to_load = false;
 	p2SString			load_game;
 	mutable p2SString	save_game;
 };
