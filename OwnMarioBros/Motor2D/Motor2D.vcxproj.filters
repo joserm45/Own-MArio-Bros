@@ -120,6 +120,9 @@
     <ClInclude Include="j1PerfTimer.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Desenvolupament  ========\EntityManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -139,6 +142,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\EntityManager">
+      <UniqueIdentifier>{43642e0f-f649-4516-a014-e647b98b3cac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
