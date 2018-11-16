@@ -43,7 +43,7 @@ public:
 	bool Save(pugi::xml_node&)const;
 	void OnCollision(Collider* a, Collider* b);
 
-	Entity* CreateEntity(ENTITY_TYPE type);
+	//Entity* CreateEntity(ENTITY_TYPE type);
 	void DestroyEntity(Entity* entity);
 
 public:

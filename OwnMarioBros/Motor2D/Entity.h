@@ -26,7 +26,7 @@ public:
 
 public:
 	fPoint position;
-	ENTITY_TYPE entity_type;
+	//ENTITY_TYPE entity_type;
 	SDL_Texture* sprite = nullptr;
 	Collider* collider = nullptr;
 	Animation* animation = nullptr;

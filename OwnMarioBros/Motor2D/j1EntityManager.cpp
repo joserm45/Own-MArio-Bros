@@ -83,12 +83,12 @@ void j1EntityManager::OnCollision(Collider* a, Collider* b)
 {
 
 }
-
+/*
 Entity* j1EntityManager::CreateEntity(ENTITY_TYPE type)
 {
 
 }
-
+*/
 void j1EntityManager::DestroyEntity(Entity* entity)
 {
 
