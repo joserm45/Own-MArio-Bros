@@ -6,6 +6,7 @@
 #include "j1Timer.h"
 #include "j1PerfTimer.h"
 #include "j1EntityManager.h"
+#include "J1PathFinding.h"
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
@@ -19,6 +20,7 @@ class j1Map;
 class j1Player;
 class j1EntityManager;
 class j1Collision;
+class j1PathFinding;
 
 
 class j1App
@@ -93,7 +95,7 @@ public:
 	j1Map*				map = nullptr;
 	j1EntityManager*	entity_manager = nullptr;
 	j1Collision*		collision = nullptr;
-
+	j1PathFinding*		path_finding = nullptr;
 
 private:
 

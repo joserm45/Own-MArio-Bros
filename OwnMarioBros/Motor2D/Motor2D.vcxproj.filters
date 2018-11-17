@@ -55,6 +55,9 @@
     <ClCompile Include="Enemy_Goomba.cpp">
       <Filter>Desenvolupament  ========\EntityManager</Filter>
     </ClCompile>
+    <ClCompile Include="j1PathFinding.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -134,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Desenvolupament  ========\EntityManager</Filter>
+    </ClInclude>
+    <ClInclude Include="J1PathFinding.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
