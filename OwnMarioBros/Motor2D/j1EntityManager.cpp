@@ -170,7 +170,18 @@ void j1EntityManager::CreateEntities()
 				pos.create((float)j * 16, ((float)i * 16));
 				App->entity_manager->CreateEntity("player",pos);
 			}
-
+			if (*nextGid == 766)
+			{
+				fPoint pos;
+				pos.create((float)j * 16, ((float)i * 16));
+				//App->entity_manager->CreateEntity("goomba", pos); //commented because goomba move() crashes
+			}
+			if (*nextGid == 795)
+			{
+				fPoint pos;
+				pos.create((float)j * 16, ((float)i * 16));
+				App->entity_manager->CreateEntity("boo", pos);
+			}
 		}
 	}
 
