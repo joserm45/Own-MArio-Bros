@@ -7,6 +7,7 @@
 #include "j1Module.h"
 #include "p2DynArray.h"
 
+class Entity;
 // TODO 1: Create a struct for the map layer
 // ----------------------------------------------------
 struct Layer
@@ -99,7 +100,7 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
 
-	bool Walkability();
+	bool Walkability(Entity* entity);
 	void UnloadMap();
 
 private:

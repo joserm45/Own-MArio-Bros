@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ENEMY_BOO_H__
 #define __ENEMY_BOO_H__
 
@@ -6,6 +7,8 @@
 #include "j1Module.h"
 #include "j1Textures.h"
 #include "Animation.h"
+#include "j1EntityManager.h"
+#include "Entity.h"
 
 #define BOO_SPEED 1.5f
 #define ANIMATION_SPEED 0.145f
@@ -14,19 +17,19 @@
 #define TILE_WIDTH 16
 #define TiLE_HEIGHT 16
 
-enum STATUS_BOO
+/*enum STATUS_BOO
 {
 	IDLE_BOO,
 	LEFT_BOO,
 	RIGHT_BOO,
 	DIE_BOO
-};
+};*/
 
-class Enemy_Boo : public j1Module
+class Enemy_Boo : public Entity
 {
 public:
 	Enemy_Boo();
-	~Enemy_Boo();
+	virtual ~Enemy_Boo();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
@@ -60,7 +63,7 @@ public:
 	iPoint				boo_quadrant_1;
 	iPoint				boo_quadrant_2;
 
-	STATUS_BOO status;
+	//STATUS_BOO status;
 	bool moving = false;
 
 private:

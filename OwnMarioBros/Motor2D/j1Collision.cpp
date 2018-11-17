@@ -2,6 +2,7 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
 #include "p2Log.h"
 
 
@@ -12,6 +13,21 @@ j1Collision::j1Collision()
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
+	matrix[COLLIDER_PLAYER][COLLIDER_BOO] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_GOOMBA] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_HEAD] = true;
+
+	matrix[COLLIDER_BOO][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_BOO][COLLIDER_GOOMBA] = false;
+	matrix[COLLIDER_BOO][COLLIDER_HEAD] = false;
+
+	matrix[COLLIDER_GOOMBA][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_GOOMBA][COLLIDER_BOO] = false;
+	matrix[COLLIDER_GOOMBA][COLLIDER_HEAD] = false;
+
+	matrix[COLLIDER_HEAD][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_HEAD][COLLIDER_GOOMBA] = false;
+	matrix[COLLIDER_HEAD][COLLIDER_BOO] = false;
 }
 
 // Destructor
@@ -100,12 +116,17 @@ void j1Collision::DebugDraw()
 		case COLLIDER_PLAYER: // green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
-		case COLLIDER_ENEMY_NORMAL: // red
-			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
+		case COLLIDER_GOOMBA: // red
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
-		case COLLIDER_ENEMY_FLY: // yellow
-			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
+		case COLLIDER_BOO: // red
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);    // 255, 255, 0, YELLOW
 			break;
+		
+		case COLLIDER_HEAD: // blue
+			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
+			break;
+	
 		}
 	}
 }
@@ -127,7 +148,7 @@ bool j1Collision::CleanUp()
 	return true;
 }
 
-Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback)
+Collider* j1Collision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Entity* callback)
 {
 	Collider* ret = nullptr;
 

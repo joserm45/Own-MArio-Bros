@@ -10,9 +10,11 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
+
 #include "Brofiler\Brofiler.h"
 
-j1Player::j1Player() : j1Module()
+j1Player::j1Player() : Entity()
 {
 	name.create("player");
 
@@ -29,7 +31,7 @@ bool j1Player::Awake(pugi::xml_node& node)
 {
 	bool ret = true;
 
-	status = IDLE;
+	entity_state = IDLE;
 	//current = &right_idle;
 	
 	return ret;
@@ -103,9 +105,9 @@ bool j1Player::Update(float dt)
 		if(moving == true)
 		Input(dt);
 		//status check
-		if (sprite_moving == false && status != DIE && status != WIN)
+		if (sprite_moving == false && entity_state != DIE && entity_state != WIN)
 		{
-			status = IDLE;
+			entity_state = IDLE;
 		}
 
 		if (jumping)
@@ -128,7 +130,7 @@ bool j1Player::Update(float dt)
 	{
 		bool tmp = false;
 
-		status = DIE;
+		entity_state = DIE;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->death_sound, 0);
 
@@ -154,7 +156,7 @@ bool j1Player::Update(float dt)
 			dead = false;
 			sprite_moving = false;
 			App->scene->LoadLevel(App->scene->current_lvl);
-			status = IDLE;
+			entity_state = IDLE;
 		}
 		
 	}
@@ -173,7 +175,7 @@ bool j1Player::Update(float dt)
 bool j1Player::Jump()
 {
 	bool ret;
-	status = JUMP;
+	entity_state = JUMP;
 	if (position.y > jump_height)
 	{
 		ret = true;
@@ -263,7 +265,7 @@ void j1Player::CameraMovement()
 void j1Player::Draw()
 {
 	//Draw Animations
-	switch (status)
+	switch (entity_state)
 	{
 		case IDLE:
 		{
@@ -520,17 +522,17 @@ void j1Player::Input(float dt)
 	//duck
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{
-		status = DUCK;
+		entity_state = DUCK;
 		sprite_moving = true;
 	}
 
 	//right
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
 	{
-		if (status != DUCK)
+		if (entity_state != DUCK)
 		{
-			status = RIGHT;
-			if (App->map->Walkability() == true)
+			entity_state = RIGHT;
+			if (App->map->Walkability(this) == true)
 			{
 				position.x += PLAYER_SPEED * dt;
 			}
@@ -542,10 +544,10 @@ void j1Player::Input(float dt)
 	//left
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 	{
-		if (status != DUCK)
+		if (entity_state != DUCK)
 		{
-			status = LEFT;
-			if (App->map->Walkability() == true)
+			entity_state = LEFT;
+			if (App->map->Walkability(this) == true)
 			{
 				position.x -= PLAYER_SPEED * dt;
 			}
@@ -559,7 +561,7 @@ void j1Player::Input(float dt)
 	//to check if animation works for the moment
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
-		status = DIE;
+		entity_state = DIE;
 		position.y -= 150;
 		sprite_moving = false;
 		App->audio->StopMusic();
@@ -570,7 +572,7 @@ void j1Player::Input(float dt)
 	//to check if it works for the moment
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
-		status = IDLE;
+		entity_state = IDLE;
 		if (App->scene->current_lvl == 1)
 		{
 			position.x = 86;
@@ -631,7 +633,7 @@ void j1Player::Input(float dt)
 bool j1Player::Falling()
 {
 	bool ret = false;
-	if (status != WIN)
+	if (entity_state != WIN)
 	{
 		p2List_item<Layer*>* iterator;
 		p2List_item<Layer*>* layer = nullptr;

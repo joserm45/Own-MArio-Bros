@@ -10,9 +10,10 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
 #include "Brofiler\Brofiler.h"
 
-Enemy_Boo::Enemy_Boo() : j1Module()
+Enemy_Boo::Enemy_Boo() : Entity()
 {
 	name.create("boo");
 
@@ -28,7 +29,7 @@ Enemy_Boo::~Enemy_Boo()
 bool Enemy_Boo::Awake(pugi::xml_node&)
 {
 	bool ret = true;
-	status = IDLE_BOO;
+	entity_state = IDLE;
 
 	return ret;
 }
@@ -41,7 +42,7 @@ bool Enemy_Boo::Start()
 	//load texture
 	text_boo = App->tex->Load("textures/mario.png");
 
-	collider_boo = App->collision->AddCollider({ (int)position.x,(int)position.y,BOO_WIDTH,BOO_HEIGHT }, COLLIDER_ENEMY_FLY, this);
+	collider_boo = App->collision->AddCollider({ (int)position.x,(int)position.y,BOO_WIDTH,BOO_HEIGHT }, COLLIDER_BOO, this);
 
 	boo_quadrant_1.x = position.x / TILE_WIDTH;
 	boo_quadrant_2.x = (position.x + BOO_WIDTH) / TILE_WIDTH;
@@ -73,7 +74,7 @@ bool Enemy_Boo::Update(float dt)
 	}
 	if (dead == true)
 	{
-		status = DIE_BOO;
+		entity_state = DIE;
 	}
 
 	collider_boo->SetPos(position.x, position.y);
@@ -131,21 +132,21 @@ void Enemy_Boo::LoadAnimation()
 
 void Enemy_Boo::Draw()
 {
-	switch (status)
+	switch (entity_state)
 	{
-	case IDLE_BOO:
+	case IDLE:
 		current = &boo_idle;
 		break;
 
-	case LEFT_BOO:
+	case LEFT:
 		current = &boo_left;
 		break;
 
-	case RIGHT_BOO:
+	case RIGHT:
 		current = &boo_right;
 		break;
 
-	case DIE_BOO:
+	case DIE:
 		current = &boo_dead;
 		break;
 	}
@@ -153,18 +154,18 @@ void Enemy_Boo::Draw()
 
 void Enemy_Boo::Move()
 {
-	status = IDLE_BOO;
+	entity_state = IDLE;
 	//just to check if animation works
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
 		position.x += BOO_SPEED;
-		status = RIGHT_BOO;
+		entity_state = RIGHT;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
 	{
 		position.x -= BOO_SPEED;
-		status = LEFT_BOO;
+		entity_state = LEFT;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
@@ -176,6 +177,6 @@ void Enemy_Boo::Move()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 	{
-		status = DIE_BOO;
+		entity_state = DIE;
 	}
 }

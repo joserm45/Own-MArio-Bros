@@ -5,6 +5,7 @@
 #include "j1Module.h"
 #include "j1Timer.h"
 #include "j1PerfTimer.h"
+#include "j1EntityManager.h"
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
@@ -16,9 +17,9 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Player;
+class j1EntityManager;
 class j1Collision;
-class Enemy_Goomba;
-class Enemy_Boo;
+
 
 class j1App
 {
@@ -90,10 +91,9 @@ public:
 	j1Audio*			audio = nullptr;
 	j1Scene*			scene = nullptr;
 	j1Map*				map = nullptr;
-	j1Player*			player = nullptr;
+	j1EntityManager*	entity_manager = nullptr;
 	j1Collision*		collision = nullptr;
-	Enemy_Goomba*		goomba = nullptr;
-	Enemy_Boo*			boo = nullptr;
+
 
 private:
 

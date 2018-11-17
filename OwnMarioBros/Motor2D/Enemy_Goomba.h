@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ENEMY_GOOMBA_H__
 #define __ENEMY_GOOMBA_H__
 
@@ -6,6 +7,8 @@
 #include "j1Module.h"
 #include "j1Textures.h"
 #include "Animation.h"
+#include "j1EntityManager.h"
+#include "Entity.h"
 
 #define GOOMBA_SPEED 1.5f
 #define ANIMATION_SPEED 0.145f
@@ -14,18 +17,18 @@
 #define TILE_WIDTH 16
 #define TiLE_HEIGHT 16
 
-enum STATUS_GOOMBA
+/*enum STATUS_GOOMBA
 {
 	IDLE_GOOMBA,
 	MOVE_GOOMBA,
 	DIE_GOOMBA
-};
+};*/
 
-class Enemy_Goomba : public j1Module
+class Enemy_Goomba : public Entity
 {
 public:
 	Enemy_Goomba();
-	~Enemy_Goomba();
+	virtual ~Enemy_Goomba();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node&);
@@ -59,7 +62,7 @@ public:
 	iPoint				goomba_quadrant_1;
 	iPoint				goomba_quadrant_2;
 
-	STATUS_GOOMBA status;
+	//STATUS_GOOMBA status;
 	bool moving = false;
 
 private:

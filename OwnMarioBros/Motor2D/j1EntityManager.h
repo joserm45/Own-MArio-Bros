@@ -1,31 +1,17 @@
-#ifndef _j1ENTITYMANAGER_H_
-#define _j1ENTITYMANAGER_H_
+#pragma once
+#ifndef __j1ENTITY_MANAGER_H__
+#define __j1ENTITY_MANAGER_H__
 
 #include "j1Module.h"
+#include "p2List.h"
 #include "Animation.h"
 #include "p2Point.h"
 #include "j1Collision.h"
-#include "p2DynArray.h"
 #include "Entity.h"
+#include "j1Player.h"
+#include "Enemy_Boo.h"
+#include "Enemy_Goomba.h"
 
-enum ENTITY_TYPE
-{
-	PLAYER,
-	GOOMBA,
-	TURTLE,
-	NO
-};
-
-enum ENTITY_STATE
-{
-	IDLE1,
-	LEFT1,
-	RIGHT1,
-	JUMP1,
-	DUCK1,
-	DIE1,
-	WIN1
-};
 
 class j1EntityManager : public j1Module
 {
@@ -39,17 +25,20 @@ public:
 	bool Update(float dt);
 	bool PostUpdate();
 	bool CleanUp();
+
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&)const;
+
 	void OnCollision(Collider* a, Collider* b);
 
 	//Entity* CreateEntity(ENTITY_TYPE type);
 	void DestroyEntity(Entity* entity);
 
 public:
-	p2DynArray<Entity*> entities;
-	ENTITY_TYPE entity_type;
-	ENTITY_STATE entity_state;
+	p2List<Entity*>		entities;
+
+	j1Player*			player = nullptr;
+	j1Collision*		collider = nullptr;
 };
 
 

@@ -10,9 +10,10 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "j1EntityManager.h"
 #include "Brofiler\Brofiler.h"
 
-Enemy_Goomba::Enemy_Goomba() : j1Module()
+Enemy_Goomba::Enemy_Goomba() : Entity()
 {
 	name.create("goomba");
 
@@ -28,7 +29,7 @@ Enemy_Goomba::~Enemy_Goomba()
 bool Enemy_Goomba::Awake(pugi::xml_node&)
 {
 	bool ret = true;
-	status = IDLE_GOOMBA;
+	entity_state = IDLE;
 
 	return ret;
 }
@@ -41,7 +42,7 @@ bool Enemy_Goomba::Start()
 	//load texture
 	text_goomba = App->tex->Load("textures/mario.png");
 
-	collider_goomba = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_ENEMY_NORMAL, this);
+	collider_goomba = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
 
 	goomba_quadrant_1.x = position.x / TILE_WIDTH;
 	goomba_quadrant_2.x = (position.x + GOOMBA_WIDTH) / TILE_WIDTH;
@@ -73,7 +74,7 @@ bool Enemy_Goomba::Update(float dt)
 	}
 	if (dead == true)
 	{
-		status = DIE_GOOMBA;
+		entity_state = DIE;
 	}
 
 	collider_goomba->SetPos(position.x, position.y);
@@ -121,17 +122,17 @@ void Enemy_Goomba::LoadAnimation()
 
 void Enemy_Goomba::Draw()
 {
-	switch (status)
+	switch (entity_state)
 	{
-		case IDLE_GOOMBA:
+		case IDLE:
 			current = &goomba_idle;
 			break;
 
-		case MOVE_GOOMBA:
+		case MOVE:
 			current = &goomba_walk;
 			break;
 
-		case DIE_GOOMBA:
+		case DIE:
 			current = &goomba_dead;
 			break;
 	}
@@ -143,11 +144,11 @@ void Enemy_Goomba::Move()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 	{
 		position.x += GOOMBA_SPEED;
-		status = MOVE_GOOMBA;
+		entity_state = MOVE;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 	{
-		status = DIE_GOOMBA;
+		entity_state = DIE;
 	}
 }

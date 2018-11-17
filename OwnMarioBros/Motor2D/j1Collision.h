@@ -1,18 +1,21 @@
+#pragma once
 #ifndef __j1Collision_H__
 #define __j1Collision_H__
 
-#define MAX_COLLIDERS 100
+#define MAX_COLLIDERS 35
 
 #include "j1Module.h"
 #include "SDL\include\SDL_rect.h"
 
+class Entity;
 
 enum COLLIDER_TYPE
 {
 	COLLIDER_NONE = -1,
 	COLLIDER_PLAYER,
-	COLLIDER_ENEMY_NORMAL,
-	COLLIDER_ENEMY_FLY,
+	COLLIDER_GOOMBA,
+	COLLIDER_BOO,
+	COLLIDER_HEAD,
 
 	COLLIDER_MAX
 };
@@ -22,9 +25,9 @@ struct Collider
 	SDL_Rect rect;
 	bool to_delete = false;
 	COLLIDER_TYPE type;
-	j1Module* callback = nullptr;
+	Entity* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, j1Module* callback = nullptr) :
+	Collider(SDL_Rect rectangle, COLLIDER_TYPE type, Entity* callback = nullptr) :
 		rect(rectangle),
 		type(type),
 		callback(callback)
@@ -51,7 +54,7 @@ public:
 	bool PostUpdate();
 	bool CleanUp();
 
-	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, j1Module* callback = nullptr);
+	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Entity* callback = nullptr);
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
 

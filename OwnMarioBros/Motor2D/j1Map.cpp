@@ -7,6 +7,8 @@
 #include "j1Player.h"
 #include "j1Scene.h"
 #include <math.h>
+#include "j1EntityManager.h"
+
 #include "Brofiler/Brofiler.h"
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -449,12 +451,12 @@ Layer::~Layer()
 	}
 }
 
-bool j1Map::Walkability()
+bool j1Map::Walkability(Entity* entity)
 {
 	BROFILER_CATEGORY("Walkability", Profiler::Color::Aqua);
 	bool ret = true;
-	int player_x = App->player->position.x / 16; //check next tile right
-	int player_y = (App->player->position.y + 16) / 16;
+	int player_x = entity->position.x / 16; //check next tile right
+	int player_y = (entity->position.y + 16) / 16;
 
 	p2List_item<Layer*>* iterator;
 	p2List_item<Layer*>* layer = nullptr;
@@ -470,7 +472,7 @@ bool j1Map::Walkability()
 	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
 	uint* nextGid = &layer->data->gid[ player_x + player_y * layer->data->width ];
 
-	if (App->player->status == RIGHT)
+	if (entity->entity_state == RIGHT)
 	{
 		nextGid++;
 		if (*nextGid == 650)
@@ -492,7 +494,7 @@ bool j1Map::Walkability()
 		}
 			
 	}
-	else if (App->player->status == LEFT)
+	else if (entity->entity_state == LEFT)
 	{
 		nextGid;
 		if (*nextGid == 650)

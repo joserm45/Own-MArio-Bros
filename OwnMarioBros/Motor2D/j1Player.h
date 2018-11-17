@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __j1PLAYER_H__
 #define __j1PLAYER_H__
 
@@ -6,6 +7,8 @@
 #include "j1Module.h"
 #include "j1Textures.h"
 #include "Animation.h"
+#include "j1EntityManager.h"
+#include "Entity.h"
 
 #define PLAYER_SPEED 112.0f
 #define PLAYER_JUMP 150.0f
@@ -17,7 +20,7 @@
 #define TILE_WIDTH 16
 #define TiLE_HEIGHT 16
 
-enum STATUS
+/*enum STATUS
 {
 	IDLE,
 	LEFT,
@@ -26,9 +29,9 @@ enum STATUS
 	DUCK,
 	DIE,
 	WIN
-};
+};*/
 
-class j1Player : public j1Module
+class j1Player : public Entity
 {
 public:
 	j1Player();
@@ -73,7 +76,6 @@ public:
 	iPoint				player_quadrant_1;
 	iPoint				player_quadrant_2;
 
-	STATUS status;
 	uint count_jump = 0;
 	bool moving = false;
 	float current_time = 0;

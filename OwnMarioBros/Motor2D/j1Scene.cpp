@@ -9,6 +9,8 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Player.h"
+#include "j1EntityManager.h"
+
 #include "Brofiler\Brofiler.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -115,15 +117,15 @@ bool j1Scene::Update(float dt)
 	//Changing Level
 	if (App->map->lvl1_complete == true)
 	{
-		App->player->status = WIN;
+		App->entity_manager->player->entity_state = WIN;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->level_sound);
-		App->player->moving = false;
+		App->entity_manager->player->moving = false;
 
-		if (App->player->position.y < 169)
-			App->player->position.y += 50 * dt;
+		if (App->entity_manager->player->position.y < 169)
+			App->entity_manager->player->position.y += 50 * dt;
 
-		App->player->position.x += 20 * dt;
+		App->entity_manager->player->position.x += 20 * dt;
 
 		if (App->map->init_timer == true)
 		{
@@ -135,19 +137,19 @@ bool j1Scene::Update(float dt)
 			LoadLevel(2);
 			App->map->lvl1_complete = false;
 			current_lvl = 2;
-			App->player->status = IDLE;
+			App->entity_manager->player->entity_state = IDLE;
 		}
 	}
 
 	if (App->map->lvl2_complete == true)
 	{
-		App->player->status = WIN;
+		App->entity_manager->player->entity_state = WIN;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->level_sound);
-		App->player->moving = false;
-		if (App->player->position.y < 169)
-			App->player->position.y += 50 * dt;
-		App->player->position.x += 20 * dt;
+		App->entity_manager->player->moving = false;
+		if (App->entity_manager->player->position.y < 169)
+			App->entity_manager->player->position.y += 50 * dt;
+		App->entity_manager->player->position.x += 20 * dt;
 		if (App->map->init_timer == true)
 		{
 			init_time = current_time;
@@ -158,7 +160,7 @@ bool j1Scene::Update(float dt)
 			LoadLevel(1);
 			App->map->lvl2_complete = false;
 			current_lvl = 1;
-			App->player->status = IDLE;
+			App->entity_manager->player->entity_state = IDLE;
 		}
 	}
 	
@@ -189,8 +191,8 @@ void j1Scene::LoadLevel(int level)
 {
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 	App->map->UnloadMap();
-	App->player->CleanUp();
-	App->player->Start();
+	App->entity_manager->player->CleanUp();
+	App->entity_manager->player->Start();
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 
