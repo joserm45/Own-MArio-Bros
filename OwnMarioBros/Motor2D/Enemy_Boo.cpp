@@ -26,7 +26,7 @@ Enemy_Boo::~Enemy_Boo()
 
 }
 
-bool Enemy_Boo::Awake(pugi::xml_node&)
+bool Enemy_Boo::Awake()
 {
 	bool ret = true;
 	entity_state = IDLE;

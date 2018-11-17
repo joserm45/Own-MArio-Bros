@@ -31,8 +31,11 @@ public:
 
 	void OnCollision(Collider* a, Collider* b);
 
-	//Entity* CreateEntity(ENTITY_TYPE type);
+	void CreateEntity(p2SString name, fPoint position);
+	void CreateEntities();
+
 	void DestroyEntity(Entity* entity);
+	void DestroyEntities();
 
 public:
 	p2List<Entity*>		entities;

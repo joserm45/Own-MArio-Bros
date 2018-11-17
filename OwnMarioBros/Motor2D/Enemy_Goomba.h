@@ -16,6 +16,8 @@
 #define GOOMBA_WIDTH 16
 #define TILE_WIDTH 16
 #define TiLE_HEIGHT 16
+#define HEAD_HIGHT_SIZE 4
+#define HEAD_WITH_SIZE 1
 
 /*enum STATUS_GOOMBA
 {
@@ -31,7 +33,7 @@ public:
 	virtual ~Enemy_Goomba();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake();
 
 	// Called before the first frame
 	bool Start();
@@ -54,7 +56,7 @@ public:
 
 	void LoadAnimation();
 	void Draw();
-	void Move();
+	void Move(float dt);
 
 public:
 	fPoint position;
@@ -76,10 +78,7 @@ private:
 	Animation goomba_dead;
 	Animation* current = nullptr;
 
-	//Collider
-	Collider* collider_goomba = nullptr;
-	Collider* quadrant1 = nullptr;
-	Collider* quadrant2 = nullptr;
+
 
 };
 

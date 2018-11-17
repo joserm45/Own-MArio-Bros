@@ -428,6 +428,10 @@ bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 	return true;
 }
 
+void j1Map::LoadEntitiesFromTiled()
+{
+}
+
 //TODO 3: Create the definition for a function that loads a single layer
 //bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 //{
@@ -469,7 +473,6 @@ bool j1Map::Walkability(Entity* entity)
 		}
 	}
 
-	//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
 	uint* nextGid = &layer->data->gid[ player_x + player_y * layer->data->width ];
 
 	if (entity->entity_state == RIGHT)
@@ -505,10 +508,6 @@ bool j1Map::Walkability(Entity* entity)
 
 
 	return ret;
-}
-void j1Map::LoadPlayerFromTiled()
-{
-
 }
 
 /*int GetX() const

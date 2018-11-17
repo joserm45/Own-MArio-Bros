@@ -53,6 +53,9 @@ bool j1Scene::Start()
 		death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
 		level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
 	}
+
+	App->entity_manager->CreateEntities();
+	
 	return true;
 }
 

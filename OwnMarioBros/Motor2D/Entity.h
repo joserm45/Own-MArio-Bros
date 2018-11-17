@@ -110,8 +110,8 @@ public:
 
 	ENTITY_STATE				entity_state;
 
-	Collider*					collision = nullptr;
-	Collider*					head_col = nullptr;
+	Collider*					collider = nullptr;
+	Collider*					head_collider = nullptr;
 };
 
 

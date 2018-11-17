@@ -26,7 +26,7 @@ Enemy_Goomba::~Enemy_Goomba()
 
 }
 
-bool Enemy_Goomba::Awake(pugi::xml_node&)
+bool Enemy_Goomba::Awake()
 {
 	bool ret = true;
 	entity_state = IDLE;
@@ -42,8 +42,9 @@ bool Enemy_Goomba::Start()
 	//load texture
 	text_goomba = App->tex->Load("textures/mario.png");
 
-	collider_goomba = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
-
+	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
+	head_collider = App->collision->AddCollider({ (int)position.x, (int)position.y, 24, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
+	
 	goomba_quadrant_1.x = position.x / TILE_WIDTH;
 	goomba_quadrant_2.x = (position.x + GOOMBA_WIDTH) / TILE_WIDTH;
 
@@ -69,7 +70,7 @@ bool Enemy_Goomba::Update(float dt)
 
 	if (dead != true)
 	{
-		Move();
+		Move(dt);
 		//check hit for death 
 	}
 	if (dead == true)
@@ -77,8 +78,8 @@ bool Enemy_Goomba::Update(float dt)
 		entity_state = DIE;
 	}
 
-	collider_goomba->SetPos(position.x, position.y);
-
+	collider->SetPos(position.x, position.y + HEAD_HIGHT_SIZE);
+	head_collider->SetPos(position.x + HEAD_WITH_SIZE, position.y);
 	return ret;
 }
 
@@ -104,7 +105,7 @@ bool Enemy_Goomba::CleanUp()
 {
 	bool ret = true;
 
-	collider_goomba->to_delete = true;
+	collider->to_delete = true;
 	SDL_DestroyTexture(text_goomba);
 	return ret;
 }
@@ -138,9 +139,18 @@ void Enemy_Goomba::Draw()
 	}
 }
 
-void Enemy_Goomba::Move()
+void Enemy_Goomba::Move(float dt)
 {
-	//just to check if animation works
+
+	if (position.x > App->entity_manager->player->position.x)
+	{
+		entity_state = LEFT;
+		position.x -= 15.0f * dt;
+
+	}
+
+
+	/*//just to check if animation works
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 	{
 		position.x += GOOMBA_SPEED;
@@ -150,5 +160,5 @@ void Enemy_Goomba::Move()
 	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 	{
 		entity_state = DIE;
-	}
+	}*/
 }

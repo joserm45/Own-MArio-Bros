@@ -32,7 +32,7 @@ public:
 	virtual ~Enemy_Boo();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node&);
+	bool Awake();
 
 	// Called before the first frame
 	bool Start();
