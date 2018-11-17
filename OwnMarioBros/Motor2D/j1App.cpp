@@ -143,14 +143,22 @@ bool j1App::Start()
 bool j1App::Update()
 {
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
-	{
-		if (framerete_ms == frame_time.Read())
+	{		
+		
+		if (cap_FPS == false)
+			cap_FPS = true;
+		else
+			cap_FPS = false;
+		
+
+		if (cap_FPS == true)
 		{
 			framerete_ms = 1000 / framerete_cap;
 			cap = "ON";
 		}
 		else
 		{
+			framerete_ms = frame_time.Read();
 			cap = "OFF";
 		}
 	}

@@ -123,6 +123,7 @@ private:
 
 	mutable bool		want_to_save = false;
 	bool				want_to_load = false;
+	bool				cap_FPS = true;
 	p2SString			load_game;
 	mutable p2SString	save_game;
 };
