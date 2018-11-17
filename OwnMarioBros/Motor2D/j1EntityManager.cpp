@@ -12,6 +12,7 @@
 #include "j1Scene.h"
 #include "j1Player.h"
 #include "Enemy_Goomba.h"
+#include "Brofiler\Brofiler.h"
 
 j1EntityManager::j1EntityManager() : j1Module()
 {
@@ -39,6 +40,7 @@ bool j1EntityManager::Start()
 
 bool j1EntityManager::PreUpdate()
 {
+	BROFILER_CATEGORY("EntityManagerPreUpdate", Profiler::Color::Azure);
 	bool ret = true;
 
 	return ret;
@@ -46,6 +48,7 @@ bool j1EntityManager::PreUpdate()
 
 bool j1EntityManager::Update(float dt)
 {
+	BROFILER_CATEGORY("EntityManagerUpdate", Profiler::Color::Bisque);
 	bool ret = true;
 
 	return ret;
@@ -53,6 +56,7 @@ bool j1EntityManager::Update(float dt)
 
 bool j1EntityManager::PostUpdate()
 {
+	BROFILER_CATEGORY("EntityManagerPostUpdate", Profiler::Color::BlanchedAlmond);
 	bool ret = true;
 
 	return ret;

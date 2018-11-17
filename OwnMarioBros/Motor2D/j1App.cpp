@@ -14,6 +14,8 @@
 #include "j1Player.h"
 #include "j1Collision.h"
 #include "Enemy_Goomba.h"
+#include "Enemy_Boo.h"
+#include "Brofiler\Brofiler.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -32,6 +34,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player = new j1Player();
 	collision = new j1Collision();
 	goomba = new Enemy_Goomba();
+	boo = new Enemy_Boo();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -44,6 +47,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(player);
 	AddModule(collision);
 	AddModule(goomba);
+	AddModule(boo);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -247,6 +251,7 @@ void j1App::FinishUpdate()
 // Call modules before each loop iteration
 bool j1App::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate", Profiler::Color::Black);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -269,6 +274,7 @@ bool j1App::PreUpdate()
 // Call modules on each loop iteration
 bool j1App::DoUpdate()
 {
+	BROFILER_CATEGORY("Update", Profiler::Color::Yellow);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -291,6 +297,7 @@ bool j1App::DoUpdate()
 // Call modules after each loop iteration
 bool j1App::PostUpdate()
 {
+	BROFILER_CATEGORY("PostUpdate", Profiler::Color::Violet);
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	j1Module* pModule = NULL;

@@ -18,6 +18,7 @@ class j1Map;
 class j1Player;
 class j1Collision;
 class Enemy_Goomba;
+class Enemy_Boo;
 
 class j1App
 {
@@ -92,6 +93,7 @@ public:
 	j1Player*			player = nullptr;
 	j1Collision*		collision = nullptr;
 	Enemy_Goomba*		goomba = nullptr;
+	Enemy_Boo*			boo = nullptr;
 
 private:
 

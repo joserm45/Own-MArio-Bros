@@ -153,6 +153,7 @@ bool j1Map::CleanUp()
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
+	BROFILER_CATEGORY("MapLoad", Profiler::Color::Brown);
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
 
@@ -450,7 +451,7 @@ Layer::~Layer()
 
 bool j1Map::Walkability()
 {
-
+	BROFILER_CATEGORY("Walkability", Profiler::Color::Aqua);
 	bool ret = true;
 	int player_x = App->player->position.x / 16; //check next tile right
 	int player_y = (App->player->position.y + 16) / 16;

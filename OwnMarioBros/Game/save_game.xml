@@ -7,11 +7,11 @@
 	<map />
 	<scene current_lvl="1" />
 	<player>
-		<position x="1783.849" y="179.700241" />
+		<position x="183.455948" y="176" />
 	</player>
 	<collider />
 	<goomba />
 	<renderer>
-		<camera x="-1047" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>

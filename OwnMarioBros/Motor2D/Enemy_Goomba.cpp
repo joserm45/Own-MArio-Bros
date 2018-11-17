@@ -10,6 +10,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "Brofiler\Brofiler.h"
 
 Enemy_Goomba::Enemy_Goomba() : j1Module()
 {
@@ -34,13 +35,13 @@ bool Enemy_Goomba::Awake(pugi::xml_node&)
 
 bool Enemy_Goomba::Start()
 {
-	position.x = 450.0f;
+	position.x = 550.0f;
 	position.y = 192.0f;
 
 	//load texture
 	text_goomba = App->tex->Load("textures/mario.png");
 
-	collider_goomba = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_PLAYER, this);
+	collider_goomba = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_ENEMY_NORMAL, this);
 
 	goomba_quadrant_1.x = position.x / TILE_WIDTH;
 	goomba_quadrant_2.x = (position.x + GOOMBA_WIDTH) / TILE_WIDTH;
@@ -54,6 +55,7 @@ bool Enemy_Goomba::Start()
 
 bool Enemy_Goomba::PreUpdate()
 {
+	BROFILER_CATEGORY("GoombaPreUpdate", Profiler::Color::AliceBlue);
 	bool ret = true;
 
 	return ret;
@@ -61,6 +63,7 @@ bool Enemy_Goomba::PreUpdate()
 
 bool Enemy_Goomba::Update(float dt)
 {
+	BROFILER_CATEGORY("GoombaUpdate", Profiler::Color::AntiqueWhite);
 	bool ret = true;
 
 	if (dead != true)
@@ -80,6 +83,7 @@ bool Enemy_Goomba::Update(float dt)
 
 bool Enemy_Goomba::PostUpdate()
 {
+	BROFILER_CATEGORY("GoombaPostUpdate", Profiler::Color::Aquamarine);
 	bool ret = true;
 
 	Draw();

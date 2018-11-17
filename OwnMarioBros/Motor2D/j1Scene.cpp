@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Player.h"
+#include "Brofiler\Brofiler.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -56,12 +57,14 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+	BROFILER_CATEGORY("ScenePreUpdate", Profiler::Color::Cyan);
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	BROFILER_CATEGORY("SceneUpdate", Profiler::Color::BlueViolet);
 	current_time += dt;
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
@@ -165,8 +168,9 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
+	BROFILER_CATEGORY("ScenePostUpdate", Profiler::Color::Cyan);
 	bool ret = true;
-
+	
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
@@ -183,7 +187,7 @@ bool j1Scene::CleanUp()
 
 void j1Scene::LoadLevel(int level)
 {
-
+	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 	App->map->UnloadMap();
 	App->player->CleanUp();
 	App->player->Start();

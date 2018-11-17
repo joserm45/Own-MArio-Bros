@@ -10,6 +10,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Collision.h"
+#include "Brofiler\Brofiler.h"
 
 j1Player::j1Player() : j1Module()
 {
@@ -58,6 +59,7 @@ bool j1Player::Start()
 
 bool j1Player::PreUpdate()
 {
+	BROFILER_CATEGORY("PlayerPreUpdate", Profiler::Color::Chartreuse);
 	bool ret = true;
 
 	return ret;
@@ -65,6 +67,7 @@ bool j1Player::PreUpdate()
 
 bool j1Player::Update(float dt)
 {
+	BROFILER_CATEGORY("PlayerUpdate", Profiler::Color::Magenta);
 	bool ret = true;
 	
 	/*if (jumping_over == false)
@@ -186,6 +189,7 @@ bool j1Player::Jump()
 }
 bool j1Player::PostUpdate()
 {
+	BROFILER_CATEGORY("PlayerPostUpdate", Profiler::Color::Orange);
 	bool ret = true;
 
 	Draw();
@@ -212,6 +216,7 @@ bool j1Player::CleanUp()
 
 bool j1Player::Save(pugi::xml_node& node) const
 {
+	BROFILER_CATEGORY("PlayerSave", Profiler::Color::MediumPurple);
 	bool ret = true;
 	//save 
 	pugi::xml_node root = node.append_child("position");
@@ -223,6 +228,7 @@ bool j1Player::Save(pugi::xml_node& node) const
 
 bool j1Player::Load(pugi::xml_node& node)
 {
+	BROFILER_CATEGORY("PlayerLoad", Profiler::Color::Silver);
 	bool ret = true;
 	//load
 	pugi::xml_node root = node.child("position");
