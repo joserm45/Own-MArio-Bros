@@ -57,6 +57,7 @@ public:
 	void LoadAnimation();
 	void Draw();
 	void Move(float dt);
+	bool Falling();
 
 public:
 	fPoint position;

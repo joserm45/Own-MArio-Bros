@@ -69,6 +69,10 @@ bool Enemy_Goomba::Update(float dt)
 	if (dead != true)
 	{
 		Move(dt);
+		if (Falling() == true)
+		{
+			position.y += 50.0f * dt;
+		}
 		//check hit for death 
 	}
 	if (dead == true)
@@ -177,4 +181,37 @@ void Enemy_Goomba::Move(float dt)
 	{
 		entity_state = DIE;
 	}*/
+}
+
+bool Enemy_Goomba::Falling()
+{
+	bool ret = false;
+	if (entity_state != WIN)
+	{
+		p2List_item<Layer*>* iterator;
+		p2List_item<Layer*>* layer = nullptr;
+
+		for (iterator = App->map->data.layers.start; iterator != NULL; iterator = iterator->next)
+		{
+			if (iterator->data->name == "logic")
+			{
+				layer = iterator;
+			}
+		}
+
+		//uint nextGid = fakeLayer->data->GetGid(player_x,player_y);
+		uint* nextGid1 = &layer->data->gid[goomba_quadrant_1.x + goomba_quadrant_2.y * layer->data->width];
+		uint* nextGid2 = &layer->data->gid[goomba_quadrant_2.x + goomba_quadrant_2.y * layer->data->width];
+
+
+		if (*nextGid1 != 650 && *nextGid2 != 650)
+		{
+			ret = true;
+		}
+		if (*nextGid1 == 679 || *nextGid2 == 679)
+		{
+			dead = true;
+		}
+	}
+	return ret;
 }
