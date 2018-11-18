@@ -231,7 +231,6 @@ void j1Scene::LoadLevel(int level)
 
 	if (scene_starts == true)
 	{
-
 		scene_starts = false;
 	}
 	else
@@ -259,8 +258,7 @@ void j1Scene::LoadLevel(int level)
 
 
 App->entity_manager->CreateEntities();
-	
-	//App->entity_manager->player->collider->SetPos(App->entity_manager->player->position.x, App->entity_manager->player->position.y);
+//App->entity_manager->player->collider->SetPos(App->entity_manager->player->position.x, App->entity_manager->player->position.y);
 }
 bool j1Scene::Save(pugi::xml_node& node)const
 {

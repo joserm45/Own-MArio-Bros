@@ -55,7 +55,7 @@ public:
 	const char* GetOrganization() const;
 	float GetDT() const;
 	bool				want_to_load = false;
-
+	p2SString			vsync;
 	void LoadGame();
 	void SaveGame() const;
 	void GetSaveGames(p2List<p2SString>& list_to_fill) const;
@@ -119,7 +119,7 @@ private:
 	char**				args;
 
 	p2SString			cap;
-	p2SString			vsync;
+
 	p2SString			title;
 	p2SString			organization;
 

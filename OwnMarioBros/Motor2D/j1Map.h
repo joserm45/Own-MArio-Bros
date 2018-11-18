@@ -115,6 +115,8 @@ private:
 public:
 
 	MapData data;
+	Layer*	pathfinding = nullptr;
+
 
 	bool logic = false;
 	bool lvl1_complete = false;

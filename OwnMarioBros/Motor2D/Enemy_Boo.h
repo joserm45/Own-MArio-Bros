@@ -9,6 +9,7 @@
 #include "Animation.h"
 #include "j1EntityManager.h"
 #include "Entity.h"
+#include "j1Pathfinding.h"
 
 #define BOO_SPEED 1.5f
 #define ANIMATION_SPEED 0.145f
@@ -53,10 +54,15 @@ public:
 	//bool Save(pugi::xml_node&) const;
 	//bool Load(pugi::xml_node&);
 
-	void LoadAnimation();
-	void Draw();
-	void Move();
 
+	void				LoadAnimation();
+	void				Draw();
+	void				Move();
+	void				Pathfinding();
+	bool				CreatePath(fPoint destination);
+	bool				Find_a_Path();
+	void				Movement(iPoint go_to);
+	iPoint				GetPositionINT() const;
 public:
 
 	iPoint				boo_quadrant_1;
@@ -82,6 +88,22 @@ private:
 	Collider* quadrant1 = nullptr;
 	Collider* quadrant2 = nullptr;
 
+	//PathFinding
+	bool						create_path = false;
+	bool						path_stopped = false;
+	bool						pathfinding = false;
+	bool						find_path = false;
+	bool						is_path_done = false;
+
+	int							path = 0;
+	int							last_path = 0;
+	int							path_size = 0;
+
+	const p2DynArray<iPoint>*	last_pathfinding = nullptr;
+	p2DynArray<iPoint>			mlast_pathfinding = 0;
+
+	float						pathfind_timer = 0;
+	bool						boo_chase = false;
 };
 
 #endif

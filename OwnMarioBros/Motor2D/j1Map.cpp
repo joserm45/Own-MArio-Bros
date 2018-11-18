@@ -424,6 +424,10 @@ bool j1Map::LoadLayer(pugi::xml_node &node, Layer* layer)
 		}
 
 	}
+	if (layer->name == "logic")
+	{
+		pathfinding = layer;
+	}
 
 	return true;
 }

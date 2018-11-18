@@ -305,6 +305,32 @@ void j1Player::Draw()
 				break;
 			}
 		}
+		case IDLE_RIGHT:
+		{
+			if (App->scene->god_mode == false)
+			{
+				current = &right_idle;
+				break;
+			}
+			else if (App->scene->god_mode == true)
+			{
+				current = &god_right_idle;
+				break;
+			}
+		}
+		case IDLE_LEFT:
+		{
+			if (App->scene->god_mode == false)
+			{
+				current = &left_idle;
+				break;
+			}
+			else if (App->scene->god_mode == true)
+			{
+				current = &god_left_idle;
+				break;
+			}
+		}
 		case JUMP:
 		{
 			if (App->scene->god_mode == false)
