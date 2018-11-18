@@ -193,9 +193,10 @@ bool j1Scene::CleanUp()
 void j1Scene::LoadLevel(int level)
 {
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
+
 	App->map->UnloadMap();
-	App->entity_manager->player->CleanUp();
-	App->entity_manager->player->Start();
+	App->entity_manager->DestroyEntities();
+
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 
@@ -211,22 +212,9 @@ void j1Scene::LoadLevel(int level)
 		App->audio->PlayMusic("audio/music/lvl_2.ogg");
 		current_lvl = level;
 	}
-	/*pugi::xml_node node;
+
+	App->entity_manager->CreateEntities();
 	
-	pugi::xml_parse_result result = config.load_file("save_game.xml");
-	if (result != NULL)
-	{
-		node = config.child("game_state");
-
-
-		App->player->CleanUp();
-		App->player->Awake(config);
-
-	}
-	else
-	{
-
-	}*/
 }
 bool j1Scene::Save(pugi::xml_node& node)const
 {

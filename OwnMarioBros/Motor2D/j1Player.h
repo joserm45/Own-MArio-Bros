@@ -122,6 +122,7 @@ private:
 	Collider* collider_player = nullptr;
 	Collider* quadrant1 = nullptr;
 	Collider* quadrant2 = nullptr;
+
 };
 
 #endif

@@ -36,9 +36,7 @@ bool Enemy_Goomba::Awake()
 
 bool Enemy_Goomba::Start()
 {
-	position.x = 550.0f;
-	position.y = 192.0f;
-
+	
 	//load texture
 	text_goomba = App->tex->Load("textures/mario.png");
 

@@ -36,8 +36,7 @@ bool Enemy_Boo::Awake()
 
 bool Enemy_Boo::Start()
 {
-	position.x = 1200.0f;
-	position.y = 40.0f;
+	
 
 	//load texture
 	text_boo = App->tex->Load("textures/mario.png");

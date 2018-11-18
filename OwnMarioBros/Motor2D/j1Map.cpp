@@ -458,7 +458,9 @@ Layer::~Layer()
 bool j1Map::Walkability(Entity* entity)
 {
 	BROFILER_CATEGORY("Walkability", Profiler::Color::Aqua);
+
 	bool ret = true;
+
 	int player_x = entity->position.x / 16; //check next tile right
 	int player_y = (entity->position.y + 16) / 16;
 
@@ -473,7 +475,7 @@ bool j1Map::Walkability(Entity* entity)
 		}
 	}
 
-	uint* nextGid = &layer->data->gid[ player_x + player_y * layer->data->width ];
+	uint* nextGid = &layer->data->gid[1 + player_x + player_y * layer->data->width ];
 
 	if (entity->entity_state == RIGHT)
 	{

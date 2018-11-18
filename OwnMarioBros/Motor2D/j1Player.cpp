@@ -19,7 +19,6 @@ j1Player::j1Player() : Entity()
 	name.create("player");
 
 	LoadAnimation();
-	
 }
 
 j1Player::~j1Player()
@@ -39,8 +38,8 @@ bool j1Player::Awake()
 
 bool j1Player::Start()
 {
-	position.x = 112.0f;
-	position.y = 176.0f;
+	/*position.x = 64.0f;
+	position.y = 160.0f;*/
 	moving = true;
 
 	//load texture
@@ -532,7 +531,7 @@ void j1Player::Input(float dt)
 		if (entity_state != DUCK)
 		{
 			entity_state = RIGHT;
-			if (App->map->Walkability(this) == true)
+			if (App->map->Walkability(App->entity_manager->player) == true)
 			{
 				position.x += PLAYER_SPEED * dt;
 			}

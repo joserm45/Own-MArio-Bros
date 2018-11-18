@@ -26,13 +26,13 @@ bool j1EntityManager::Awake(pugi::xml_node&)
 
 bool j1EntityManager::Start()
 {
-	p2List_item<Entity*>* item = entities.start;
+	/*p2List_item<Entity*>* item = entities.start;
 	while (item != NULL)
 	{
 		item->data->Start();
 		item = item->next;
 	}
-
+	*/
 	bool ret = true;
 	
 	return ret;
@@ -116,11 +116,16 @@ void j1EntityManager::CreateEntity(p2SString name, fPoint position)
 {
 	if (name == "player")
 	{
+		if (player != NULL)
+		{
+			DestroyEntity(player);
+		}
+
 		player = new j1Player();
 
+		player->position = position;
 		player->Awake();
 		player->Start();
-		player->position = position;
 		entities.add(player);
 	}
 
@@ -128,9 +133,9 @@ void j1EntityManager::CreateEntity(p2SString name, fPoint position)
 	{
 		Enemy_Goomba* goomba = new Enemy_Goomba();
 
+		goomba->position = position;
 		goomba->Awake();
 		goomba->Start();
-		goomba->position = position;
 		entities.add(goomba);
 	}
 
@@ -138,9 +143,9 @@ void j1EntityManager::CreateEntity(p2SString name, fPoint position)
 	{
 		Enemy_Boo* boo = new Enemy_Boo();
 
+		boo->position = position;
 		boo->Awake();
 		boo->Start();
-		boo->position = position;
 		entities.add(boo);
 	}
 	
