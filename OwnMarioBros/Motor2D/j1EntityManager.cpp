@@ -194,19 +194,29 @@ void j1EntityManager::CreateEntities()
 
 void j1EntityManager::DestroyEntity(Entity * entity)
 {
-	p2List_item<Entity*>* item = entities.start;
-
-	while (item != NULL)
+	if (entity != nullptr)
 	{
-		if (item->data == entity)
-		{
-			RELEASE(entity);
-			entities.del(item);
-			return;
-		}
+		p2List_item<Entity*>* item = entities.start;
 
-		item = item->next;
+		while (item != NULL)
+		{
+			if (item->data == entity)
+			{
+				if (entity->name == "goomba")
+				{
+					entity->head_collider->to_delete = true;
+				}
+				if(entity->collider != NULL)
+				entity->collider->to_delete = true;
+				RELEASE(entity);
+				entities.del(item);
+				return;
+			}
+
+			item = item->next;
+		}
 	}
+	
 }
 
 void j1EntityManager::DestroyEntities()

@@ -79,7 +79,7 @@ private:
 	Animation* current = nullptr;
 
 	//Collider
-	Collider* collider_boo = nullptr;
+	
 	Collider* quadrant1 = nullptr;
 	Collider* quadrant2 = nullptr;
 

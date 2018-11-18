@@ -46,7 +46,7 @@ bool j1Player::Start()
 	text_player = App->tex->Load("textures/mario.png");
 
 	//load collider
-	collider_player = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
+	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	
 	player_quadrant_1.x = position.x / TILE_WIDTH;
 	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
@@ -165,7 +165,7 @@ bool j1Player::Update(float dt)
 	/*if (position.y > 250 || position.y < 0)
 		position.y = 176;*/
 
-	collider_player->SetPos(position.x, position.y);
+	collider->SetPos(position.x, position.y);
 
 	
 	return ret;
