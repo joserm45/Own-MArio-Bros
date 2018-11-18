@@ -32,7 +32,7 @@ bool Enemy_Goomba::Awake()
 	entity_state = IDLE;
 
 	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
-	head_collider = App->collision->AddCollider({ (int)position.x + 2, (int)position.y - 2, 13, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
+	head_collider = App->collision->AddCollider({ (int)position.x + 2, (int)position.y - 2, 17, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
 	return ret;
 }
 
@@ -73,16 +73,19 @@ bool Enemy_Goomba::Update(float dt)
 			position.y += 50.0f * dt;
 		}
 		//check hit for death 
-		if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
+		if (App->scene->god_mode == false)
 		{
-			head_collider->to_delete = true;
-			App->entity_manager->player->dead = true;
-			
+			if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
+			{
+				App->entity_manager->player->dead = true;
+				head_collider->to_delete = true;
+			}
 		}
 		if (head_collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 		{
 			collider->to_delete = true;
 			dead = true;
+			head_collider->to_delete = true;
 			
 		}
 	}
@@ -94,7 +97,7 @@ bool Enemy_Goomba::Update(float dt)
 	if (collider != NULL)
 	collider->SetPos(position.x, position.y + HEAD_HIGHT_SIZE);
 	if (head_collider != NULL)
-	head_collider->SetPos(position.x + HEAD_WITH_SIZE, position.y);
+	head_collider->SetPos(position.x + HEAD_WITH_SIZE, position.y -2);
 
 	return ret;
 }

@@ -1,10 +1,24 @@
-# Own-Mario-Bros
+﻿# Own-Mario-Bros
 Own Mario Bros is a 2D platform game based with a nostalgic feature as its graphics are from the orignial Super Mario Bros. Reach to the end without falling down the pits.
 
 ## Authors
 We are 2 students from the university of CITM doing a project for our carreer in Videogame Development and Design.
+
+###Implementation
+
 * José Rodriguez: https://github.com/joserm45
+
+
+
+Map draw implementation, parallax implementation, camera movement, changing levels, logic and collider layer implementation, colliders, double jump, save and load, frame rate and dt, entity system implementation, enemy save and load.
+
+
+
 * Manav Lakhwani: https://github.com/manavld
+
+
+
+Module player, mario sprites and animations, tiled, audio implementation, player death and respawn, god mode, win, goomba and movement, enemy sprited and animations, brofiler implementation, entity system UML.
 
 ### Github Repository 
 

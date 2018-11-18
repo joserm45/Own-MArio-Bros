@@ -17,7 +17,7 @@
 #define TILE_WIDTH 16
 #define TiLE_HEIGHT 16
 #define HEAD_HIGHT_SIZE 4
-#define HEAD_WITH_SIZE 1
+#define HEAD_WITH_SIZE 0
 
 /*enum STATUS_GOOMBA
 {
