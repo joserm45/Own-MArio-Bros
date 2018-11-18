@@ -93,15 +93,77 @@ bool j1EntityManager::CleanUp()
 	return ret;
 }
 
-bool j1EntityManager::Load(pugi::xml_node&)
+bool j1EntityManager::Load(pugi::xml_node& node)
 {
+	BROFILER_CATEGORY("Load", Profiler::Color::Silver);
+
+	pugi::xml_node root = node.first_child();
+
+	while (root != NULL)
+	{
+
+		if (strncmp(root.name(), "boo_position", 13) == 0)
+		{
+			fPoint point;
+			point.create(root.attribute("x").as_int(), root.attribute("y").as_int());
+			CreateEntity("boo",point);
+
+		}
+		else if (strncmp(root.name(), "goomba_position", 16) == 0)
+		{
+			fPoint point;
+			point.create(root.attribute("x").as_int(), root.attribute("y").as_int());
+			CreateEntity("goomba",point);
+
+		}
+
+		else if (strncmp(root.name(), "player", 7) == 0)
+		{
+			pugi::xml_node player_pos = root.child("player_position");
+			player->position.x = player_pos.attribute("x").as_int();
+			player->position.y = player_pos.attribute("y").as_int();
+		}
+		root = root.next_sibling();
+	}
+
 	bool ret = true;
 
 	return ret;
 }
 
-bool j1EntityManager::Save(pugi::xml_node&)const
+bool j1EntityManager::Save(pugi::xml_node& node)const
 {
+	BROFILER_CATEGORY("Save", Profiler::Color::MediumPurple);
+
+	for (int i = 0; i < entities.count(); i++)
+	{
+		if (entities[i]->name == "boo")
+		{
+			pugi::xml_node root = node.append_child("boo_position");
+			root.append_attribute("x") = entities[i]->GetPos().x;
+			root.append_attribute("y") = entities[i]->position.y;
+		}
+		else if (entities[i]->name == "goomba")
+		{
+
+			pugi::xml_node root = node.append_child("goomba_position");
+			root.append_attribute("x") = entities[i]->position.x;
+			root.append_attribute("y") = entities[i]->position.y;
+
+		}
+		else if (entities[i]->name == "player")
+		{
+
+			pugi::xml_node root = node.append_child("player");
+			pugi::xml_node player_pos = root.append_child("player_position");
+
+			player_pos.append_attribute("x") = entities[i]->position.x;
+			player_pos.append_attribute("y") = entities[i]->position.y;
+
+		}
+		
+	}
+
 	bool ret = true;
 
 	return ret;

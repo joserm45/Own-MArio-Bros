@@ -56,8 +56,8 @@ public:
 	bool CleanUp();
 
 	// Load / Save
-	bool Save(pugi::xml_node&) const;
-	bool Load(pugi::xml_node&);
+	bool Save() const;
+	bool Load();
 
 	void CameraMovement();
 	// Animation
@@ -85,7 +85,6 @@ public:
 	bool played = false;
 	bool dead = false;
 
-	Collider* collider_player = nullptr;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;

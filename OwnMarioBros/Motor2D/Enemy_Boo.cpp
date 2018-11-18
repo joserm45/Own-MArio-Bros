@@ -30,6 +30,7 @@ bool Enemy_Boo::Awake()
 {
 	bool ret = true;
 	entity_state = IDLE;
+
 	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,BOO_WIDTH,BOO_HEIGHT }, COLLIDER_BOO, this);
 	return ret;
 }

@@ -82,7 +82,7 @@ public:
 
 	fPoint	GetPos() const
 	{
-		return position;
+		return this->position;
 	}
 
 

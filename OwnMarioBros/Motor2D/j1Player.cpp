@@ -32,10 +32,9 @@ bool j1Player::Awake()
 
 	entity_state = IDLE;
 	//current = &right_idle;
+	position.create(80, 176);
 	collider = App->collision->AddCollider({ (int)0,(int)0,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	
-	collider_player = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
-
 	return ret;
 }
 
@@ -151,7 +150,7 @@ bool j1Player::Update(float dt)
 		position.y = 176;*/
 
 	if (collider != NULL)
-		collider_player->SetPos(position.x, position.y);
+		collider->SetPos(position.x, position.y);
 	
 	return ret;
 }
@@ -195,33 +194,33 @@ bool j1Player::CleanUp()
 {
 	bool ret = true;
 
-	collider_player->to_delete = true;
+	collider->to_delete = true;
 	SDL_DestroyTexture(text_player);
 	return ret;
 }
 
-bool j1Player::Save(pugi::xml_node& node) const
+bool j1Player::Save() const
 {
-	BROFILER_CATEGORY("PlayerSave", Profiler::Color::MediumPurple);
+	/*BROFILER_CATEGORY("PlayerSave", Profiler::Color::MediumPurple);
 	bool ret = true;
 	//save 
 	pugi::xml_node root = node.append_child("position");
 	root.append_attribute("x") = position.x;
 	root.append_attribute("y") = position.y;
-
-	return ret;
+	*/
+	return true;
 }
 
-bool j1Player::Load(pugi::xml_node& node)
+bool j1Player::Load()
 {
-	BROFILER_CATEGORY("PlayerLoad", Profiler::Color::Silver);
+	/*BROFILER_CATEGORY("PlayerLoad", Profiler::Color::Silver);
 	bool ret = true;
 	//load
 	pugi::xml_node root = node.child("position");
 	position.x = root.attribute("x").as_int();
 	position.y = root.attribute("y").as_int();
-
-	return ret;
+	*/
+	return true;
 }
 
 void j1Player::CameraMovement()

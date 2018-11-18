@@ -6,11 +6,19 @@
 	<audio />
 	<map />
 	<scene current_lvl="1" />
-	<player>
-		<position x="183.455948" y="176" />
-	</player>
+	<entities>
+		<boo_position x="0" y="0" />
+		<boo_position x="0" y="0" />
+		<player>
+			<player_position x="80" y="176" />
+		</player>
+		<goomba_position x="0" y="0" />
+		<goomba_position x="0" y="0" />
+		<goomba_position x="0" y="0" />
+		<goomba_position x="0" y="0" />
+	</entities>
 	<collider />
-	<goomba />
+	<pathfinding />
 	<renderer>
 		<camera x="0" y="0" />
 	</renderer>

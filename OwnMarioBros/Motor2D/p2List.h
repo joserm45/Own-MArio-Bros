@@ -196,7 +196,7 @@ public:
 			p_item = p_item->next;
 		}
 
-		ASSERT(p_item);
+		assert(p_item);
 
 		return(p_item->data);
 	}
