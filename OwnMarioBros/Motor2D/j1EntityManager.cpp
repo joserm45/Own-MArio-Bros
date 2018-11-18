@@ -116,7 +116,7 @@ void j1EntityManager::CreateEntity(p2SString name, fPoint position)
 {
 	if (name == "player")
 	{
-		j1Player* player = new j1Player();
+		player = new j1Player();
 
 		player->Awake();
 		player->Start();
