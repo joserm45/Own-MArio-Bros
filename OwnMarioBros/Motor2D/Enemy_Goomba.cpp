@@ -42,7 +42,6 @@ bool Enemy_Goomba::Start()
 	//load texture
 	text_goomba = App->tex->Load("textures/mario.png");
 
-	
 	goomba_quadrant_1.x = position.x / TILE_WIDTH;
 	goomba_quadrant_2.x = (position.x + GOOMBA_WIDTH) / TILE_WIDTH;
 
@@ -74,6 +73,17 @@ bool Enemy_Goomba::Update(float dt)
 			position.y += 50.0f * dt;
 		}
 		//check hit for death 
+		if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
+		{
+			head_collider->to_delete = true;
+			App->entity_manager->player->dead = true;
+		}
+		if (head_collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
+		{
+			collider->to_delete = true;
+			dead = true;
+			
+		}
 	}
 	if (dead == true)
 	{
