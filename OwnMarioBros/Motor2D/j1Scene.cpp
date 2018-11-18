@@ -171,7 +171,32 @@ bool j1Scene::Update(float dt)
 			App->entity_manager->player->entity_state = IDLE;
 		}
 	}
+
+	if (App->entity_manager->player->dead == true)
+	{
+		App->audio->StopMusic();
+		App->audio->PlayFx(App->scene->level_sound);
+		App->entity_manager->player->moving = false;
+
+
+		LoadLevel(current_lvl);
+		App->entity_manager->player->dead = false;
+		App->entity_manager->player->entity_state = IDLE;
+	}
 	
+	if (App->want_to_load == true)
+	{
+		App->audio->StopMusic();
+		App->audio->PlayFx(App->scene->level_sound);
+		App->entity_manager->player->moving = false;
+
+		LoadLevel(current_lvl);
+		App->want_to_load = false;
+
+		App->entity_manager->player->entity_state = IDLE;
+		
+	}
+
 	return true;
 }
 
@@ -232,16 +257,8 @@ void j1Scene::LoadLevel(int level)
 		current_lvl = level;
 	}
 
-	if (saved == false)
-	{
-		App->entity_manager->CreateEntities();
-	}
 
-	if (saved == true)
-	{
-		saved == false;
-	}
-		
+App->entity_manager->CreateEntities();
 	
 	//App->entity_manager->player->collider->SetPos(App->entity_manager->player->position.x, App->entity_manager->player->position.y);
 }

@@ -10,9 +10,9 @@
 		<boo_position x="1024" y="16" />
 		<boo_position x="256" y="64" />
 		<player>
-			<player_position x="271.40799" y="178.950073" />
+			<player_position x="80" y="176" />
 		</player>
-		<goomba_position x="401.340576" y="192" />
+		<goomba_position x="544" y="192" />
 		<goomba_position x="1120" y="192" />
 		<goomba_position x="1424" y="192" />
 		<goomba_position x="2992" y="192" />

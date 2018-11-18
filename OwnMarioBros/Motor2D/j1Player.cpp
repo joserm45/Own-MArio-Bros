@@ -135,10 +135,10 @@ bool j1Player::Update(float dt)
 		}
 		if ((current_time - init_time * dt) >= init_time + 2.5f)
 		{
-			dead = false;
+			//dead = false;
 			sprite_moving = false;
 			played = false;
-			App->scene->LoadLevel(App->scene->current_lvl);
+			//App->scene->LoadLevel(App->scene->current_lvl);
 			entity_state = IDLE;
 		}
 		

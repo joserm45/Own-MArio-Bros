@@ -61,6 +61,7 @@ bool j1EntityManager::Update(float dt)
 	p2List_item<Entity*>* item = entities.start;
 	while (item != NULL)
 	{
+		if(item->data!=NULL)
 		item->data->Update(dt);
 		item = item->next;
 	}
