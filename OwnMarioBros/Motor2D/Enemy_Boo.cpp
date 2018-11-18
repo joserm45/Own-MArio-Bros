@@ -153,6 +153,18 @@ void Enemy_Boo::Draw()
 
 void Enemy_Boo::Move()
 {
+	
+	iPoint pos_boo;
+	iPoint pos_player;
+	pos_boo.x = position.x;
+	pos_boo.y = position.y;
+	pos_player.x = App->entity_manager->player->position.x;
+	pos_player.y = App->entity_manager->player->position.y;
+	if (App->path_finding->CreatePath(pos_boo, pos_player) != -1)
+	{
+
+	}
+
 	entity_state = IDLE;
 	//just to check if animation works
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)

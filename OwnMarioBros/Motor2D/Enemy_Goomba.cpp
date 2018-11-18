@@ -41,7 +41,7 @@ bool Enemy_Goomba::Start()
 	text_goomba = App->tex->Load("textures/mario.png");
 
 	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
-	head_collider = App->collision->AddCollider({ (int)position.x + 2, (int)position.y - 2, 13, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
+	head_collider = App->collision->AddCollider({ (int)position.x + 3, (int)position.y - 2, 12, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
 	
 	goomba_quadrant_1.x = position.x / TILE_WIDTH;
 	goomba_quadrant_2.x = (position.x + GOOMBA_WIDTH) / TILE_WIDTH;
@@ -74,6 +74,17 @@ bool Enemy_Goomba::Update(float dt)
 			position.y += 50.0f * dt;
 		}
 		//check hit for death 
+		if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
+		{
+			head_collider->to_delete = true;
+			App->entity_manager->player->dead = true;
+		}
+		if (head_collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
+		{
+			collider->to_delete = true;
+			dead = true;
+			
+		}
 	}
 	if (dead == true)
 	{
