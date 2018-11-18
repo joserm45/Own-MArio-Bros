@@ -34,8 +34,8 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	
-	if (current_lvl == 1)
+	scene_starts = true;
+	/*if (current_lvl == 1)
 	{
 		App->map->Load("lvl1.tmx");
 		App->audio->PlayMusic("audio/music/lvl_1.ogg");
@@ -54,7 +54,8 @@ bool j1Scene::Start()
 		level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
 	}
 
-	App->entity_manager->CreateEntities();
+	App->entity_manager->CreateEntities();*/
+	LoadLevel(1);
 	
 	return true;
 }
@@ -194,8 +195,17 @@ void j1Scene::LoadLevel(int level)
 {
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 
-	App->map->UnloadMap();
-	App->entity_manager->DestroyEntities();
+	if (scene_starts == true)
+	{
+
+		scene_starts = false;
+	}
+	else
+	{
+		App->map->UnloadMap();
+		App->entity_manager->DestroyEntities();
+	}
+
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
@@ -215,6 +225,7 @@ void j1Scene::LoadLevel(int level)
 
 	App->entity_manager->CreateEntities();
 	
+	//App->entity_manager->player->collider->SetPos(App->entity_manager->player->position.x, App->entity_manager->player->position.y);
 }
 bool j1Scene::Save(pugi::xml_node& node)const
 {

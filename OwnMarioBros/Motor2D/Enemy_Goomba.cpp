@@ -31,6 +31,8 @@ bool Enemy_Goomba::Awake()
 	bool ret = true;
 	entity_state = IDLE;
 
+	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
+	head_collider = App->collision->AddCollider({ (int)position.x + 2, (int)position.y - 2, 13, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
 	return ret;
 }
 
@@ -40,8 +42,6 @@ bool Enemy_Goomba::Start()
 	//load texture
 	text_goomba = App->tex->Load("textures/mario.png");
 
-	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,GOOMBA_WIDTH,GOOMBA_HEIGHT }, COLLIDER_GOOMBA, this);
-	head_collider = App->collision->AddCollider({ (int)position.x + 2, (int)position.y - 2, 13, HEAD_HIGHT_SIZE }, COLLIDER_HEAD, this);
 	
 	goomba_quadrant_1.x = position.x / TILE_WIDTH;
 	goomba_quadrant_2.x = (position.x + GOOMBA_WIDTH) / TILE_WIDTH;
@@ -80,7 +80,9 @@ bool Enemy_Goomba::Update(float dt)
 		entity_state = DIE;
 	}
 
+	if (collider != NULL)
 	collider->SetPos(position.x, position.y + HEAD_HIGHT_SIZE);
+	if (head_collider != NULL)
 	head_collider->SetPos(position.x + HEAD_WITH_SIZE, position.y);
 	return ret;
 }
@@ -108,6 +110,7 @@ bool Enemy_Goomba::CleanUp()
 	bool ret = true;
 
 	collider->to_delete = true;
+	head_collider->to_delete = true;
 	SDL_DestroyTexture(text_goomba);
 	return ret;
 }

@@ -30,7 +30,7 @@ bool Enemy_Boo::Awake()
 {
 	bool ret = true;
 	entity_state = IDLE;
-
+	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,BOO_WIDTH,BOO_HEIGHT }, COLLIDER_BOO, this);
 	return ret;
 }
 
@@ -41,7 +41,7 @@ bool Enemy_Boo::Start()
 	//load texture
 	text_boo = App->tex->Load("textures/mario.png");
 
-	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,BOO_WIDTH,BOO_HEIGHT }, COLLIDER_BOO, this);
+	
 
 	boo_quadrant_1.x = position.x / TILE_WIDTH;
 	boo_quadrant_2.x = (position.x + BOO_WIDTH) / TILE_WIDTH;
@@ -75,7 +75,7 @@ bool Enemy_Boo::Update(float dt)
 	{
 		entity_state = DIE;
 	}
-
+	if(collider != NULL)
 	collider->SetPos(position.x, position.y);
 
 	return ret;

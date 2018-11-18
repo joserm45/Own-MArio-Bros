@@ -83,13 +83,15 @@ public:
 	
 	bool jumping = false;
 	bool played = false;
+	bool dead = false;
+
+	Collider* collider_player = nullptr;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;
 	bool sprite_moving = false;
 	
 	bool jumping_over = false;
-	bool dead = false;
 	bool back = false;
 	bool jump1_on = false;
 	bool jump2_on = false;
@@ -120,7 +122,7 @@ private:
 
 	uint jump_height = 0;
 	
-	Collider* collider_player = nullptr;
+
 	Collider* quadrant1 = nullptr;
 	Collider* quadrant2 = nullptr;
 

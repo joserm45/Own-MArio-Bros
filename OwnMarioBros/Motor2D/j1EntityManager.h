@@ -41,7 +41,7 @@ public:
 	p2List<Entity*>		entities;
 
 	j1Player*			player = nullptr;
-	j1Collision*		collider = nullptr;
+	j1Collision*		collider_ent = nullptr;
 };
 
 

@@ -32,7 +32,10 @@ bool j1Player::Awake()
 
 	entity_state = IDLE;
 	//current = &right_idle;
+	collider = App->collision->AddCollider({ (int)0,(int)0,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	
+	collider_player = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
+
 	return ret;
 }
 
@@ -46,7 +49,6 @@ bool j1Player::Start()
 	text_player = App->tex->Load("textures/mario.png");
 
 	//load collider
-	collider = App->collision->AddCollider({ (int)position.x,(int)position.y,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	
 	player_quadrant_1.x = position.x / TILE_WIDTH;
 	player_quadrant_2.x = (position.x + MARIO_WIDTH) / TILE_WIDTH;
@@ -71,31 +73,7 @@ bool j1Player::Update(float dt)
 	BROFILER_CATEGORY("PlayerUpdate", Profiler::Color::Magenta);
 	bool ret = true;
 	
-	/*if (jumping_over == false)
-	{
-		if (jumping == true)
-		{
-			if (count_jump < 13)
-			{
-				position.y -= PLAYER_JUMP;
-				count_jump++;
-				status = JUMP;
-			}
-			else
-			{
-				jumping_over = true;
-			}
-		}
-		
-	}
-	else
-	{
-		if (Falling() == true)
-		{
-			position.y += GRAVITY;
-			status = JUMP;
-		}
-	}*/
+
 	current_time += dt;
 
 	if (dead != true)
@@ -125,6 +103,7 @@ bool j1Player::Update(float dt)
 		}
 				
 	}
+
 	if (dead == true)
 	{
 		bool tmp = false;
@@ -138,7 +117,7 @@ bool j1Player::Update(float dt)
 			played = true;
 		}
 
-		if (position.y <= 165)
+		/*if (position.y <= 165)
 		{
 			position.y += 120.0f * dt;
 			tmp = true;
@@ -147,7 +126,7 @@ bool j1Player::Update(float dt)
 		if (position.y > 165 && tmp == false)
 		{
 			position.y -= 100.0f * dt;
-		}
+		}*/
 
 
 		if (init_timer == true)
@@ -159,6 +138,7 @@ bool j1Player::Update(float dt)
 		{
 			dead = false;
 			sprite_moving = false;
+			played = false;
 			App->scene->LoadLevel(App->scene->current_lvl);
 			entity_state = IDLE;
 		}
@@ -170,8 +150,8 @@ bool j1Player::Update(float dt)
 	/*if (position.y > 250 || position.y < 0)
 		position.y = 176;*/
 
-	collider->SetPos(position.x, position.y);
-
+	if (collider != NULL)
+		collider_player->SetPos(position.x, position.y);
 	
 	return ret;
 }
@@ -565,6 +545,7 @@ void j1Player::Input(float dt)
 	//to check if animation works for the moment
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
+		dead = true;
 		entity_state = DIE;
 		position.y -= 150;
 		sprite_moving = false;

@@ -26,13 +26,13 @@ bool j1EntityManager::Awake(pugi::xml_node&)
 
 bool j1EntityManager::Start()
 {
-	/*p2List_item<Entity*>* item = entities.start;
+	p2List_item<Entity*>* item = entities.start;
 	while (item != NULL)
 	{
 		item->data->Start();
 		item = item->next;
 	}
-	*/
+	
 	bool ret = true;
 	
 	return ret;
@@ -202,14 +202,14 @@ void j1EntityManager::DestroyEntity(Entity * entity)
 		{
 			if (item->data == entity)
 			{
-				if (entity->name == "goomba")
+
+				if (entity->collider != NULL)
 				{
-					entity->head_collider->to_delete = true;
+					entity->CleanUp();
+					RELEASE(entity);
+					entities.del(item);
 				}
-				if(entity->collider != NULL)
-				entity->collider->to_delete = true;
-				RELEASE(entity);
-				entities.del(item);
+
 				return;
 			}
 
