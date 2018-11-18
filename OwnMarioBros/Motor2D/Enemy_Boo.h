@@ -58,7 +58,6 @@ public:
 	void Move();
 
 public:
-	fPoint position;
 
 	iPoint				boo_quadrant_1;
 	iPoint				boo_quadrant_2;

@@ -54,6 +54,7 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 	float GetDT() const;
+	bool				want_to_load = false;
 
 	void LoadGame();
 	void SaveGame() const;
@@ -82,6 +83,7 @@ private:
 	// Load / Save
 	bool LoadGameNow();
 	bool SavegameNow() const;
+
 
 public:
 
@@ -122,7 +124,6 @@ private:
 	p2SString			organization;
 
 	mutable bool		want_to_save = false;
-	bool				want_to_load = false;
 	bool				cap_FPS = true;
 	p2SString			load_game;
 	mutable p2SString	save_game;

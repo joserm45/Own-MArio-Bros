@@ -89,8 +89,12 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->SaveGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	{
+		App->scene->saved = true;
 		App->LoadGame();
+	}
+
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		god_mode = !god_mode;
@@ -177,6 +181,11 @@ bool j1Scene::PostUpdate()
 	BROFILER_CATEGORY("ScenePostUpdate", Profiler::Color::Cyan);
 	bool ret = true;
 	
+	/*if (App->want_to_load == true)
+	{
+		LoadLevel(current_lvl);
+	}*/
+
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
 
@@ -223,7 +232,16 @@ void j1Scene::LoadLevel(int level)
 		current_lvl = level;
 	}
 
-	App->entity_manager->CreateEntities();
+	if (saved == false)
+	{
+		App->entity_manager->CreateEntities();
+	}
+
+	if (saved == true)
+	{
+		saved == false;
+	}
+		
 	
 	//App->entity_manager->player->collider->SetPos(App->entity_manager->player->position.x, App->entity_manager->player->position.y);
 }

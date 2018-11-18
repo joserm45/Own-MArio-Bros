@@ -60,7 +60,6 @@ public:
 	bool Falling();
 
 public:
-	fPoint position;
 
 	iPoint				goomba_quadrant_1;
 	iPoint				goomba_quadrant_2;

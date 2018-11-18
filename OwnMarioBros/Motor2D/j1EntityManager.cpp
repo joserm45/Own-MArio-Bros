@@ -20,7 +20,7 @@ j1EntityManager::~j1EntityManager()
 bool j1EntityManager::Awake(pugi::xml_node&)
 {
 	bool ret = true;
-	
+
 	return ret;
 }
 
@@ -140,7 +140,7 @@ bool j1EntityManager::Save(pugi::xml_node& node)const
 		if (entities[i]->name == "boo")
 		{
 			pugi::xml_node root = node.append_child("boo_position");
-			root.append_attribute("x") = entities[i]->GetPos().x;
+			root.append_attribute("x") = entities[i]->position.x;
 			root.append_attribute("y") = entities[i]->position.y;
 		}
 		else if (entities[i]->name == "goomba")

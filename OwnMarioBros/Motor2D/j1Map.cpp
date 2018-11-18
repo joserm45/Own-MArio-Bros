@@ -462,17 +462,28 @@ bool j1Map::Walkability(Entity* entity)
 	bool ret = true;
 
 	int entity_x, entity_y = 0;
-	if (entity->entity_state == RIGHT || entity->entity_state == MOVE)
+	if (entity->entity_state == RIGHT )
 	{
 		entity_x = (entity->position.x - 11) / 16; //check next tile right
 		entity_y = (entity->position.y + 24) / 16;
 	}
 
-	else if (entity->entity_state == LEFT || entity->entity_state == MOVE)
+	else if (entity->entity_state == LEFT )
 	{
-		entity_x = (entity->position.x - 20) / 16; //check next tile right
+		entity_x = (entity->position.x - 20) / 16; //check next tile left
 		entity_y = (entity->position.y + 24) / 16;
 	}
+	else if (entity->entity_state == MOVE_RIGHT)
+	{
+		entity_x = (entity->position.x) / 16; //check next tile right
+		entity_y = (entity->position.y) / 16;
+	}
+	else if (entity->entity_state == MOVE_LEFT)
+	{
+		entity_x = (entity->position.x - 16) / 16; //check next tile left
+		entity_y = (entity->position.y) / 16;
+	}
+
 	p2List_item<Layer*>* iterator;
 	p2List_item<Layer*>* layer = nullptr;
 
@@ -486,7 +497,7 @@ bool j1Map::Walkability(Entity* entity)
 
 	uint* nextGid = &layer->data->gid[1 + entity_x + entity_y * layer->data->width ];
 
-	if (entity->entity_state == RIGHT || entity->entity_state == MOVE)
+	if (entity->entity_state == RIGHT )
 	{
 		nextGid++;
 		if (*nextGid == 650)
@@ -508,7 +519,7 @@ bool j1Map::Walkability(Entity* entity)
 		}
 			
 	}
-	else if (entity->entity_state == LEFT || entity->entity_state == MOVE)
+	else if (entity->entity_state == LEFT )
 	{
 		nextGid;
 		if (*nextGid == 650)
@@ -517,6 +528,14 @@ bool j1Map::Walkability(Entity* entity)
 			ret = true;
 	}
 
+	else if (entity->entity_state == MOVE_LEFT || entity->entity_state == MOVE_RIGHT)
+	{
+		nextGid;
+		if (*nextGid == 650)
+			ret = false;
+		else if (*nextGid != 650)
+			ret = true;
+	}
 
 	return ret;
 }

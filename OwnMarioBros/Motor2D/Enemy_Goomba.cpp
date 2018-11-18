@@ -77,6 +77,7 @@ bool Enemy_Goomba::Update(float dt)
 		{
 			head_collider->to_delete = true;
 			App->entity_manager->player->dead = true;
+			
 		}
 		if (head_collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 		{
@@ -94,6 +95,7 @@ bool Enemy_Goomba::Update(float dt)
 	collider->SetPos(position.x, position.y + HEAD_HIGHT_SIZE);
 	if (head_collider != NULL)
 	head_collider->SetPos(position.x + HEAD_WITH_SIZE, position.y);
+
 	return ret;
 }
 
@@ -144,14 +146,11 @@ void Enemy_Goomba::Draw()
 			current = &goomba_idle;
 			break;
 
-		case MOVE:
+		case MOVE_RIGHT:
 			current = &goomba_walk;
 			break;
 
-		case RIGHT:
-			current = &goomba_walk;
-			break;
-		case LEFT:
+		case MOVE_LEFT:
 			current = &goomba_walk;
 			break;
 
@@ -164,21 +163,21 @@ void Enemy_Goomba::Draw()
 void Enemy_Goomba::Move(float dt)
 {
 	
-	if (position.x > App->entity_manager->player->position.x && position.x - App->entity_manager->player->position.x <500)
+	if (position.x > App->entity_manager->player->position.x && position.x - App->entity_manager->player->position.x <200)
 	{
-		entity_state = MOVE;
+		entity_state = MOVE_LEFT;
 		if (App->map->Walkability(this) == true)
 		{
-			position.x -= 15.0f * dt;
+			position.x -= 20.0f * dt;
 		}
 
 	}
-	else if (position.y > App->entity_manager->player->position.y && position.x - App->entity_manager->player->position.x <500)
+	else if (position.y > App->entity_manager->player->position.y && position.x - App->entity_manager->player->position.x <200)
 	{
-		entity_state = MOVE;
+		entity_state = MOVE_RIGHT;
 		if (App->map->Walkability(this) == true)
 		{
-			position.x += 15.0f * dt;
+			position.x += 20.0f * dt;
 		}
 	}
 	
