@@ -82,6 +82,7 @@ public:
 	float init_time = 0;
 	
 	bool jumping = false;
+	bool played = false;
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;

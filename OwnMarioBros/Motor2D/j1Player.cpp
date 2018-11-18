@@ -131,7 +131,12 @@ bool j1Player::Update(float dt)
 
 		entity_state = DIE;
 		App->audio->StopMusic();
-		App->audio->PlayFx(App->scene->death_sound, 0);
+
+		if (played == false)
+		{
+			App->audio->PlayFx(App->scene->death_sound, 0);
+			played = true;
+		}
 
 		if (position.y <= 165)
 		{

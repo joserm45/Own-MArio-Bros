@@ -131,6 +131,13 @@ void Enemy_Goomba::Draw()
 			current = &goomba_walk;
 			break;
 
+		case RIGHT:
+			current = &goomba_walk;
+			break;
+		case LEFT:
+			current = &goomba_walk;
+			break;
+
 		case DIE:
 			current = &goomba_dead;
 			break;
@@ -140,11 +147,22 @@ void Enemy_Goomba::Draw()
 void Enemy_Goomba::Move(float dt)
 {
 	
-	if (position.x > App->entity_manager->player->position.x)
+	if (position.x > App->entity_manager->player->position.x && position.x - App->entity_manager->player->position.x <500)
 	{
 		entity_state = MOVE;
-		position.x -= 15.0f * dt;
+		if (App->map->Walkability(this) == true)
+		{
+			position.x -= 15.0f * dt;
+		}
 
+	}
+	else if (position.y > App->entity_manager->player->position.y && position.x - App->entity_manager->player->position.x <500)
+	{
+		entity_state = MOVE;
+		if (App->map->Walkability(this) == true)
+		{
+			position.x += 15.0f * dt;
+		}
 	}
 	
 	

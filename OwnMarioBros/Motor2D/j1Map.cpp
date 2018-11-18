@@ -462,13 +462,13 @@ bool j1Map::Walkability(Entity* entity)
 	bool ret = true;
 
 	int entity_x, entity_y = 0;
-	if (entity->entity_state == RIGHT)
+	if (entity->entity_state == RIGHT || entity->entity_state == MOVE)
 	{
 		entity_x = (entity->position.x - 11) / 16; //check next tile right
 		entity_y = (entity->position.y + 24) / 16;
 	}
 
-	else if (entity->entity_state == LEFT)
+	else if (entity->entity_state == LEFT || entity->entity_state == MOVE)
 	{
 		entity_x = (entity->position.x - 20) / 16; //check next tile right
 		entity_y = (entity->position.y + 24) / 16;
@@ -486,7 +486,7 @@ bool j1Map::Walkability(Entity* entity)
 
 	uint* nextGid = &layer->data->gid[1 + entity_x + entity_y * layer->data->width ];
 
-	if (entity->entity_state == RIGHT)
+	if (entity->entity_state == RIGHT || entity->entity_state == MOVE)
 	{
 		nextGid++;
 		if (*nextGid == 650)
@@ -508,7 +508,7 @@ bool j1Map::Walkability(Entity* entity)
 		}
 			
 	}
-	else if (entity->entity_state == LEFT)
+	else if (entity->entity_state == LEFT || entity->entity_state == MOVE)
 	{
 		nextGid;
 		if (*nextGid == 650)
