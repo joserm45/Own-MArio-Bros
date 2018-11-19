@@ -184,7 +184,7 @@ bool j1Scene::Update(float dt)
 		App->entity_manager->player->entity_state = IDLE;
 	}
 	
-	if (App->want_to_load == true)
+	/*if (App->want_to_load == true)
 	{
 		App->audio->StopMusic();
 		//App->audio->PlayFx(App->scene->level_sound);
@@ -195,7 +195,7 @@ bool j1Scene::Update(float dt)
 
 		App->entity_manager->player->entity_state = IDLE;
 		
-	}
+	}*/
 
 	return true;
 }
@@ -210,6 +210,17 @@ bool j1Scene::PostUpdate()
 	{
 		LoadLevel(current_lvl);
 	}*/
+	if (App->want_to_load == true)
+	{
+		App->audio->StopMusic();
+		//App->audio->PlayFx(App->scene->level_sound);
+		App->entity_manager->player->moving = false;
+
+		//LoadLevel(current_lvl);
+
+		App->entity_manager->player->entity_state = IDLE;
+
+	}
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -236,9 +247,8 @@ void j1Scene::LoadLevel(int level)
 	else
 	{
 		App->map->UnloadMap();
-		App->entity_manager->DestroyEntities();
-	}
 
+	}
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
@@ -256,8 +266,11 @@ void j1Scene::LoadLevel(int level)
 		current_lvl = level;
 	}
 
-
-App->entity_manager->CreateEntities();
+	App->entity_manager->DestroyEntities();
+	if (App->want_to_load != true)
+		App->entity_manager->CreateEntities();
+	//else
+		
 //App->entity_manager->player->collider->SetPos(App->entity_manager->player->position.x, App->entity_manager->player->position.y);
 }
 bool j1Scene::Save(pugi::xml_node& node)const

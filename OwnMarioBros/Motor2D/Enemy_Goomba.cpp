@@ -78,14 +78,15 @@ bool Enemy_Goomba::Update(float dt)
 			if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 			{
 				App->entity_manager->player->dead = true;
-				head_collider->to_delete = true;
+				//head_collider->to_delete = true;
 			}
 		}
 		if (head_collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 		{
-			collider->to_delete = true;
+			CleanUp();
+			//collider->to_delete = true;
 			dead = true;
-			head_collider->to_delete = true;
+			//head_collider->to_delete = true;
 			
 		}
 	}

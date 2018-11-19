@@ -7,12 +7,11 @@
 	<map />
 	<scene current_lvl="1" />
 	<entities>
-		<boo_position x="1024" y="16" />
-		<boo_position x="256" y="64" />
+		<boo_position x="192" y="128" />
 		<player>
-			<player_position x="80" y="176" />
+			<player_position x="257.519562" y="180.250015" />
 		</player>
-		<goomba_position x="544" y="192" />
+		<goomba_position x="396.240082" y="192" />
 		<goomba_position x="1120" y="192" />
 		<goomba_position x="1424" y="192" />
 		<goomba_position x="2992" y="192" />

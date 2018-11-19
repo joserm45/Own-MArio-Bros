@@ -120,9 +120,9 @@ bool j1EntityManager::Load(pugi::xml_node& node)
 
 		else if (strncmp(root.name(), "player", 7) == 0)
 		{
-			pugi::xml_node player_pos = root.child("player_position");
-			player->position.x = player_pos.attribute("x").as_int();
-			player->position.y = player_pos.attribute("y").as_int();
+			fPoint point;
+			point.create(root.child("player_position").attribute("x").as_int(), root.child("player_position").attribute("y").as_int());
+			CreateEntity("player", point);
 		}
 		root = root.next_sibling();
 	}
@@ -235,19 +235,19 @@ void j1EntityManager::CreateEntities()
 			if (*nextGid == 621)
 			{
 				fPoint pos;
-				pos.create((float)j * 16, ((float)i * 16));
+				pos.create((float)j * 16.0f, ((float)i * 16.0f));
 				App->entity_manager->CreateEntity("player",pos);
 			}
 			if (*nextGid == 766)
 			{
 				fPoint pos;
-				pos.create((float)j * 16, ((float)i * 16));
-				App->entity_manager->CreateEntity("goomba", pos); //commented because goomba move() crashes
+				pos.create((float)j * 16.0f, ((float)i * 16.0f));
+				App->entity_manager->CreateEntity("goomba", pos); 
 			}
 			if (*nextGid == 795)
 			{
 				fPoint pos;
-				pos.create((float)j * 16, ((float)i * 16));
+				pos.create((float)j * 16.0f, ((float)i * 16.0f));
 				App->entity_manager->CreateEntity("boo", pos);
 			}
 		}

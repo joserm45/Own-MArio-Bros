@@ -32,7 +32,7 @@ bool j1Player::Awake()
 
 	entity_state = IDLE;
 	//current = &right_idle;
-	position.create(80, 176);
+	//position.create(80, 176);
 	collider = App->collision->AddCollider({ (int)0,(int)0,MARIO_WIDTH,MARIO_HEIGHT }, COLLIDER_PLAYER, this);
 	
 	return ret;
