@@ -9,9 +9,8 @@
 	<entities>
 		<boo_position x="192" y="128" />
 		<player>
-			<player_position x="257.519562" y="180.250015" />
+			<player_position x="613.479553" y="132.500076" />
 		</player>
-		<goomba_position x="396.240082" y="192" />
 		<goomba_position x="1120" y="192" />
 		<goomba_position x="1424" y="192" />
 		<goomba_position x="2992" y="192" />

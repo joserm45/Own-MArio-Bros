@@ -83,22 +83,25 @@ bool Enemy_Goomba::Update(float dt)
 		}
 		if (head_collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 		{
-			CleanUp();
+			
 			//collider->to_delete = true;
 			dead = true;
 			//head_collider->to_delete = true;
 			
 		}
 	}
-	if (dead == true)
-	{
-		entity_state = DIE;
-	}
+
 
 	if (collider != NULL)
 	collider->SetPos(position.x, position.y + HEAD_HIGHT_SIZE);
 	if (head_collider != NULL)
 	head_collider->SetPos(position.x + HEAD_WITH_SIZE, position.y -2);
+
+	if (dead == true)
+	{
+		entity_state = DIE;
+		CleanUp();
+	}
 
 	return ret;
 }
@@ -118,16 +121,28 @@ bool Enemy_Goomba::PostUpdate()
 	goomba_quadrant_1.y = position.y / TILE_WIDTH;
 	goomba_quadrant_2.y = (position.y + GOOMBA_HEIGHT) / TILE_WIDTH;
 
+	if (dead == true)
+	{
+		App->entity_manager->DestroyEntity(this);
+	}
 	return ret;
 }
 
 bool Enemy_Goomba::CleanUp()
 {
 	bool ret = true;
-
+	
 	collider->to_delete = true;
 	head_collider->to_delete = true;
 	SDL_DestroyTexture(text_goomba);
+	
+	/*for (uint i = 0; i < App->entity_manager->entities.count(); i++)
+	{
+		if (App->entity_manager->entities[i]->entity_state == DIE)
+		{
+			delete[]App->entity_manager->entities[i];
+		}
+	}*/
 	return ret;
 }
 

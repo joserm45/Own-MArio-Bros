@@ -77,7 +77,7 @@ bool j1Collision::Update(float dt)
 				if (matrix[c1->type][c2->type] && c1->callback)
 					c1->callback->OnCollision(c1, c2);
 
-				if (matrix[c2->type][c1->type] && c2->callback)
+				if (matrix[c2->type][c1->type] && c2->callback != NULL)
 					c2->callback->OnCollision(c2, c1);
 			}
 		}
