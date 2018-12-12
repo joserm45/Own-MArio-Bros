@@ -16,18 +16,27 @@ j1Collision::j1Collision()
 	matrix[COLLIDER_PLAYER][COLLIDER_BOO] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_GOOMBA] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_HEAD] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_ITEM] = true;
 
 	matrix[COLLIDER_BOO][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_BOO][COLLIDER_GOOMBA] = false;
 	matrix[COLLIDER_BOO][COLLIDER_HEAD] = false;
+	matrix[COLLIDER_BOO][COLLIDER_ITEM] = false;
 
 	matrix[COLLIDER_GOOMBA][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_GOOMBA][COLLIDER_BOO] = false;
 	matrix[COLLIDER_GOOMBA][COLLIDER_HEAD] = false;
+	matrix[COLLIDER_GOOMBA][COLLIDER_ITEM] = false;
 
 	matrix[COLLIDER_HEAD][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_HEAD][COLLIDER_GOOMBA] = false;
 	matrix[COLLIDER_HEAD][COLLIDER_BOO] = false;
+	matrix[COLLIDER_HEAD][COLLIDER_ITEM] = false;
+
+	matrix[COLLIDER_ITEM][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_ITEM][COLLIDER_GOOMBA] = false;
+	matrix[COLLIDER_ITEM][COLLIDER_BOO] = false;
+	matrix[COLLIDER_ITEM][COLLIDER_HEAD] = false;
 }
 
 // Destructor

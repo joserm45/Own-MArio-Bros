@@ -11,6 +11,7 @@
 #include "j1Player.h"
 #include "Enemy_Boo.h"
 #include "Enemy_Goomba.h"
+#include "Coin.h"
 
 
 class j1EntityManager : public j1Module

@@ -124,6 +124,14 @@ bool j1EntityManager::Load(pugi::xml_node& node)
 			point.create(root.child("player_position").attribute("x").as_int(), root.child("player_position").attribute("y").as_int());
 			CreateEntity("player", point);
 		}
+
+		else if (strncmp(root.name(), "coin_position", 14) == 0)
+		{
+			fPoint point;
+			point.create(root.attribute("x").as_int(), root.attribute("y").as_int());
+			CreateEntity("coin", point);
+
+		}
 		root = root.next_sibling();
 	}
 
@@ -162,7 +170,14 @@ bool j1EntityManager::Save(pugi::xml_node& node)const
 			player_pos.append_attribute("y") = entities[i]->position.y;
 
 		}
-		
+		else if (entities[i]->name == "coin")
+		{
+
+			pugi::xml_node root = node.append_child("coin_position");
+			root.append_attribute("x") = entities[i]->position.x;
+			root.append_attribute("y") = entities[i]->position.y;
+
+		}
 	}
 
 	bool ret = true;
@@ -211,7 +226,15 @@ void j1EntityManager::CreateEntity(p2SString name, fPoint position)
 		boo->Start();
 		entities.add(boo);
 	}
-	
+	else if (name == "coin")
+	{
+		Coin* coin = new Coin();
+
+		coin->position = position;
+		coin->Awake();
+		coin->Start();
+		entities.add(coin);
+	}
 }
 
 void j1EntityManager::CreateEntities()
@@ -249,6 +272,12 @@ void j1EntityManager::CreateEntities()
 				fPoint pos;
 				pos.create((float)j * 16.0f, ((float)i * 16.0f));
 				App->entity_manager->CreateEntity("boo", pos);
+			}
+			if (*nextGid == 796)
+			{
+				fPoint pos;
+				pos.create((float)j * 16.0f, ((float)i * 16.0f));
+				App->entity_manager->CreateEntity("coin", pos);
 			}
 		}
 	}
