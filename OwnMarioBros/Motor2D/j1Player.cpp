@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
+#include "j1FadeToBlack.h"
 
 #include "Brofiler\Brofiler.h"
 
@@ -115,6 +116,7 @@ bool j1Player::Update(float dt)
 			App->audio->PlayFx(App->scene->death_sound, 0);
 			played = true;
 		}*/
+		
 
 		if (position.y <= 165)
 		{
@@ -141,6 +143,7 @@ bool j1Player::Update(float dt)
 			//App->scene->LoadLevel(App->scene->current_lvl);
 			entity_state = IDLE;
 		}
+		App->fade_to_black->FadeToBlack(NULL, NULL, 1.5f);
 		
 	}
 	

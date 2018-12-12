@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "j1Player.h"
 #include "j1EntityManager.h"
+#include "j1FadeToBlack.h"
 
 #include "Brofiler\Brofiler.h"
 
@@ -240,6 +241,8 @@ void j1Scene::LoadLevel(int level)
 {
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 
+	
+
 	if (scene_starts == true)
 	{
 		scene_starts = false;
@@ -247,7 +250,7 @@ void j1Scene::LoadLevel(int level)
 	else
 	{
 		App->map->UnloadMap();
-
+		App->fade_to_black->FadeToBlack(NULL, NULL, 1.5f);
 	}
 
 	App->render->camera.x = 0;

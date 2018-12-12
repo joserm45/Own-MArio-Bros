@@ -21,6 +21,7 @@ class j1Player;
 class j1EntityManager;
 class j1Collision;
 class j1PathFinding;
+class j1FadeToBlack;
 
 
 class j1App
@@ -98,6 +99,7 @@ public:
 	j1EntityManager*	entity_manager = nullptr;
 	j1Collision*		collision = nullptr;
 	j1PathFinding*		path_finding = nullptr;
+	j1FadeToBlack*		fade_to_black = nullptr;
 
 private:
 
