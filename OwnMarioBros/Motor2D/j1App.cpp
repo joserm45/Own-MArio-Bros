@@ -14,6 +14,8 @@
 #include "j1EntityManager.h"
 #include "j1Collision.h"
 #include "j1FadeToBlack.h"
+#include "j1Gui.h"
+#include "j1Fonts.h"
 
 #include "Brofiler\Brofiler.h"
 
@@ -35,6 +37,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	collision = new j1Collision();
 	path_finding = new j1PathFinding();
 	fade_to_black = new j1FadeToBlack();
+	gui = new j1Gui();
+	fonts = new j1Fonts();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -48,6 +52,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(collision);
 	AddModule(path_finding);
 	AddModule(fade_to_black);
+	AddModule(gui);
+	AddModule(fonts);
 
 
 

@@ -1,5 +1,5 @@
-#ifndef __j1GUI_H__
-#define __j1GUI_H__
+#ifndef _j1GUI_H_
+#define _j1GUI_H_
 
 #include "j1Module.h"
 #include "j1Fonts.h"
@@ -15,6 +15,7 @@
 // TODO 1: Create your structure of classes
 
 // ---------------------------------------------------
+struct SDL_Rect;
 struct SDL_Texture;
 
 class j1Gui : public j1Module
@@ -32,9 +33,10 @@ public:
 	// Call before first frame
 	bool Start();
 
-	bool Update(float dt);
 	// Called before all Updates
 	bool PreUpdate();
+
+	bool Update(float dt);
 
 	// Called after all Updates
 	bool PostUpdate();
@@ -44,20 +46,19 @@ public:
 
 	// TODO 2: Create the factory methods
 	// Gui creation functions
-	void CreateObject(TYPE_OBJECT ob, fPoint pos, SDL_Rect rect);
-	void DeleteObject(Object ob);
+	void CreateObject(TYPE_OBJECT obj, iPoint pos, SDL_Rect rect, char* label_text = nullptr);
+	void DeleteObject(j1Object* obj);
 
 	//virtual Blit();
 
-	const SDL_Texture* GetAtlas() const;
+	SDL_Texture* GetAtlas() const;
 
-	p2List<Object*> objects;
+public:
+
+	p2List<j1Object*> objects;
 	SDL_Texture* atlas;
-	//j1Label label;
 
 private:
-
-	Object obj;
 
 	p2SString atlas_file_name;
 };

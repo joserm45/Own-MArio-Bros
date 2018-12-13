@@ -7,6 +7,7 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 #include "j1Object.h"
+#include "j1Image.h"
 #include "j1Fonts.h"
 
 j1Gui::j1Gui() : j1Module()
@@ -16,7 +17,9 @@ j1Gui::j1Gui() : j1Module()
 
 // Destructor
 j1Gui::~j1Gui()
-{}
+{
+	App->tex->UnLoad(atlas);
+}
 
 // Called before render is available
 bool j1Gui::Awake(pugi::xml_node& conf)
@@ -35,24 +38,39 @@ bool j1Gui::Start()
 {
 	atlas = App->tex->Load(atlas_file_name.GetString());
 
-	fPoint pos = { 300.0f,350.0f };
-	SDL_Rect rect = { 0,113,229,69 };
-	CreateObject(IMAGE, pos, rect);
-	pos = { 100.0f,25.0f };
-	rect = { 100,100,100,100 };
-	CreateObject(LABEL, pos, rect);
+	SDL_Rect rect = { 0,0,1024,240 };
+
+	CreateObject(IMAGE, {1110,0}, rect);
+
+	CreateObject(IMAGE, { 500,200 }, { 0,480, 325,162 });
+
+	CreateObject(IMAGE, { 0,0 }, { 325,480,116,150 });
+
+	CreateObject(LABEL, { 0,0 }, {NULL,NULL,NULL,NULL}, "Hello World");
 	return true;
 }
 
-bool j1Gui::Update(float dt)
+bool j1Gui::PreUpdate()
 {
-
 	return true;
 }
 
 // Update all guis
-bool j1Gui::PreUpdate()
+bool j1Gui::Update(float dt)
 {
+	p2List_item<j1Object*>* item = objects.start;
+	while (item != nullptr)
+	{
+		if (item->data->type == IMAGE)
+		{
+			item->data->Draw();
+		}
+		else if (item->data->type == LABEL)
+		{
+			item->data->Draw();
+		}
+		item = item->next;
+	}
 	return true;
 }
 
@@ -70,36 +88,31 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
-void j1Gui::CreateObject(TYPE_OBJECT ob, fPoint pos, SDL_Rect rect)
+void j1Gui::CreateObject(TYPE_OBJECT obj_type, iPoint pos, SDL_Rect rect, char* label_text)
 {
-	if (ob == LABEL)
+	if (obj_type == LABEL)
 	{
-		Object* label = new Object();
-		label->position = pos;
-		label->label_text = "Hello World";
+		j1Label* label = new j1Label(pos,label_text);
 
-		if (label != nullptr)
-			objects.add(label);
+		objects.add(label);
 
 	}
-	else if (ob == IMAGE)
+	else if (obj_type == IMAGE)
 	{
-		Object* image = new Object();
-		image->atlas_pos = rect;
-		image->position = pos;
+		j1Image* image = new j1Image(pos,rect);
 
 		objects.add(image);
 	}
 
 }
 
-void j1Gui::DeleteObject(Object ob)
+void j1Gui::DeleteObject(j1Object* obj)
 {
 
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const
+SDL_Texture* j1Gui::GetAtlas() const
 {
 	return atlas;
 }

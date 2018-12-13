@@ -1,6 +1,6 @@
 #pragma once
-#ifndef j1Object_H_
-#define j1Object_H_
+#ifndef _j1Object_H_
+#define _j1Object_H_
 
 #include "SDL/include/SDL_rect.h"
 #include "p2Point.h"
@@ -14,13 +14,25 @@ enum TYPE_OBJECT
 	UKNOWN
 };
 
-class Object
+class j1Object
 {
 public:
 
-	p2SString label_text;
-	fPoint position;
-	SDL_Rect atlas_pos;
+	j1Object();
+	virtual ~j1Object();
+
+	virtual void Start();
+
+	void Update(float dt);
+
+	virtual void Draw();
+
+	TYPE_OBJECT type = UKNOWN;
+
+	iPoint position = { 0, 0};
+	iPoint camera_pos = { 0,0 };
+
+	SDL_Rect atlas_pos = { 0,0,0,0 };
 
 	//_TTF_Font* font;
 };

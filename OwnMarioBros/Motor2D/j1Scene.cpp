@@ -38,7 +38,7 @@ bool j1Scene::Start()
 	scene_starts = true;
 	if (current_lvl == 1)
 	{
-		App->map->Load("lvl1.tmx");
+		//App->map->Load("lvl1.tmx");
 		App->audio->PlayMusic("audio/music/lvl_1.ogg");
 		App->audio->LoadFx("audio/music/jump.wav");
 		App->audio->LoadFx("audio/music/double_jump.wav"); 
@@ -56,7 +56,7 @@ bool j1Scene::Start()
 	}
 
 	//App->entity_manager->CreateEntities();
-	LoadLevel(1);
+	//LoadLevel(1);
 	
 	return true;
 }
@@ -173,7 +173,7 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	if (App->entity_manager->player->dead == true)
+	/*if (App->entity_manager->player->dead == true)
 	{
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->death_sound);
@@ -183,7 +183,7 @@ bool j1Scene::Update(float dt)
 		LoadLevel(current_lvl);
 		App->entity_manager->player->dead = false;
 		App->entity_manager->player->entity_state = IDLE;
-	}
+	}*/
 	
 	/*if (App->want_to_load == true)
 	{
@@ -242,7 +242,6 @@ void j1Scene::LoadLevel(int level)
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 
 	
-
 	if (scene_starts == true)
 	{
 		scene_starts = false;
