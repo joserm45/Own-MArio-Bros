@@ -85,6 +85,10 @@ public:
 	bool played = false;
 	bool dead = false;
 
+	uint jump_height = 0;
+	bool jump1_on = false;
+	bool jump2_on = false;
+
 private:
 	SDL_Texture * text_player = nullptr;
 	//uint velocity_y = 0;
@@ -92,8 +96,7 @@ private:
 	
 	bool jumping_over = false;
 	bool back = false;
-	bool jump1_on = false;
-	bool jump2_on = false;
+	
 
 	bool init_timer = false;
 
@@ -119,7 +122,7 @@ private:
 	Animation god_right_duck;
 	Animation god_left_duck;
 
-	uint jump_height = 0;
+	
 	
 
 	Collider* quadrant1 = nullptr;
