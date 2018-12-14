@@ -45,6 +45,7 @@ public:
 	bool Save(pugi::xml_node&)const;
 	bool Load(pugi::xml_node&);
 
+	bool start_scene = false;
 	bool saved = false;
 	bool scene_starts = false;
 	bool god_mode = false;

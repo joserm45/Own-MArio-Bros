@@ -45,10 +45,12 @@ public:
 	bool CleanUp();
 
 	// TODO 2: Create the factory methods
-	// Gui creation functions
-	void CreateObject(TYPE_OBJECT obj, iPoint pos, SDL_Rect rect, char* label_text = nullptr);
+	// Gui creation functionse
+	void CreateObject(TYPE_OBJECT obj, iPoint pos, SDL_Rect rect, SDL_Rect press, SDL_Rect hover, BUTTON_TYPE btn_type, char* label_text = nullptr);
 	void DeleteObject(j1Object* obj);
 
+	bool OnHover(SDL_Rect rect);
+	virtual	const bool Trigger(j1Object* obj);
 	//virtual Blit();
 
 	SDL_Texture* GetAtlas() const;

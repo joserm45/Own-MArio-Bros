@@ -5,7 +5,7 @@ j1Slider::j1Slider() {}
 
 j1Slider::j1Slider(iPoint pos, SDL_Rect rect, char* label_text)
 {
-	this->type = SLIDER;
+	//this->type = SLIDER;
 	this->position = pos;
 	this->atlas_pos = rect;
 	

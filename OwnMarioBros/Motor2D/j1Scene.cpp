@@ -36,27 +36,26 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	scene_starts = true;
-	if (current_lvl == 1)
+	/*if (current_lvl == 1)
 	{
-		//App->map->Load("lvl1.tmx");
+		App->map->Load("lvl1.tmx");
 		App->audio->PlayMusic("audio/music/lvl_1.ogg");
-		App->audio->LoadFx("audio/music/jump.wav");
-		App->audio->LoadFx("audio/music/double_jump.wav"); 
-		death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
-		level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
+
 	}
 	else if (current_lvl == 2)
 	{
 		App->map->Load("lvl2.tmx");
 		App->audio->PlayMusic("audio/music/lvl_2.ogg");
-		App->audio->LoadFx("audio/jump.wav");
-		App->audio->LoadFx("audio/double_jump.wav");
-		death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
-		level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
-	}
 
+	}*/
+
+	App->audio->LoadFx("audio/music/jump.wav");
+	App->audio->LoadFx("audio/music/double_jump.wav");
+	death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
+	level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
 	//App->entity_manager->CreateEntities();
-	//LoadLevel(1);
+	if(start_scene == true)
+		LoadLevel(1);
 	
 	return true;
 }
@@ -242,9 +241,9 @@ void j1Scene::LoadLevel(int level)
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 
 	
-	if (scene_starts == true)
+	if (scene_starts == false)
 	{
-		scene_starts = false;
+		scene_starts = true;
 	}
 	else
 	{
