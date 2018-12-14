@@ -40,13 +40,47 @@ bool j1Gui::Start()
 
 	SDL_Rect rect = { 0,0,1024,240 };
 
-	CreateObject(IMAGE, {1110,0}, rect);
+	//intro menu background
+	CreateObject(IMAGE, {0,0}, rect); //background image intro menu
+	CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
+	CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
+	CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
+	CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu
 
-	CreateObject(IMAGE, { 500,200 }, { 0,480, 325,162 });
+	//buttons intro menu 
+	//CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(IMAGE, { 582,44 }, { 441,480,92,21 }); //button start CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(LABEL, { 609,46 }, {NULL,NULL,NULL,NULL}, "START"); //text start
+	CreateObject(IMAGE, { 582,68 }, { 441,543,92,21 }); //button unclickable continue CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(LABEL, { 597,70 }, { NULL,NULL,NULL,NULL }, "CONTINUE");//text continue
+	CreateObject(IMAGE, { 582,92 }, { 441,480,92,21 }); //button settings CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(LABEL, { 600,94 }, { NULL,NULL,NULL,NULL }, "SETTINGS");//text settings
+	CreateObject(IMAGE, { 582,116 }, { 441,480,92,21 }); //button credits CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(LABEL, { 604,118 }, { NULL,NULL,NULL,NULL }, "CREDITS");//text credits
+	CreateObject(IMAGE, { 582,140 }, { 441,480,92,21 }); //button exit CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(LABEL, { 617,142}, { NULL,NULL,NULL,NULL }, "EXIT");//text exit
 
-	CreateObject(IMAGE, { 0,0 }, { 325,480,116,150 });
 
-	CreateObject(LABEL, { 0,0 }, {NULL,NULL,NULL,NULL}, "Hello World");
+	/*
+	Intro Menu Background ({0,0,1024,240 });
+	Super Mario Bros Box con Texto ({ 0,480, 325,162 });
+	Box donde se ponen los botones ({ 325,480,116,150 });
+	Boton Normal ({ 441,480,92,21 });
+	Boton Hover ({ 441,501,92,21 });
+	Boton On Click ({ 441,522,92,21 });
+	Boton Unclickable (para el continue) ({ 441,543,92,21 });
+	Box Fondo para texto solo (como el boton pero para poner por ejemplo "Volume" y abajo el slider) ({ 441,564,92,21 });
+	Settings/Credits Menu Background ({ 0,240,1024,240 });
+	Slider Fondo ({ 533,460,135,10 });
+	Pon estos una posicion mas abajo del slider fondo para que el circulito ese este en medio:
+	Slider Circulo Normal ({ 668,480,8,8 });
+	Slider Circulo on Click ({ 676,480,8,8 });
+
+	Mario ({ 533,490,16,32 });
+	Goomba ({ 549,490,16,16 });
+	Coin In game UI ({ 565,490,10,14 });
+	*/
+
 	return true;
 }
 
