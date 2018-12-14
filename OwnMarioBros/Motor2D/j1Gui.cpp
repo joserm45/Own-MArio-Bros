@@ -53,8 +53,7 @@ bool j1Gui::Start()
 
 	//buttons intro menu 
 	//CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },PLAY);
-	//CreateObject(IMAGE, { 582,44 }, { 441,480,92,21 }); //button start CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },PLAY); //button start CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
 	CreateObject(LABEL, { 605,50 }, {NULL,NULL,NULL,NULL},{ NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
 	/*CreateObject(IMAGE, { 582,68 }, { 441,543,92,21 }); //button unclickable continue CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
 	CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, "CONTINUE");//text continue
@@ -124,6 +123,13 @@ bool j1Gui::Update(float dt)
 				item->data->active = true;
 				item->data->Draw();
 			}
+			else
+			{
+				item->data->mouse_hover = false;
+				item->data->clicked = false;
+				item->data->Draw();
+			}
+
 
 
 		}

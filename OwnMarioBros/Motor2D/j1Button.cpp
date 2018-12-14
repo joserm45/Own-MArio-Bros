@@ -30,6 +30,10 @@ void j1Button::Draw()
 	{
 		App->render->Blit(App->gui->GetAtlas(), position.x, position.y, &hover);
 	}
+	else if (mouse_hover == false)
+	{
+		App->render->Blit(App->gui->GetAtlas(), position.x, position.y, &atlas_pos);
+	}
 }
 
 void j1Button::OnClick(j1Object * obj)
