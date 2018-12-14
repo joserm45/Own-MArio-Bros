@@ -50,15 +50,15 @@ bool j1Gui::Start()
 	//buttons intro menu 
 	//CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
 	CreateObject(IMAGE, { 582,44 }, { 441,480,92,21 }); //button start CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 609,46 }, {NULL,NULL,NULL,NULL}, "START"); //text start
+	CreateObject(LABEL, { 605,50 }, {NULL,NULL,NULL,NULL}, "START"); //text start
 	CreateObject(IMAGE, { 582,68 }, { 441,543,92,21 }); //button unclickable continue CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 597,70 }, { NULL,NULL,NULL,NULL }, "CONTINUE");//text continue
+	CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, "CONTINUE");//text continue
 	CreateObject(IMAGE, { 582,92 }, { 441,480,92,21 }); //button settings CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 600,94 }, { NULL,NULL,NULL,NULL }, "SETTINGS");//text settings
+	CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, "SETTINGS");//text settings
 	CreateObject(IMAGE, { 582,116 }, { 441,480,92,21 }); //button credits CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 604,118 }, { NULL,NULL,NULL,NULL }, "CREDITS");//text credits
+	CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, "CREDITS");//text credits
 	CreateObject(IMAGE, { 582,140 }, { 441,480,92,21 }); //button exit CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 617,142}, { NULL,NULL,NULL,NULL }, "EXIT");//text exit
+	CreateObject(LABEL, { 611,146}, { NULL,NULL,NULL,NULL }, "EXIT");//text exit
 
 
 	/*
