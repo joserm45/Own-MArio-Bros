@@ -13,7 +13,7 @@ j1Label::j1Label(iPoint pos, char* label_text) : j1Object()
 	this->position = pos;
 	this->label_text = label_text;
 
-	font = App->fonts->Load("fonts\open_sans\OpenSans-Semibold", 12);
+	font = App->fonts->Load("fonts/open_sans/OpenSans-Semibold.ttf", 12);
 	text = App->fonts->Print(this->label_text, { 255,255,255,255 }, font);
 }
 
