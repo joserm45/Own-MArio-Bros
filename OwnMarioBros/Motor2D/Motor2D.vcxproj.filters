@@ -82,6 +82,9 @@
     <ClCompile Include="j1Button.cpp">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
     </ClCompile>
+    <ClCompile Include="j1Slider.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -187,6 +190,9 @@
       <Filter>Desenvolupament  ========\EntityManager</Filter>
     </ClInclude>
     <ClInclude Include="j1Button.h">
+      <Filter>Desenvolupament  ========\Modules\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Slider.h">
       <Filter>Desenvolupament  ========\Modules\UI</Filter>
     </ClInclude>
   </ItemGroup>
