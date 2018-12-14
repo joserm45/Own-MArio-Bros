@@ -81,6 +81,7 @@
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Enemy_Boo.cpp" />
     <ClCompile Include="Enemy_Goomba.cpp" />
+    <ClCompile Include="j1Button.cpp" />
     <ClCompile Include="j1Collision.cpp" />
     <ClCompile Include="j1EntityManager.cpp" />
     <ClCompile Include="j1FadeToBlack.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Enemy_Boo.h" />
     <ClInclude Include="Enemy_Goomba.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="j1Button.h" />
     <ClInclude Include="j1Collision.h" />
     <ClInclude Include="j1EntityManager.h" />
     <ClInclude Include="j1FadeToBlack.h" />

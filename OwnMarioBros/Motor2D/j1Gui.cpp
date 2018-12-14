@@ -103,6 +103,10 @@ bool j1Gui::Update(float dt)
 		{
 			item->data->Draw();
 		}
+		else if (item->data->type == BUTTON)
+		{
+			item->data->Draw();
+		}
 		item = item->next;
 	}
 	return true;
