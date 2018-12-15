@@ -34,3 +34,6 @@ bool GuiTrigger(j1Object* obj)
 	return true;
 }
 
+void j1Object::OnDrag(j1Object * obj)
+{
+}

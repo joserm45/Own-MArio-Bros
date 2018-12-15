@@ -17,11 +17,14 @@ public:
 	~j1Slider();
 
 	void Draw();
-
+	void OnDrag(j1Object * obj);
+	
 private:
 	TYPE_SLIDER type_slider;
 	uint max;
 	uint min;
+	iPoint prev_mouse;
+
 };
 
 

@@ -17,10 +17,8 @@ public:
 	//interaction
 	void OnClick(j1Object * obj);
 	const bool Trigger(j1Object* obj);
-
-public:
-
 	
+public:
 
 	SDL_Rect pressed;
 	SDL_Rect hover;

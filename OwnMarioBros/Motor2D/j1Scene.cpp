@@ -11,6 +11,7 @@
 #include "j1Player.h"
 #include "j1EntityManager.h"
 #include "j1FadeToBlack.h"
+#include "j1Gui.h"
 
 #include "Brofiler\Brofiler.h"
 
@@ -94,7 +95,11 @@ bool j1Scene::Update(float dt)
 		App->scene->saved = true;
 		App->LoadGame();
 	}
-
+	
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN)
+	{
+		App->gui->debug_UI = !App->gui->debug_UI;
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 		god_mode = !god_mode;

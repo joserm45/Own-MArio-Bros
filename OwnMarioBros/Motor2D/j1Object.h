@@ -47,6 +47,7 @@ public:
 	virtual void OnClick(j1Object * obj);
 	const bool GuiTrigger(j1Object* obj);
 
+	virtual void OnDrag(j1Object * obj);
 
 	TYPE_OBJECT type = UKNOWN;
 

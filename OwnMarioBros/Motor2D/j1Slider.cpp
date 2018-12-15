@@ -32,3 +32,23 @@ void j1Slider::Draw()
 {
 	App->render->Blit(App->gui->atlas, this->position.x, this->position.y, &atlas_pos);
 }
+
+void j1Slider::OnDrag(j1Object * obj)
+{
+	int x, y;
+	App->input->GetMousePosition(x, y);
+
+	if (mouse_hover == true && active == true)
+	{
+		if (y > prev_mouse.y)
+		{
+			if (position.y < max)
+				position.y += y - prev_mouse.y;
+		}
+		else if (y < prev_mouse.y)
+		{
+			if (position.y > min)
+				position.y -= prev_mouse.y - y;
+		}
+	}
+}

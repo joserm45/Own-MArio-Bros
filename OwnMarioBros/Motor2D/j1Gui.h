@@ -53,16 +53,19 @@ public:
 	virtual	const bool Trigger(j1Object* obj);
 	//virtual Blit();
 
+	void DrawDebugUI(j1Object* obj) const;
+
 	SDL_Texture* GetAtlas() const;
 
 public:
 
 	p2List<j1Object*> objects;
 	SDL_Texture* atlas;
-
+	bool debug_UI = false;
 private:
 
 	p2SString atlas_file_name;
+	
 };
 
 #endif // __j1GUI_H__

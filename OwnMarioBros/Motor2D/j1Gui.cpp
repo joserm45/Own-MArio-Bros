@@ -97,6 +97,14 @@ bool j1Gui::PreUpdate()
 // Update all guis
 bool j1Gui::Update(float dt)
 {
+	if (debug_UI == true)
+	{
+		for (int i = 0; i < objects.count(); i++)
+		{
+			DrawDebugUI(objects[i]);
+		}
+	}
+
 	p2List_item<j1Object*>* item = objects.start;
 	while (item != nullptr)
 	{
@@ -141,6 +149,10 @@ bool j1Gui::Update(float dt)
 		else if (item->data->type == SLIDER)
 		{
 			item->data->Draw();
+			if (OnHover({ item->data->position.x,item->data->position.y,item->data->atlas_pos.w,item->data->atlas_pos.h }) && App->input->GetMouseButtonDown(1) == KEY_DOWN)
+			{
+				item->data->OnDrag(item->data);
+			}
 		}
 		item = item->next;
 	}
@@ -241,6 +253,15 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CleanUp();
 		App->scene->start_scene = true;
 		App->scene->Start();
+		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
+		CreateObject(LABEL, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
+		CreateObject(LABEL, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "3");
+		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
+		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
+		CreateObject(LABEL, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
+		CreateObject(LABEL, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
 		break;
 	}
 	case CONTINUEON:
@@ -321,5 +342,10 @@ SDL_Texture* j1Gui::GetAtlas() const
 	return atlas;
 }
 
+void j1Gui::DrawDebugUI(j1Object* obj) const
+{
+	SDL_Rect quad = { obj->position.x, obj->position.y , obj->atlas_pos.w , obj->atlas_pos.h };
+	App->render->DrawQuad(quad, 255, 255, 255, 255, false);
+}
 // class Gui ---------------------------------------------------
 
