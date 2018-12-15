@@ -53,6 +53,8 @@ public:
 	float current_time = 0;
 	float init_time = 0;
 
+	bool in_game = false;
+
 private:
 };
 

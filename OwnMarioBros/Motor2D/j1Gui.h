@@ -62,6 +62,7 @@ public:
 	p2List<j1Object*> objects;
 	SDL_Texture* atlas;
 	bool debug_UI = false;
+	bool game_paused = false;
 private:
 
 	p2SString atlas_file_name;
