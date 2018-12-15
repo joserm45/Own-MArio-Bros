@@ -20,7 +20,8 @@ enum TYPE_OBJECT
 enum BUTTON_TYPE
 {
 	PLAY,
-	CONTINUE,
+	CONTINUEON,
+	CONTINUEOFF,
 	SETTINGS,
 	CREDITS,
 	EXIT,
@@ -53,7 +54,7 @@ public:
 	iPoint camera_pos = { 0,0 };
 
 	SDL_Rect atlas_pos = { 0,0,0,0 };
-
+	BUTTON_TYPE button_type;
 	bool mouse_hover = false;
 	bool clicked = false;
 	bool active = false;

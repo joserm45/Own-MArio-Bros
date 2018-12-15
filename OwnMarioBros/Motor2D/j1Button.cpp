@@ -21,18 +21,14 @@ j1Button::~j1Button()
 
 void j1Button::Draw()
 {
-
-	if (mouse_hover == true && clicked == true)
+	App->render->Blit(App->gui->GetAtlas(), position.x, position.y, &atlas_pos);
+	if (mouse_hover == true && clicked == true && active == true)
 	{
 		App->render->Blit(App->gui->GetAtlas(), position.x, position.y, &pressed);
 	}
-	else if (mouse_hover == true)
+	else if (mouse_hover == true && active == true)
 	{
 		App->render->Blit(App->gui->GetAtlas(), position.x, position.y, &hover);
-	}
-	else if (mouse_hover == false)
-	{
-		App->render->Blit(App->gui->GetAtlas(), position.x, position.y, &atlas_pos);
 	}
 }
 

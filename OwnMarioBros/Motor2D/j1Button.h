@@ -20,7 +20,7 @@ public:
 
 public:
 
-	BUTTON_TYPE button_type;
+	
 
 	SDL_Rect pressed;
 	SDL_Rect hover;
