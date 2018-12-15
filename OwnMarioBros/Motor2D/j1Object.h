@@ -7,6 +7,7 @@
 #include "p2SString.h"
 #include "j1App.h"
 #include "j1Input.h"
+#include "j1Fonts.h"
 
 enum TYPE_OBJECT
 {
@@ -61,6 +62,9 @@ public:
 	bool clicked = false;
 	bool active = false;
 	//_TTF_Font* font;
+	_TTF_Font* font = nullptr;
+	SDL_Texture* text = nullptr;
+	char* label_text;
 };
 #endif // !j1Object_H_
 

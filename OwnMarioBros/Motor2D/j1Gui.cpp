@@ -99,14 +99,7 @@ bool j1Gui::PreUpdate()
 // Update all guis
 bool j1Gui::Update(float dt)
 {
-	if (debug_UI == true)
-	{
-		for (int i = 0; i < objects.count(); i++)
-		{
-			DrawDebugUI(objects[i]);
-		}
-	}
-
+	
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("save_game.xml");;
 
@@ -172,6 +165,22 @@ bool j1Gui::Update(float dt)
 				item->data->OnDrag(item->data);
 			}
 		}
+
+		if (debug_UI == true)
+		{
+			SDL_Rect quad;
+			if (item->data->type != LABEL)
+			{
+				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, item->data->atlas_pos.w,item->data->atlas_pos.h };
+			}
+			else if (item->data->type == LABEL)
+			{
+				App->fonts->CalcSize(item->data->label_text, width_font, height_font, item->data->font);
+				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
+			}
+			App->render->DrawQuad(quad, 255, 255, 0, 255, false);
+		}
+
 		item = item->next;
 	}
 	return true;
@@ -419,10 +428,5 @@ SDL_Texture* j1Gui::GetAtlas() const
 	return atlas;
 }
 
-void j1Gui::DrawDebugUI(j1Object* obj) const
-{
-	SDL_Rect quad = { obj->position.x, obj->position.y , obj->atlas_pos.w , obj->atlas_pos.h };
-	App->render->DrawQuad(quad, 255, 255, 255, 255, false);
-}
 // class Gui ---------------------------------------------------
 

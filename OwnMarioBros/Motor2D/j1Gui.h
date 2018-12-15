@@ -54,7 +54,6 @@ public:
 
 	//virtual Blit();
 
-	void DrawDebugUI(j1Object* obj) const;
 
 	SDL_Texture* GetAtlas() const;
 
@@ -68,7 +67,8 @@ public:
 private:
 
 	p2SString atlas_file_name;
-	
+	int width_font = 0;
+	int height_font = 0;
 };
 
 #endif // __j1GUI_H__

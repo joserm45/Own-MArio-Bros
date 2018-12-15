@@ -20,9 +20,7 @@ public:
 
 public:
 
-	_TTF_Font* font = nullptr;
-	SDL_Texture* text = nullptr;
-	char* label_text;
+	
 };
 
 #endif // !j1Label_H__
