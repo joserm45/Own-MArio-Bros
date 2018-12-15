@@ -530,7 +530,10 @@ void j1Player::LoadAnimation()
 void j1Player::Input(float dt)
 {
 	//Movement
-
+	if (position.x < 0)
+	{
+		position.x = 80;
+	}
 	//duck
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 	{

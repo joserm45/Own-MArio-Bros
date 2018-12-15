@@ -66,7 +66,7 @@ public:
 	bool Falling();
 	bool Jump();
 	void Input(float dt);
-	void LoadPlayerFromTiled();
+	//void LoadPlayerFromTiled();
 
 
 public:

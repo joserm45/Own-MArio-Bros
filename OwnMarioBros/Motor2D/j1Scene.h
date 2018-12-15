@@ -47,13 +47,14 @@ public:
 
 	bool start_scene = false;
 	bool saved = false;
-	bool scene_starts = false;
+	bool scene_menu = false;
+	bool in_game = false;
 	bool god_mode = false;
 
 	float current_time = 0;
 	float init_time = 0;
 
-	bool in_game = false;
+
 
 private:
 };

@@ -40,6 +40,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
+	App->scene->scene_menu = true;
 	atlas = App->tex->Load(atlas_file_name.GetString());
 
 	SDL_Rect rect = { 0,0,1024,240 };
@@ -167,7 +168,7 @@ bool j1Gui::PostUpdate()
 		if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		{
 			game_paused = true;
-			//App->scene->scene_starts == true;
+			//App->scene->scene_menu == true;
 			SDL_SetTextureAlphaMod(App->gui->atlas, 170);
 			//CreateObject(IMAGE, { App->render->camera.x,App->render->camera.y }, { 0,0,1024,240 });
 			//ret = false;
@@ -287,7 +288,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 	{
 		game_paused = false;
 		CleanUp();
-		App->scene->scene_starts = true;
+		App->scene->scene_menu = false;
 		App->scene->in_game = true;
 		App->scene->Start();
 		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
@@ -368,15 +369,17 @@ const bool j1Gui::Trigger(j1Object* obj)
 	}
 	case SAVEANDRESUME:
 	{
-
+		App->SaveGame();
+		game_paused = false;
 		break;
 	}
 	case SAVEANDEXIT:
 	{
-
+		App->SaveGame();
+		exit(0);
 		break;
 	}
-	case WEBSITE:
+	case WEBSITE: 
 	{
 		ShellExecute(NULL, "open", "https://", NULL, NULL, SW_SHOWNORMAL);
 		break;

@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
 	level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
 	//App->entity_manager->CreateEntities();
-	if(scene_starts == true)
+	if(in_game == true)
 		LoadLevel(1);
 	
 	return true;
@@ -225,7 +225,8 @@ bool j1Scene::PostUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
-		scene_starts == true;
+		scene_menu = false;
+		in_game = false;
 
 		//ret = false;
 	}
@@ -247,9 +248,9 @@ void j1Scene::LoadLevel(int level)
 	BROFILER_CATEGORY("LoadLevel", Profiler::Color::Navy);
 
 	
-	if (scene_starts == false)
+	if (in_game == false)
 	{
-		scene_starts = true;
+		in_game = true;
 	}
 	else
 	{
