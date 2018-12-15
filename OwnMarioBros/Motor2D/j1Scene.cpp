@@ -215,10 +215,11 @@ bool j1Scene::PostUpdate()
 	{
 		App->audio->StopMusic();
 		//App->audio->PlayFx(App->scene->level_sound);
-		App->entity_manager->player->moving = false;
+		if(App->entity_manager->player != nullptr)
+			App->entity_manager->player->moving = false;
 
 		//LoadLevel(current_lvl);
-
+		if (App->entity_manager->player != nullptr)
 		App->entity_manager->player->entity_state = IDLE;
 
 	}
@@ -226,7 +227,6 @@ bool j1Scene::PostUpdate()
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 	{
 		scene_menu = false;
-		in_game = false;
 
 		//ret = false;
 	}

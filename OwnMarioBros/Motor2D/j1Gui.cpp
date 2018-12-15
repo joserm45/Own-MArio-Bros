@@ -55,7 +55,7 @@ bool j1Gui::Start()
 	//buttons intro menu 
 	CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },PLAY); //button start 
 	CreateObject(LABEL, { 605,50 }, {NULL,NULL,NULL,NULL},{ NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-	CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUEOFF); //button unclickable continue 
+	CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUE); //button unclickable continue 
 	CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
 	CreateObject(BUTTON, { 582,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
 	CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
@@ -106,6 +106,9 @@ bool j1Gui::Update(float dt)
 		}
 	}
 
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("save_game.xml");;
+
 	p2List_item<j1Object*>* item = objects.start;
 	while (item != nullptr)
 	{
@@ -119,27 +122,40 @@ bool j1Gui::Update(float dt)
 		}
 		else if (item->data->type == BUTTON)
 		{
-			if (OnHover({ item->data->position.x,item->data->position.y,item->data->atlas_pos.w,item->data->atlas_pos.h }) && App->input->GetMouseButtonDown(1) == KEY_DOWN)
+			if (OnHover({ item->data->position.x,item->data->position.y,item->data->atlas_pos.w,item->data->atlas_pos.h }) && App->input->GetMouseButtonDown(1) == KEY_DOWN)// mouse down print
 			{
 				item->data->mouse_hover = true;
 				item->data->clicked = true;
-				if (item->data->button_type != CONTINUEOFF)
+				if (item->data->button_type != CONTINUE)
 				{
 					item->data->active = true;
+					item->data->Draw();
+					item->data->OnClick(item->data);
 				}
-				item->data->Draw();
-				item->data->OnClick(item->data);
+				else if (item->data->button_type == CONTINUE && result)
+				{
+					item->data->active = true;
+					item->data->Draw();
+					item->data->OnClick(item->data);
+				}
+
 			}
-			else if (OnHover({ item->data->position.x,item->data->position.y,item->data->atlas_pos.w,item->data->atlas_pos.h }))
+			else if (OnHover({ item->data->position.x,item->data->position.y,item->data->atlas_pos.w,item->data->atlas_pos.h })) // hover print
 			{
 				item->data->mouse_hover = true;
-				if (item->data->button_type != CONTINUEOFF)
+				if (item->data->button_type != CONTINUE)
 				{
 					item->data->active = true;
+					item->data->Draw();
 				}
-				item->data->Draw();
+				else if (item->data->button_type == CONTINUE && result == true)
+				{
+
+					item->data->active = true;
+					item->data->Draw();
+				}
 			}
-			else
+			else if (item->data->button_type != CONTINUE || item->data->button_type == CONTINUE && result == true)
 			{
 				item->data->mouse_hover = false;
 				item->data->clicked = false;
@@ -163,34 +179,36 @@ bool j1Gui::Update(float dt)
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
-	if (App->scene->in_game == true)
+	//TODO
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->scene->in_game == true)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		{
-			game_paused = true;
-			//App->scene->scene_menu == true;
-			SDL_SetTextureAlphaMod(App->gui->atlas, 170);
-			//CreateObject(IMAGE, { App->render->camera.x,App->render->camera.y }, { 0,0,1024,240 });
-			//ret = false;
-			/*CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
-			CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
-			CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
-			CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
+		App->scene->in_game = false;
+		game_paused = true;
+		//App->scene->scene_menu == true;
+		SDL_SetTextureAlphaMod(App->gui->atlas, 170);
+		//CreateObject(IMAGE, { App->render->camera.x,App->render->camera.y }, { 0,0,1024,240 });
+		//ret = false;
+		/*CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
+		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
+		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
+		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
 			
-			CreateObject(IMAGE, { 570 - (App->render->camera.x * 1),27 }, { 325,480,116,150 }); //box image below buttons intro menu
-			//CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
-			CreateObject(BUTTON, {582 - (App->render->camera.x * 1),44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
-			CreateObject(LABEL, {  605 - (App->render->camera.x * 1),50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-			CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUEON); //button unclickable continue 
-			CreateObject(LABEL, { 589 - (App->render->camera.x * 1),74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
-			CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
-			CreateObject(LABEL, { 590 - (App->render->camera.x * 1),98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
-			CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
-			CreateObject(LABEL, { 594 - (App->render->camera.x * 1),122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
-			CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
-			CreateObject(LABEL, { 611 - (App->render->camera.x * 1),146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
-		}
+		CreateObject(IMAGE, { 570 - (App->render->camera.x * 1),27 }, { 325,480,116,150 }); //box image below buttons intro menu
+		//CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
+		CreateObject(BUTTON, {582 - (App->render->camera.x * 1),44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
+		CreateObject(LABEL, {  605 - (App->render->camera.x * 1),50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
+		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, RESUME); //button unclickable continue 
+		CreateObject(LABEL, { 589 - (App->render->camera.x * 1),74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
+		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
+		CreateObject(LABEL, { 590 - (App->render->camera.x * 1),98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
+		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
+		CreateObject(LABEL, { 594 - (App->render->camera.x * 1),122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
+		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
+		CreateObject(LABEL, { 611 - (App->render->camera.x * 1),146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
+		
+		SDL_SetTextureAlphaMod(App->gui->atlas, 255);
 	}
+	
 
 	return true;
 }
@@ -302,16 +320,25 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(LABEL, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
 		break;
 	}
-	case CONTINUEON:
+	case RESUME:
 	{
 		game_paused = false;
 		App->scene->in_game = true;
 		p2List_item<j1Object*>* item = objects.end;
-		while (item->data->position.x != 940)
+		while (item->data->position.y != 32)
 		{
 			objects.del(item);
 			item = item->prev;
 		}
+		break;
+	}
+	case CONTINUE:
+	{
+		App->collision->active = true;
+		App->entity_manager->active = true;
+		
+		CleanUp();
+		App->LoadGame();
 		break;
 	}
 	case SETTINGS:
@@ -365,12 +392,6 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
 		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
 		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
-		break;
-	}
-	case SAVEANDRESUME:
-	{
-		App->SaveGame();
-		game_paused = false;
 		break;
 	}
 	case SAVEANDEXIT:
