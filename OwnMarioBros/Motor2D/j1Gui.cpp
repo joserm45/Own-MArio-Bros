@@ -162,6 +162,14 @@ bool j1Gui::Update(float dt)
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	{
+		App->scene->scene_starts == true;
+		SDL_SetTextureAlphaMod(App->gui->atlas, 170);
+		CreateObject(IMAGE, { App->render->camera.x,App->render->camera.y }, { 0,0,1024,240 });
+		//ret = false;
+	}
+
 	return true;
 }
 
