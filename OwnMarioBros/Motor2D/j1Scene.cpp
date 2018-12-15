@@ -183,7 +183,6 @@ bool j1Scene::Update(float dt)
 		App->audio->PlayFx(App->scene->death_sound);
 		App->entity_manager->player->moving = false;
 
-
 		LoadLevel(current_lvl);
 		App->entity_manager->player->dead = false;
 		App->entity_manager->player->entity_state = IDLE;
@@ -194,9 +193,6 @@ bool j1Scene::Update(float dt)
 		App->audio->StopMusic();
 		//App->audio->PlayFx(App->scene->level_sound);
 		App->entity_manager->player->moving = false;
-
-		LoadLevel(current_lvl);
-		App->want_to_load = false;
 
 		App->entity_manager->player->entity_state = IDLE;
 		
@@ -227,8 +223,11 @@ bool j1Scene::PostUpdate()
 
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	{
+		//ret = false;
+	}
+
 
 	return ret;
 }
