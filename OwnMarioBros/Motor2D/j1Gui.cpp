@@ -169,6 +169,12 @@ bool j1Gui::PostUpdate()
 bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
+	/*p2List_item<j1Object*>* item = objects.start;
+	while (item != nullptr)
+	{
+		SDL_DestroyTexture(item->data->atlas_pos);
+		item = item->next;
+	}*/
 	objects.clear();
 
 	return true;
@@ -251,7 +257,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 	case PLAY:
 	{
 		CleanUp();
-		App->scene->start_scene = true;
+		App->scene->scene_starts = true;
 		App->scene->Start();
 		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
 		CreateObject(LABEL, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");

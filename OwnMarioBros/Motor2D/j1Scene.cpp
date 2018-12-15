@@ -36,7 +36,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	scene_starts = true;
+
 	/*if (current_lvl == 1)
 	{
 		App->map->Load("lvl1.tmx");
@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
 	level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
 	//App->entity_manager->CreateEntities();
-	if(start_scene == true)
+	if(scene_starts == true)
 		LoadLevel(1);
 	
 	return true;
@@ -177,7 +177,7 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	/*if (App->entity_manager->player->dead == true)
+	if (App->entity_manager->player != NULL && App->entity_manager->player->dead == true)
 	{
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->death_sound);
@@ -187,9 +187,9 @@ bool j1Scene::Update(float dt)
 		LoadLevel(current_lvl);
 		App->entity_manager->player->dead = false;
 		App->entity_manager->player->entity_state = IDLE;
-	}*/
+	}
 	
-	/*if (App->want_to_load == true)
+	if (App->want_to_load == true)
 	{
 		App->audio->StopMusic();
 		//App->audio->PlayFx(App->scene->level_sound);
@@ -200,7 +200,7 @@ bool j1Scene::Update(float dt)
 
 		App->entity_manager->player->entity_state = IDLE;
 		
-	}*/
+	}
 
 	return true;
 }

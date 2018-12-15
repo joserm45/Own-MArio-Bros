@@ -143,6 +143,7 @@ public:
 		while(p_data != NULL)
 		{
 			p_next = p_data->next;
+
 			RELEASE(p_data);
 			p_data = p_next;
 		}
