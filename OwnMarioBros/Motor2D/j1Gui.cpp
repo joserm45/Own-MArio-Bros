@@ -41,6 +41,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	App->scene->scene_menu = true;
+
 	atlas = App->tex->Load(atlas_file_name.GetString());
 
 	SDL_Rect rect = { 0,0,1024,240 };
@@ -193,20 +194,20 @@ bool j1Gui::PostUpdate()
 		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
 		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
 			
-		CreateObject(IMAGE, { 570 - (App->render->camera.x * 1),27 }, { 325,480,116,150 }); //box image below buttons intro menu
+		CreateObject(IMAGE, { 570 ,27 }, { 325,480,116,150 }); //box image below buttons intro menu
 		//CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
-		CreateObject(BUTTON, {582 - (App->render->camera.x * 1),44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
-		CreateObject(LABEL, {  605 - (App->render->camera.x * 1),50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, RESUME); //button unclickable continue 
-		CreateObject(LABEL, { 589 - (App->render->camera.x * 1),74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
-		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
-		CreateObject(LABEL, { 590 - (App->render->camera.x * 1),98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
-		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
-		CreateObject(LABEL, { 594 - (App->render->camera.x * 1),122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
-		CreateObject(BUTTON, { 582 - (App->render->camera.x * 1),140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
-		CreateObject(LABEL, { 611 - (App->render->camera.x * 1),146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
+		CreateObject(BUTTON, {582 ,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
+		CreateObject(LABEL, {  605 ,50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
+		CreateObject(BUTTON, { 582 ,68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, RESUME); //button unclickable continue 
+		CreateObject(LABEL, { 589 ,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
+		CreateObject(BUTTON, { 582 ,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
+		CreateObject(LABEL, { 590 ,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
+		CreateObject(BUTTON, { 582 ,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
+		CreateObject(LABEL, { 594 ,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
+		CreateObject(BUTTON, { 582 ,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
+		CreateObject(LABEL, { 611 ,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
 		
-		SDL_SetTextureAlphaMod(App->gui->atlas, 255);
+		
 	}
 	
 
@@ -408,6 +409,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 	default:
 		break;
 	}
+	SDL_SetTextureAlphaMod(App->gui->atlas, 255);
 	return true;
 }
 

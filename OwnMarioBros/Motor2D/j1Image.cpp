@@ -16,5 +16,5 @@ j1Image::~j1Image()
 
 void j1Image::Draw()
 {
-	App->render->Blit(App->gui->atlas, this->position.x, this->position.y, &atlas_pos);
+	App->render->Blit(App->gui->atlas, (this->position.x - App->render->camera.x), this->position.y, &atlas_pos);
 }

@@ -44,13 +44,14 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	// TODO 2: Create the factory methods
-	// Gui creation functionse
+	// Create the factory methods
+	// Gui creation functions
 	void CreateObject(TYPE_OBJECT obj, iPoint pos, SDL_Rect rect = { NULL,NULL,NULL,NULL }, SDL_Rect press = { NULL,NULL,NULL,NULL }, SDL_Rect hover = { NULL,NULL,NULL,NULL }, BUTTON_TYPE btn_type = NONE, char* label_text = nullptr);
 	void DeleteObject(j1Object* obj);
 
 	bool OnHover(SDL_Rect rect);
 	virtual	const bool Trigger(j1Object* obj);
+
 	//virtual Blit();
 
 	void DrawDebugUI(j1Object* obj) const;
@@ -63,6 +64,7 @@ public:
 	SDL_Texture* atlas;
 	bool debug_UI = false;
 	bool game_paused = false;
+
 private:
 
 	p2SString atlas_file_name;

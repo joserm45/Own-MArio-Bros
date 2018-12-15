@@ -30,5 +30,5 @@ j1Label::~j1Label()
 void j1Label::Draw()
 {
 
-	App->render->Blit(text, this->position.x, this->position.y);
+	App->render->Blit(text, (this->position.x - App->render->camera.x), this->position.y);
 }
