@@ -168,7 +168,7 @@ bool j1Gui::PostUpdate()
 		{
 			game_paused = true;
 			//App->scene->scene_starts == true;
-			//SDL_SetTextureAlphaMod(App->gui->atlas, 170);
+			SDL_SetTextureAlphaMod(App->gui->atlas, 170);
 			//CreateObject(IMAGE, { App->render->camera.x,App->render->camera.y }, { 0,0,1024,240 });
 			//ret = false;
 			/*CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
@@ -376,7 +376,11 @@ const bool j1Gui::Trigger(j1Object* obj)
 
 		break;
 	}
-
+	case WEBSITE:
+	{
+		ShellExecute(NULL, "open", "https://", NULL, NULL, SW_SHOWNORMAL);
+		break;
+	}
 	default:
 		break;
 	}

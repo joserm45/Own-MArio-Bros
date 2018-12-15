@@ -211,8 +211,13 @@ void j1App::PrepareUpdate()
 {
 	frame_count++;
 	last_sec_frame_count++;
+	if (App->gui->game_paused == true)
+	{
+		dt = 0;
+	}
+	else
+		dt = frame_time.ReadSec();
 
-	dt = frame_time.ReadSec();
 	frame_time.Start();
 }
 
