@@ -11,7 +11,7 @@
 #include "Entity.h"
 
 #define PLAYER_SPEED 112.0f
-#define PLAYER_JUMP 150.0f
+#define PLAYER_JUMP 171.0f
 #define ANIMATION_SPEED 0.165f
 #define GRAVITY 1.0f
 #define MARIO_HEIGHT 32

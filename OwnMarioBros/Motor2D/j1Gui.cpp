@@ -10,7 +10,7 @@
 #include "j1Image.h"
 #include "j1Fonts.h"
 #include "j1Scene.h"
-
+#include "j1Slider.h"
 #include "j1Button.h"
 
 
@@ -45,26 +45,27 @@ bool j1Gui::Start()
 	SDL_Rect rect = { 0,0,1024,240 };
 
 	//intro menu background
-	/*CreateObject(IMAGE, {0,0}, rect); //background image intro menu
+	//CreateObject(IMAGE, {0,0}, rect); //background image intro menu
 	CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
 	CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
 	CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
 	CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
 
 	//buttons intro menu 
-	//CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },PLAY); //button start CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
+	CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },PLAY); //button start 
 	CreateObject(LABEL, { 605,50 }, {NULL,NULL,NULL,NULL},{ NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-	/*CreateObject(IMAGE, { 582,68 }, { 441,543,92,21 }); //button unclickable continue CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, "CONTINUE");//text continue
-	CreateObject(IMAGE, { 582,92 }, { 441,480,92,21 }); //button settings CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, "SETTINGS");//text settings
-	CreateObject(IMAGE, { 582,116 }, { 441,480,92,21 }); //button credits CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, "CREDITS");//text credits
-	CreateObject(IMAGE, { 582,140 }, { 441,480,92,21 }); //button exit CHANGE IMAGE TO BUTTON WHEN BUTTON IS DONE!!!!!!!
-	CreateObject(LABEL, { 611,146}, { NULL,NULL,NULL,NULL }, "EXIT");//text exit*/
+	CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUE); //button unclickable continue 
+	CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
+	CreateObject(BUTTON, { 582,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
+	CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
+	CreateObject(BUTTON, { 582,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
+	CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
+	CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },EXIT); //button exit 
+	CreateObject(LABEL, { 611,146}, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
 
-
+	//trying slider
+	CreateObject(SLIDER, { 280,50 }, { 533,480,135,10 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "HORIZONTAL");
+	
 	/*
 	Intro Menu Background ({0,0,1024,240 });
 	Super Mario Bros Box con Texto ({ 0,480, 325,162 });
@@ -129,9 +130,11 @@ bool j1Gui::Update(float dt)
 				item->data->clicked = false;
 				item->data->Draw();
 			}
-
-
-
+		
+		}
+		else if (item->data->type == SLIDER)
+		{
+			item->data->Draw();
 		}
 		item = item->next;
 	}
@@ -172,6 +175,12 @@ void j1Gui::CreateObject(TYPE_OBJECT obj_type, iPoint pos, SDL_Rect rect, SDL_Re
 		j1Button* button = new j1Button(pos,rect,press,hover,btn_type);
 
 		objects.add(button);
+	}
+	else if (obj_type == SLIDER)
+	{
+		j1Slider* slider = new j1Slider(pos, rect, label_text);
+
+		objects.add(slider);
 	}
 
 }

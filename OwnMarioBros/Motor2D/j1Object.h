@@ -13,6 +13,7 @@ enum TYPE_OBJECT
 	LABEL,
 	IMAGE,
 	BUTTON,
+	SLIDER,
 	UKNOWN
 };
 

@@ -91,7 +91,7 @@ bool j1Player::Update(float dt)
 		{
  			if (Jump() != false)
 			{
-				position.y -= 100 * dt;
+				position.y -= 125 * dt;
 			}
 		}
 		else
