@@ -13,6 +13,7 @@
 #include "j1Slider.h"
 #include "j1Button.h"
 #include "j1Audio.h"
+#include "j1Map.h"
 
 
 j1Gui::j1Gui() : j1Module()
@@ -45,15 +46,18 @@ bool j1Gui::Start()
 	App->scene->scene_menu = true;
 	if (save_exit_menu)
 	{
+		App->tex->UnLoad(atlas);
+		App->map->UnloadMap();
 		App->entity_manager->DestroyEntities();
 		save_exit_menu = false;
 	}
+
 	atlas = App->tex->Load(atlas_file_name.GetString());
 
-	SDL_Rect rect = { 0,0,1024,240 };
+	//SDL_Rect rect = { 0,0,1024,240 };
 
 	//intro menu background
-	CreateObject(IMAGE, {0,0}, rect); //background image intro menu
+	CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
 	CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
 	CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
 	CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
@@ -470,8 +474,8 @@ const bool j1Gui::Trigger(j1Object* obj)
 	{
 		App->scene->in_game = false;
 		CleanUp();
-		Start();
-		/*CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
+		//Start();
+		CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
 		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
 		CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
 		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
@@ -489,7 +493,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
 		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
 		CreateObject(BUTTON, { 582,182 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, WEBSITE); //button web 
-		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web*/
+		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web
 		break;
 	}
 	case SAVEANDEXIT:
