@@ -62,7 +62,8 @@ bool j1Scene::Start()
 	if (in_game == true)
 	{
 		LoadLevel(1);
-		App->entity_manager->player->lives = 3;
+		if(App->entity_manager->player->lives == 0)
+			App->entity_manager->player->lives = 3;
 	}
 	
 	
@@ -221,16 +222,24 @@ bool j1Scene::Update(float dt)
 			//App->scene->LoadLevel(App->scene->current_lvl);
 			App->entity_manager->player->entity_state = IDLE;
 		}
-		
-		App->entity_manager->player->lives -= 1;
-
+		/*if()
+			App->entity_manager->player->lives -= 1;*/
+		if (App->entity_manager->player->lives < 0 || scene_lives < 0)
+		{
+			App->entity_manager->player->lives = 3;
+		}
+		scene_lives = App->entity_manager->player->lives;
+		App->gui->cont = 0;
 		if (App->entity_manager->player->lives == 0)
 		{
+			//App->gui->CleanUp();
+			//App->entity_manager->player->lives = 4;
 			App->gui->game_over = true;
 			App->entity_manager->player->dead = false;
 		}
 		else if (App->entity_manager->player->lives != 0)
 		{
+
 			LoadLevel(current_lvl);
 			App->entity_manager->player->dead = false;
 		}
@@ -283,7 +292,10 @@ bool j1Scene::PostUpdate()
 
 		//ret = false;
 	}
-
+	if (App->entity_manager->player != NULL && App->entity_manager->player->dead == true)
+	{
+		App->entity_manager->player->lives -= 1;
+	}
 
 	return ret;
 }

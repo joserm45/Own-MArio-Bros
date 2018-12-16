@@ -311,6 +311,26 @@ bool j1Gui::PostUpdate()
 		CreateObject(NUMBER, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
 		load_finish = false;
 	}
+	else if(App->scene->in_game == true && cont < 1)
+	{
+		CleanUp();
+		/*if(App->scene->start_scene != true)
+			App->scene->Start();*/
+		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
+		CreateObject(NUMBER, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->score);
+		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
+		CreateObject(NUMBER, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->lives);
+		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
+		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
+		CreateObject(NUMBER, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->num_coins);
+		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
+		CreateObject(NUMBER, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
+		cont++;
+	}
+	/*if (App->entity_manager->player != nullptr && App->entity_manager->player->lives == 0)
+	{
+		CleanUp();
+	}*/
 	p2List_item<j1Object*>* item = objects.start;
 	while (item != nullptr)
 	{
@@ -322,6 +342,7 @@ bool j1Gui::PostUpdate()
 
 		item = item->next;
 	}
+	App->scene->start_scene = false;
 	return true;
 }
 
@@ -431,6 +452,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CleanUp();
 		App->scene->scene_menu = false;
 		App->scene->in_game = true;
+		App->scene->start_scene = true;
 		App->scene->Start();
 		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
 		CreateObject(NUMBER, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->score);

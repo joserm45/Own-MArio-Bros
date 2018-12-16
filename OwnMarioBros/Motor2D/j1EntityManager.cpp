@@ -204,10 +204,10 @@ void j1EntityManager::CreateEntity(p2SString name, fPoint position)
 {
 	if (name == "player")
 	{
-		if (player != NULL)
+		/*if (player != NULL)
 		{
 			DestroyEntity(player);
-		}
+		}*/
 
 		player = new j1Player();
 

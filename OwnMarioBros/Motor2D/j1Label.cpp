@@ -3,6 +3,7 @@
 #include "j1Render.h"
 #include "p2SString.h"
 #include "j1FadeToBlack.h"
+#include "Brofiler\Brofiler.h"
 
 j1Label::j1Label() : j1Object()
 {
@@ -11,6 +12,7 @@ j1Label::j1Label() : j1Object()
 
 j1Label::j1Label(iPoint pos, uint* num_text) : j1Object()
 {
+	BROFILER_CATEGORY("LabelConstructorNumber", Profiler::Color::GreenYellow);
 	this->type = NUMBER;
 	this->position = pos;
 	this->number_text = num_text;
@@ -22,7 +24,7 @@ j1Label::j1Label(iPoint pos, uint* num_text) : j1Object()
 
 j1Label::j1Label(iPoint pos, char* label_text) : j1Object()
 {
-
+	BROFILER_CATEGORY("LabelConstructorNumber", Profiler::Color::SkyBlue);
 	this->type = LABEL;
 	this->position = pos;
 	this->label_text = label_text;
@@ -44,17 +46,21 @@ j1Label::~j1Label()
 
 void j1Label::Draw()
 {
-
+	BROFILER_CATEGORY("LabeDraw", Profiler::Color::Cyan);
 	if (type == NUMBER)
 	{
 		//if (App->fade_to_black->current_step != j1FadeToBlack::fade_to_black) // TODO: Crash when dies 2 times
 		//{
 			p2SString string;
 			if(number_text != nullptr)
-			sprintf_s(string.str, sizeof(string), "%i", *number_text);
+				sprintf_s(string.str, sizeof(string), "%i", *number_text);
 
 			App->tex->UnLoad(text);
 			text = App->tex->textures.add(App->fonts->Print(string.str, { 255,255,255,255 }, font))->data;
+			/*if ()
+			{
+
+			}*/
 		//}
 
 	}

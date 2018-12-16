@@ -56,7 +56,7 @@ bool j1Player::Start()
 	player_quadrant_1.y = position.y / TILE_WIDTH;
 	player_quadrant_2.y = (position.y + MARIO_HEIGHT) / TILE_WIDTH;
 
-
+	lives = App->scene->scene_lives;
 	return true;
 }
 

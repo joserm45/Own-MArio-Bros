@@ -8,20 +8,27 @@
 	<scene current_lvl="1" />
 	<entities>
 		<coin_position x="688" y="64" />
-		<boo_position x="192" y="128" />
+		<coin_position x="3200" y="64" />
+		<goomba_position x="1488" y="112" />
 		<coin_position x="1408" y="128" />
 		<coin_position x="2432" y="128" />
+		<coin_position x="2464" y="128" />
 		<coin_position x="1952" y="160" />
+		<goomba_position x="2704" y="160" />
 		<player>
-			<player_position x="520" y="177" />
+			<player_position x="743.712891" y="-138.866974" />
 			<coins value="1" />
-			<lives value="3" />
+			<lives value="0" />
 			<score value="110" />
-			<time value="14" />
+			<time value="35" />
 		</player>
 		<coin_position x="1072" y="192" />
 		<goomba_position x="1120" y="192" />
+		<coin_position x="1392" y="192" />
 		<goomba_position x="1424" y="192" />
+		<coin_position x="1456" y="192" />
+		<goomba_position x="1872" y="192" />
+		<goomba_position x="2336" y="192" />
 		<coin_position x="2960" y="192" />
 		<goomba_position x="2992" y="192" />
 		<coin_position x="3280" y="192" />

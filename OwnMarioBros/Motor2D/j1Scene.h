@@ -45,6 +45,11 @@ public:
 	uint click_sound = 0;
 	uint pause_sound = 0;
 
+	uint scene_score = 0;
+	uint scene_time_game = 0;
+	uint scene_num_coins = 0;
+	uint scene_lives = 0;
+
 	void LoadLevel(int level);
 	bool Save(pugi::xml_node&)const;
 	bool Load(pugi::xml_node&);

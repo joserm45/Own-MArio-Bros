@@ -66,6 +66,8 @@ public:
 	bool save_exit_menu = false;
 	bool game_over = false;
 	bool load_finish = false;
+
+	int cont = 0;
 private:
 
 	p2SString atlas_file_name;
