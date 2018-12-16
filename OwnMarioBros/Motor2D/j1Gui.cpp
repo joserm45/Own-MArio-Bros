@@ -12,6 +12,7 @@
 #include "j1Scene.h"
 #include "j1Slider.h"
 #include "j1Button.h"
+#include "j1Audio.h"
 
 
 j1Gui::j1Gui() : j1Module()
@@ -64,6 +65,8 @@ bool j1Gui::Start()
 	CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
 	CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 },EXIT); //button exit 
 	CreateObject(LABEL, { 611,146}, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
+	CreateObject(BUTTON, { 582,182 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, WEBSITE); //button web 
+	CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web
 
 	//trying slider
 	//CreateObject(SLIDER, { 280,50 }, { 533,480,135,10 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "HORIZONTAL");
@@ -87,6 +90,8 @@ bool j1Gui::Start()
 	Goomba ({ 549,490,16,16 });
 	Coin In game UI ({ 565,490,10,14 });
 	*/
+
+	App->audio->PlayMusic("audio/music/intro.ogg");
 
 	return true;
 }
@@ -192,6 +197,7 @@ bool j1Gui::PostUpdate()
 	//TODO
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->scene->in_game == true)
 	{
+		App->audio->PlayFx(App->scene->pause_sound);
 		//App->scene->paused = false
 		App->scene->in_game = false;
 		game_paused = true;
@@ -223,7 +229,7 @@ bool j1Gui::PostUpdate()
 		CreateObject(LABEL, { 468 ,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "MAIN MENU");//text main menu
 	}
 
-	else if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->scene->in_game == false)
+	else if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && game_paused == true)
 	{
 		game_paused = false;
 		App->scene->in_game = true;
@@ -429,13 +435,21 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
 		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
 		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
+		CreateObject(BUTTON, { 582,182 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, WEBSITE); //button web 
+		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web
 		break;
 	}
 	case SAVEANDEXIT:
 	{
+		App->audio->StopMusic();
+		App->audio->PlayMusic("audio/music/intro.ogg");
+		game_paused = false;
 		App->scene->in_game = false;
 		App->SaveGame();
 		CleanUp();
+
+		//TODO save and delete everything in game to return to main menu and when clicked continue load the game
+
 		//App->entity_manager->DestroyEntities();
 		CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
 		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
@@ -454,11 +468,13 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
 		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
 		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
+		CreateObject(BUTTON, { 582,182 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, WEBSITE); //button web 
+		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web
 		break;
 	}
 	case WEBSITE: 
 	{
-		ShellExecute(NULL, "open", "https://", NULL, NULL, SW_SHOWNORMAL);
+		ShellExecute(NULL, "open", "https://manavld.github.io/OwnMarioBros/", NULL, NULL, SW_SHOWNORMAL);
 		break;
 	}
 	default:

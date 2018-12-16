@@ -54,6 +54,9 @@ bool j1Scene::Start()
 	App->audio->LoadFx("audio/music/double_jump.wav");
 	death_sound = App->audio->LoadFx("audio/music/life_lost.ogg");
 	level_sound = App->audio->LoadFx("audio/music/level_clear.ogg");
+	coin_sound = App->audio->LoadFx("audio/music/coin.wav");
+	click_sound = App->audio->LoadFx("audio/music/click.wav");
+	pause_sound = App->audio->LoadFx("audio/music/pause.wav");
 	//App->entity_manager->CreateEntities();
 	if(in_game == true)
 		LoadLevel(1);

@@ -1,4 +1,6 @@
 #include "j1Button.h"
+#include "j1Audio.h"
+#include "j1Scene.h"
 
 j1Button::j1Button()
 {
@@ -36,9 +38,10 @@ void j1Button::OnClick(j1Object * obj)
 {
 	if (mouse_hover == true && active == true && clicked == true)
 	{
+		App->audio->PlayFx(App->scene->click_sound);
 		App->gui->Trigger(obj);
 		//App->audio->PlayFx(); TODO
-
+		
 	}
 }
 

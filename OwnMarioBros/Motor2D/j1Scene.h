@@ -41,6 +41,10 @@ public:
 	uint death_sound = 0;
 	uint level_sound = 0;
 
+	uint coin_sound = 0;
+	uint click_sound = 0;
+	uint pause_sound = 0;
+
 	void LoadLevel(int level);
 	bool Save(pugi::xml_node&)const;
 	bool Load(pugi::xml_node&);

@@ -63,6 +63,7 @@ bool Coin::Update(float dt)
 		if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 		{
 			num_coins + 1;
+			App->audio->PlayFx(App->scene->coin_sound);
 			dead = true;
 		}
 	}
