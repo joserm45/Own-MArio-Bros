@@ -50,7 +50,7 @@ public:
 	bool Load(pugi::xml_node&);
 
 	bool start_scene = false;
-	bool saved = false;
+	//bool saved = false;
 	bool scene_menu = false;
 	bool in_game = false;
 	bool god_mode = false;

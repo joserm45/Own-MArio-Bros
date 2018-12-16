@@ -51,10 +51,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entity_manager);
 	AddModule(collision);
 	AddModule(path_finding);
-	AddModule(fade_to_black);
 	AddModule(gui);
 	AddModule(fonts);
-
+	AddModule(fade_to_black);
 
 
 	// render last to swap buffer
@@ -479,6 +478,10 @@ bool j1App::SavegameNow() const
 	
 	data.save_file(save_game.GetString());
 	want_to_save = false;
+	if (App->gui->save_exit_menu == true)
+	{
+		App->gui->Start();
+	}
 	return ret;
 }
 float j1App::GetDT() const

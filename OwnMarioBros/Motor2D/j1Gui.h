@@ -63,6 +63,7 @@ public:
 	SDL_Texture* atlas;
 	bool debug_UI = false;
 	bool game_paused = false;
+	bool save_exit_menu = false;
 
 private:
 

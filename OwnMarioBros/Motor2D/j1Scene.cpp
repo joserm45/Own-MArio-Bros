@@ -90,12 +90,16 @@ bool j1Scene::Update(float dt)
 		LoadLevel(2);
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN || App->gui->save_exit_menu == true)
+	{
 		App->SaveGame();
+
+	}
+
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 	{
-		App->scene->saved = true;
+		//App->scene->saved = true;
 		App->LoadGame();
 	}
 	
@@ -191,15 +195,19 @@ bool j1Scene::Update(float dt)
 		App->entity_manager->player->entity_state = IDLE;
 	}
 	
-	if (App->want_to_load == true)
+	/*if (App->want_to_load == true)
 	{
 		App->audio->StopMusic();
 		//App->audio->PlayFx(App->scene->level_sound);
-		App->entity_manager->player->moving = false;
+		if (App->entity_manager->player != NULL)
+		{
+			App->entity_manager->player->moving = false;
 
-		App->entity_manager->player->entity_state = IDLE;
+			App->entity_manager->player->entity_state = IDLE;
+		}
+
 		
-	}
+	}*/
 
 	return true;
 }
@@ -253,6 +261,7 @@ void j1Scene::LoadLevel(int level)
 	
 	if (in_game == false)
 	{
+
 		in_game = true;
 	}
 	else

@@ -42,7 +42,11 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 bool j1Gui::Start()
 {
 	App->scene->scene_menu = true;
-
+	if (save_exit_menu)
+	{
+		App->entity_manager->DestroyEntities();
+		save_exit_menu = false;
+	}
 	atlas = App->tex->Load(atlas_file_name.GetString());
 
 	SDL_Rect rect = { 0,0,1024,240 };
@@ -371,6 +375,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 		App->entity_manager->active = true;
 		
 		CleanUp();
+		//App->scene->saved = true;
 		App->LoadGame();
 		//load saved 
 		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
@@ -420,16 +425,17 @@ const bool j1Gui::Trigger(j1Object* obj)
 	{
 		App->scene->in_game = false;
 		CleanUp();
-		CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
+		Start();
+		/*CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
 		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
 		CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
 		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
-		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
+		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu
 
 		//buttons intro menu 
 		CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
 		CreateObject(LABEL, { 605,50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-		CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUEOFF); //button unclickable continue 
+		CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUE); //button unclickable continue 
 		CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
 		CreateObject(BUTTON, { 582,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
 		CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
@@ -438,31 +444,36 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
 		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
 		CreateObject(BUTTON, { 582,182 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, WEBSITE); //button web 
-		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web
+		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web*/
 		break;
 	}
 	case SAVEANDEXIT:
 	{
-		App->audio->StopMusic();
-		App->audio->PlayMusic("audio/music/intro.ogg");
 		game_paused = false;
 		App->scene->in_game = false;
-		App->SaveGame();
-		CleanUp();
+		App->scene->scene_menu = true;
+		save_exit_menu = true;
+		//App->entity_manager->active = false;
+		App->audio->StopMusic();
+		App->audio->PlayMusic("audio/music/intro.ogg");
 
+
+		CleanUp();
+		//App->entity_manager->DestroyEntities();
+		//Start();
 		//TODO save and delete everything in game to return to main menu and when clicked continue load the game
 
 		//App->entity_manager->DestroyEntities();
-		CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
+		/*CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
 		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
 		CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
 		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
-		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
+		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu
 
 															 //buttons intro menu 
 		CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
 		CreateObject(LABEL, { 605,50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-		CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUEOFF); //button unclickable continue 
+		CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUE); //button unclickable continue 
 		CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
 		CreateObject(BUTTON, { 582,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
 		CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
@@ -471,7 +482,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
 		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
 		CreateObject(BUTTON, { 582,182 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, WEBSITE); //button web 
-		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web
+		CreateObject(LABEL, { 594,188 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "WEBSITE");//text web*/
 		break;
 	}
 	case WEBSITE: 
