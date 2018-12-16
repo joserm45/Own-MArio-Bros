@@ -192,6 +192,7 @@ bool j1Gui::PostUpdate()
 	//TODO
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->scene->in_game == true)
 	{
+		//App->scene->paused = false
 		App->scene->in_game = false;
 		game_paused = true;
 		//App->scene->scene_menu == true;
@@ -202,22 +203,38 @@ bool j1Gui::PostUpdate()
 		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
 		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
 		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
-			
-		CreateObject(IMAGE, { 570 ,27 }, { 325,480,116,150 }); //box image below buttons intro menu
-		//CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
-		CreateObject(BUTTON, {582 ,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
-		CreateObject(LABEL, {  605 ,50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
-		CreateObject(BUTTON, { 582 ,68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, RESUME); //button unclickable continue 
-		CreateObject(LABEL, { 589 ,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
-		CreateObject(BUTTON, { 582 ,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
-		CreateObject(LABEL, { 590 ,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
-		CreateObject(BUTTON, { 582 ,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
-		CreateObject(LABEL, { 594 ,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
-		CreateObject(BUTTON, { 582 ,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
-		CreateObject(LABEL, { 611 ,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
-		
-		
+
+		CreateObject(IMAGE, { 0,0 }, { 0, 642, 1024, 240 }); //background pause menu
+		//CreateObject(IMAGE, { 570 ,27 }, { 325,480,116,150 }); //box image below buttons intro menu
+		//CreateObject(BUTTON, {582 ,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
+		//CreateObject(LABEL, {  605 ,50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
+
+		CreateObject(BUTTON, { 466 ,68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, RESUME); //button unclickable continue 
+		CreateObject(LABEL, { 482 ,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "RESUME");//text continue
+
+		CreateObject(IMAGE, { 466, 97 }, { 441, 564, 92, 21 }); //background box for volume
+		//CreateObject(BUTTON, { 466 ,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
+		CreateObject(LABEL, { 482 ,103 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "VOLUME");//text volume
+		CreateObject(SLIDER, { 445,123 }, { 533,480,135,10 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "HORIZONTAL"); //slider volume
+
+		//CreateObject(BUTTON, { 466 ,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
+		//CreateObject(LABEL, { 478 ,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
+		CreateObject(BUTTON, { 466 ,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SAVEANDEXIT); //button main menu 
+		CreateObject(LABEL, { 468 ,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "MAIN MENU");//text main menu
 	}
+
+	else if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->scene->in_game == false)
+	{
+		game_paused = false;
+		App->scene->in_game = true;
+		p2List_item<j1Object*>* item = objects.end;
+		while (item->data->position.y != 32)
+		{
+			objects.del(item);
+			item = item->prev;
+		}
+	}
+
 	
 
 	return true;
@@ -349,6 +366,16 @@ const bool j1Gui::Trigger(j1Object* obj)
 		
 		CleanUp();
 		App->LoadGame();
+		//load saved 
+		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
+		CreateObject(LABEL, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
+		CreateObject(LABEL, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "3");
+		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
+		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
+		CreateObject(LABEL, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
+		CreateObject(LABEL, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
 		break;
 	}
 	case SETTINGS:
@@ -406,8 +433,27 @@ const bool j1Gui::Trigger(j1Object* obj)
 	}
 	case SAVEANDEXIT:
 	{
+		App->scene->in_game = false;
 		App->SaveGame();
-		exit(0);
+		CleanUp();
+		//App->entity_manager->DestroyEntities();
+		CreateObject(IMAGE, { 0,0 }, { 0, 0, 1024, 240 }); //background image intro menu
+		CreateObject(IMAGE, { 100,20 }, { 0,480, 325,162 }); //title image into menu
+		CreateObject(IMAGE, { 570,27 }, { 325,480,116,150 }); //box image below buttons intro menu
+		CreateObject(IMAGE, { 753,145 }, { 533,490,16,32 }); //mario intro menu
+		CreateObject(IMAGE, { 900,192 }, { 549,490,16,16 }); //goomba intro menu*/
+
+															 //buttons intro menu 
+		CreateObject(BUTTON, { 582,44 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, PLAY); //button start 
+		CreateObject(LABEL, { 605,50 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "START"); //text start
+		CreateObject(BUTTON, { 582,68 }, { 441,543,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CONTINUEOFF); //button unclickable continue 
+		CreateObject(LABEL, { 589,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CONTINUE");//text continue
+		CreateObject(BUTTON, { 582,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
+		CreateObject(LABEL, { 590,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SETTINGS");//text settings
+		CreateObject(BUTTON, { 582,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
+		CreateObject(LABEL, { 594,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
+		CreateObject(BUTTON, { 582,140 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, EXIT); //button exit 
+		CreateObject(LABEL, { 611,146 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "EXIT");//text exit*
 		break;
 	}
 	case WEBSITE: 

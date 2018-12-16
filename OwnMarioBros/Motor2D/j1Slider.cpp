@@ -30,7 +30,7 @@ j1Slider::~j1Slider()
 
 void j1Slider::Draw()
 {
-	App->render->Blit(App->gui->atlas, this->position.x, this->position.y, &atlas_pos);
+	App->render->Blit(App->gui->atlas, this->position.x - App->render->camera.x, this->position.y, &atlas_pos);
 }
 
 void j1Slider::OnDrag(j1Object * obj)
