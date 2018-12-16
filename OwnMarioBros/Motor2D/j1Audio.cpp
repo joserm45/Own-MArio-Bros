@@ -177,3 +177,24 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 	return ret;
 }
+
+void j1Audio::VolumeStart(int volume)
+{
+	Mix_VolumeMusic(volume);
+}
+
+void j1Audio::VolumePlus()
+{
+	if (volume < 100)
+	{
+		Mix_VolumeMusic(volume += 5);
+	}
+}
+
+void j1Audio::VolumeMinus()
+{
+	if (volume > 0)
+	{
+		Mix_VolumeMusic(volume -= 5);
+	}
+}

@@ -36,7 +36,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
 
 	App->audio->PlayMusic("audio/music/intro.ogg");
-
+	App->audio->VolumeStart(App->audio->volume);
 	return ret;
 }
 
@@ -183,7 +183,8 @@ bool j1Gui::Update(float dt)
 		{
 			item->data->Draw();
 		}*/
-		if (debug_UI == true)
+		
+		/*if (debug_UI == true)
 		{
 			SDL_Rect quad;
 			if (item->data->type != LABEL && item->data->type == NUMBER)
@@ -197,6 +198,27 @@ bool j1Gui::Update(float dt)
 					quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
 				else
 					quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
+			}
+			App->render->DrawQuad(quad, 255, 255, 0, 255, false);
+		}*/
+
+		if (debug_UI == true)
+		{
+			SDL_Rect quad;
+			if (item->data->type != LABEL)
+			{
+				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, item->data->atlas_pos.w,item->data->atlas_pos.h };
+
+			}
+			else if (item->data->type == LABEL)
+			{
+				App->fonts->CalcSize(item->data->label_text, width_font, height_font, item->data->font);
+				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
+			}
+			else if (item->data->type == NUMBER)
+			{
+				//App->fonts->CalcSize(item->data->number_text, width_font, height_font, item->data->font);
+				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
 			}
 			App->render->DrawQuad(quad, 255, 255, 0, 255, false);
 		}
@@ -236,10 +258,10 @@ bool j1Gui::PostUpdate()
 		CreateObject(IMAGE, { 466, 92 }, { 441, 564, 92, 21 }); //background box for volume
 		//CreateObject(BUTTON, { 466 ,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
 		CreateObject(LABEL, { 482 ,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "VOLUME");//text volume
-		CreateObject(BUTTON, { 465,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
-		CreateObject(LABEL, { 470,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLMINUS, "-");
-		CreateObject(BUTTON, { 537,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
-		CreateObject(LABEL, { 543,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLPLUS, "+");
+		CreateObject(BUTTON, { 465,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, VOLMINUS); //button volume MINUS
+		CreateObject(LABEL, { 470,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "-");
+		CreateObject(BUTTON, { 537,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, VOLPLUS); //button volume PLUS
+		CreateObject(LABEL, { 543,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "+");
 
 		//CreateObject(BUTTON, { 466 ,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
 		//CreateObject(LABEL, { 478 ,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
@@ -445,17 +467,17 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(IMAGE, { 0,0 }, { 0, 240, 1024, 240 }); //background settings menu
 		CreateObject(IMAGE, { 575,40 }, { 441, 564, 92, 21 }); //box image behind music
 		CreateObject(LABEL, { 596,46 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "MUSIC"); //music text
-		CreateObject(BUTTON, { 575,80 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
-		CreateObject(LABEL, { 580,87 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLMINUS, "-");
-		CreateObject(BUTTON, { 637,80 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
-		CreateObject(LABEL, { 643,87 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLPLUS, "+");
+		CreateObject(BUTTON, { 575,80 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, VOLMINUS); //button volume MINUS
+		CreateObject(LABEL, { 580,87 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "-");
+		CreateObject(BUTTON, { 637,80 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, VOLPLUS); //button volume PLUS
+		CreateObject(LABEL, { 643,87 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "+");
 
 		CreateObject(IMAGE, { 575,120 }, { 441, 564, 92, 21 }); //box image behind fx volume
 		CreateObject(LABEL, { 577,126 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "fx volume"); //fx volume text
-		CreateObject(BUTTON, { 575,160 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
-		CreateObject(LABEL, { 580,167 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLMINUS, "-");
-		CreateObject(BUTTON, { 637,160 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
-		CreateObject(LABEL, { 643,167 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLPLUS, "+");
+		CreateObject(BUTTON, { 575,160 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, VOLMINUS); //button volume MINUS
+		CreateObject(LABEL, { 580,167 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "-");
+		CreateObject(BUTTON, { 637,160 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, VOLPLUS); //button volume PLUS
+		CreateObject(LABEL, { 643,167 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "+");
 		CreateObject(BUTTON, { 900,200 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, BACK); //button back 
 		CreateObject(LABEL, { 926,206 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "BACK"); //text back
 
@@ -550,12 +572,12 @@ const bool j1Gui::Trigger(j1Object* obj)
 	}
 	case VOLMINUS:
 	{
-
+		App->audio->VolumeMinus();
 		break;
 	}
 	case VOLPLUS:
 	{
-
+		App->audio->VolumePlus();
 		break;
 	}
 	default:

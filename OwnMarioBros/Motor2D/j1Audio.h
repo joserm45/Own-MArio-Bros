@@ -7,6 +7,7 @@
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
+
 struct _Mix_Music;
 struct Mix_Chunk;
 
@@ -36,6 +37,15 @@ public:
 
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
+
+	void VolumeStart(int volume);
+
+	void VolumePlus();
+
+	void VolumeMinus();
+
+public:
+	int volume = 50;
 
 private:
 
