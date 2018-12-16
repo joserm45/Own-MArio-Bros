@@ -50,6 +50,7 @@ void j1Label::Draw()
 		//if (App->fade_to_black->current_step != j1FadeToBlack::fade_to_black) // TODO: Crash when dies 2 times
 		//{
 			p2SString string;
+			if(number_text != nullptr)
 			sprintf_s(string.str, sizeof(string), "%i", *number_text);
 
 			App->tex->UnLoad(text);

@@ -175,10 +175,10 @@ bool j1Gui::Update(float dt)
 				item->data->OnDrag(item->data);
 			}
 		}
-		else if (item->data->type == NUMBER)
+		/*else if (item->data->type == NUMBER && result == true)
 		{
 			item->data->Draw();
-		}
+		}*/
 		if (debug_UI == true)
 		{
 			SDL_Rect quad;
@@ -268,6 +268,30 @@ bool j1Gui::PostUpdate()
 		game_over = false;
 	}
 
+	if (load_finish == true)
+	{
+		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
+		CreateObject(NUMBER, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->score);
+		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
+		CreateObject(NUMBER, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->lives);
+		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
+		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
+		CreateObject(NUMBER, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->num_coins);
+		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
+		CreateObject(NUMBER, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
+		load_finish = false;
+	}
+	p2List_item<j1Object*>* item = objects.start;
+	while (item != nullptr)
+	{
+		if (item->data->type == NUMBER)
+		{
+			j1Label* label_number = (j1Label*)item->data;
+			item->data->Draw();
+		}
+
+		item = item->next;
+	}
 	return true;
 }
 
@@ -399,6 +423,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 	}
 	case CONTINUE:
 	{
+		//load_finish = true;
 		App->collision->active = true;
 		App->entity_manager->active = true;
 		
@@ -406,15 +431,7 @@ const bool j1Gui::Trigger(j1Object* obj)
 		//App->scene->saved = true;
 		App->LoadGame();
 		//load saved 
-		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
-		CreateObject(LABEL, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
-		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
-		CreateObject(LABEL, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "3");
-		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
-		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
-		CreateObject(LABEL, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
-		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
-		CreateObject(LABEL, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		
 		break;
 	}
 	case SETTINGS:

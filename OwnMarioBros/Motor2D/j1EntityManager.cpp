@@ -123,6 +123,11 @@ bool j1EntityManager::Load(pugi::xml_node& node)
 			fPoint point;
 			point.create(root.child("player_position").attribute("x").as_int(), root.child("player_position").attribute("y").as_int());
 			CreateEntity("player", point);
+
+			player->num_coins = root.child("coins").attribute("value").as_int();
+			player->lives = root.child("lives").attribute("value").as_int();
+			player->score = root.child("score").attribute("value").as_int();
+			player->time_game = root.child("time").attribute("value").as_int();
 		}
 
 		else if (strncmp(root.name(), "coin_position", 14) == 0)
@@ -168,6 +173,11 @@ bool j1EntityManager::Save(pugi::xml_node& node)const
 
 			player_pos.append_attribute("x") = entities[i]->position.x;
 			player_pos.append_attribute("y") = entities[i]->position.y;
+
+			root.append_child("coins").append_attribute("value") = player->num_coins;
+			root.append_child("lives").append_attribute("value") = player->lives;
+			root.append_child("score").append_attribute("value") = player->score;
+			root.append_child("time").append_attribute("value") = player->time_game;
 
 		}
 		else if (entities[i]->name == "coin")
