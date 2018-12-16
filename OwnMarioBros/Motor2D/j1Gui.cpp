@@ -15,6 +15,7 @@
 #include "j1Audio.h"
 #include "j1Map.h"
 
+#include "Brofiler\Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -30,6 +31,7 @@ j1Gui::~j1Gui()
 // Called before render is available
 bool j1Gui::Awake(pugi::xml_node& conf)
 {
+	BROFILER_CATEGORY("GUIAwake", Profiler::Color::Moccasin);
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
@@ -43,6 +45,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
+	BROFILER_CATEGORY("GUIStart", Profiler::Color::SeaGreen);
 	App->scene->scene_menu = true;
 	if (save_exit_menu)
 	{
@@ -113,7 +116,7 @@ bool j1Gui::PreUpdate()
 // Update all guis
 bool j1Gui::Update(float dt)
 {
-	
+	BROFILER_CATEGORY("GUIUpdate", Profiler::Color::DarkGreen);
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("save_game.xml");;
 
@@ -217,7 +220,7 @@ bool j1Gui::Update(float dt)
 			}
 			else if (item->data->type == NUMBER)
 			{
-				//App->fonts->CalcSize(item->data->number_text, width_font, height_font, item->data->font);
+				//App->fonts->CalcSize((char*)item->data->number_text, width_font, height_font, item->data->font);
 				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
 			}
 			App->render->DrawQuad(quad, 255, 255, 0, 255, false);
@@ -231,6 +234,7 @@ bool j1Gui::Update(float dt)
 // Called after all Updates
 bool j1Gui::PostUpdate()
 {
+	BROFILER_CATEGORY("GUIPostUdate", Profiler::Color::NavajoWhite);
 	//TODO
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN && App->scene->in_game == true)
 	{
@@ -324,6 +328,7 @@ bool j1Gui::PostUpdate()
 // Called before quitting
 bool j1Gui::CleanUp()
 {
+	BROFILER_CATEGORY("GUICleanUp", Profiler::Color::Indigo);
 	LOG("Freeing GUI");
 	/*p2List_item<j1Object*>* item = objects.start;
 	while (item != nullptr)
@@ -338,6 +343,7 @@ bool j1Gui::CleanUp()
 
 void j1Gui::CreateObject(TYPE_OBJECT obj_type, iPoint pos, SDL_Rect rect, SDL_Rect press, SDL_Rect hover, BUTTON_TYPE btn_type, char* label_text, uint* num)
 {
+	BROFILER_CATEGORY("GUICreateObject", Profiler::Color::PaleTurquoise);
 	if (obj_type == LABEL)
 	{
 		j1Label* label = new j1Label(pos,label_text);
@@ -400,6 +406,7 @@ void j1Gui::DeleteObject(j1Object* obj)
 
 bool j1Gui::OnHover(SDL_Rect rect)
 {
+	BROFILER_CATEGORY("GUIOnHover", Profiler::Color::PaleTurquoise);
 	int x, y = 0;
 	App->input->GetMousePosition(x, y);
 
@@ -413,6 +420,7 @@ bool j1Gui::OnHover(SDL_Rect rect)
 
 const bool j1Gui::Trigger(j1Object* obj)
 {
+	BROFILER_CATEGORY("GUITriggerFunction", Profiler::Color::HotPink);
 	j1Button* button = (j1Button*)obj;
 
 	switch (button->button_type)

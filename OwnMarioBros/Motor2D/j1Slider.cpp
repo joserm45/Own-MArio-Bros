@@ -1,10 +1,13 @@
 #include "j1Slider.h"
 #include "j1Render.h"
 
+#include "Brofiler\Brofiler.h"
+
 j1Slider::j1Slider() {}
 
 j1Slider::j1Slider(iPoint pos, SDL_Rect rect, char* label_text)
 {
+	BROFILER_CATEGORY("SliderConstructor", Profiler::Color::LightSteelBlue);
 	this->type = SLIDER;
 	this->position = pos;
 	this->atlas_pos = rect;
@@ -30,11 +33,13 @@ j1Slider::~j1Slider()
 
 void j1Slider::Draw()
 {
+	BROFILER_CATEGORY("SliderDraw", Profiler::Color::GhostWhite);
 	App->render->Blit(App->gui->atlas, this->position.x - App->render->camera.x, this->position.y, &atlas_pos);
 }
 
 void j1Slider::OnDrag(j1Object * obj)
 {
+	BROFILER_CATEGORY("SliderOnDrag", Profiler::Color::OliveDrab);
 	int x, y;
 	App->input->GetMousePosition(x, y);
 
