@@ -98,7 +98,7 @@ bool j1Player::Update(float dt)
 		{
  			if (Jump() != false)
 			{
-				position.y -= 125 * dt;
+				position.y -= 145 * dt;
 			}
 		}
 		else
@@ -111,7 +111,7 @@ bool j1Player::Update(float dt)
 				
 	}
 
-	if (dead == true)
+	/*if (dead == true)
 	{
 		bool tmp = false;
 
@@ -122,8 +122,8 @@ bool j1Player::Update(float dt)
 		{
 			App->audio->PlayFx(App->scene->death_sound, 0);
 			played = true;
-		}*/
-		
+		}*//*
+
 
 		if (position.y <= 165)
 		{
@@ -151,8 +151,8 @@ bool j1Player::Update(float dt)
 			entity_state = IDLE;
 		}
 		App->fade_to_black->FadeToBlack(NULL, NULL, 1.5f);
-		
-	}
+	}*/
+	
 	
 	CameraMovement();
 

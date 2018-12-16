@@ -81,7 +81,8 @@ public:
 
 	float current_time = 0;
 	float init_time = 0;
-	
+	bool init_timer = false;
+
 	uint score = 0;
 	uint time_game = 0;
 	uint num_coins = 0;
@@ -104,7 +105,7 @@ private:
 	bool back = false;
 	
 
-	bool init_timer = false;
+	
 
 	//animations
 	Animation right_idle;

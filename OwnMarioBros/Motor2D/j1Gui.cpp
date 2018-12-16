@@ -34,6 +34,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 
 	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
 
+	App->audio->PlayMusic("audio/music/intro.ogg");
 
 	return ret;
 }
@@ -95,7 +96,7 @@ bool j1Gui::Start()
 	Coin In game UI ({ 565,490,10,14 });
 	*/
 
-	App->audio->PlayMusic("audio/music/intro.ogg");
+	
 
 	return true;
 }
@@ -228,10 +229,13 @@ bool j1Gui::PostUpdate()
 		CreateObject(BUTTON, { 466 ,68 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, RESUME); //button unclickable continue 
 		CreateObject(LABEL, { 482 ,74 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "RESUME");//text continue
 
-		CreateObject(IMAGE, { 466, 97 }, { 441, 564, 92, 21 }); //background box for volume
+		CreateObject(IMAGE, { 466, 92 }, { 441, 564, 92, 21 }); //background box for volume
 		//CreateObject(BUTTON, { 466 ,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
-		CreateObject(LABEL, { 482 ,103 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "VOLUME");//text volume
-		CreateObject(SLIDER, { 445,123 }, { 533,480,135,10 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "HORIZONTAL"); //slider volume
+		CreateObject(LABEL, { 482 ,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "VOLUME");//text volume
+		CreateObject(BUTTON, { 465,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
+		CreateObject(LABEL, { 470,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "-");
+		CreateObject(BUTTON, { 537,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
+		CreateObject(LABEL, { 543,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "+");
 
 		//CreateObject(BUTTON, { 466 ,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
 		//CreateObject(LABEL, { 478 ,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
@@ -251,7 +255,18 @@ bool j1Gui::PostUpdate()
 		}
 	}
 
-	
+	if (game_over == true)
+	{
+		game_paused = false;
+		App->scene->in_game = false;
+		App->scene->scene_menu = true;
+		save_exit_menu = true;
+		//App->entity_manager->active = false;
+		App->audio->StopMusic();
+		App->audio->PlayMusic("audio/music/intro.ogg");
+		CleanUp();
+		game_over = false;
+	}
 
 	return true;
 }

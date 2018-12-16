@@ -87,12 +87,13 @@ bool Enemy_Goomba::Update(float dt)
 			//collider->to_delete = true;
 			dead = true;
 			//head_collider->to_delete = true;
-			
+
 			//audio of goomba death
 			App->audio->PlayFx(2);
 			App->entity_manager->player->jumping = true;
 			App->entity_manager->player->jump_height = App->entity_manager->player->position.y - 20;
 			App->entity_manager->player->jump2_on = true;
+			App->entity_manager->player->score += 100;
 		}
 	
 	}

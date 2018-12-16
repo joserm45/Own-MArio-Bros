@@ -64,6 +64,7 @@ public:
 	bool debug_UI = false;
 	bool game_paused = false;
 	bool save_exit_menu = false;
+	bool game_over = false;
 
 private:
 

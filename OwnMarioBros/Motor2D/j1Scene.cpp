@@ -191,13 +191,50 @@ bool j1Scene::Update(float dt)
 
 	if (App->entity_manager->player != NULL && App->entity_manager->player->dead == true)
 	{
+		bool tmp = false;
+
+		App->entity_manager->player->entity_state = DIE;
 		App->audio->StopMusic();
 		App->audio->PlayFx(App->scene->death_sound);
-		App->entity_manager->player->moving = false;
 
-		LoadLevel(current_lvl);
-		App->entity_manager->player->dead = false;
-		App->entity_manager->player->entity_state = IDLE;
+		if (App->entity_manager->player->position.y <= 165)
+		{
+			App->entity_manager->player->position.y += 120.0f * dt;
+			tmp = true;
+		}
+
+		if (App->entity_manager->player->position.y > 165 && tmp == false)
+		{
+			App->entity_manager->player->position.y -= 100.0f * dt;
+		}
+
+		if (App->entity_manager->player->init_timer == true)
+		{
+			App->entity_manager->player->init_time = App->entity_manager->player->current_time;
+			App->entity_manager->player->init_timer = false;
+		}
+		if ((App->entity_manager->player->current_time - App->entity_manager->player->init_time * dt) >= App->entity_manager->player->init_time + 2.5f)
+		{
+			//dead = false;
+			App->entity_manager->player->moving = false;
+			App->entity_manager->player->played = false;
+			//App->scene->LoadLevel(App->scene->current_lvl);
+			App->entity_manager->player->entity_state = IDLE;
+		}
+		
+		App->entity_manager->player->lives -= 1;
+
+		if (App->entity_manager->player->lives == 0)
+		{
+			App->gui->game_over = true;
+			App->entity_manager->player->dead = false;
+		}
+		else if (App->entity_manager->player->lives != 0)
+		{
+			LoadLevel(current_lvl);
+			App->entity_manager->player->dead = false;
+		}
+		App->fade_to_black->FadeToBlack(NULL, NULL, 1.5f);
 	}
 	
 	/*if (App->want_to_load == true)
