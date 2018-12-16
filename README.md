@@ -6,11 +6,11 @@ We are 2 students from the university of CITM doing a project for our carreer in
 
 ### Implementation
 
-* José Rodriguez: https://github.com/joserm45
+* José Rodríguez: https://github.com/joserm45
 
 
 
-Map draw implementation, parallax implementation, camera movement, changing levels, logic and collider layer implementation, colliders, double jump, save and load, frame rate and dt, entity system implementation, enemy save and load, UI structure, labels, buttons, save and load UI, update in game UI element (lives, score, time, coins), volume adjustment.
+Map draw implementation, parallax implementation, camera movement, changing levels, logic and collider layer implementation, colliders, double jump, save and load, frame rate and dt, entity system implementation, enemy save and load, UI structure, labels, buttons, save and load UI, update in game UI element (lives, score, time, coins).
 
 
 
@@ -18,7 +18,7 @@ Map draw implementation, parallax implementation, camera movement, changing leve
 
 
 
-Module player, mario sprites and animations, tiled, audio implementation, player death and respawn, god mode, win, goomba and movement, enemy sprited and animations, brofiler implementation, entity system UML, fade to black, coins, UI atlas and passing from scene to scene control, main menu, setting and credit menu, paused menu, UI UML, website, UI audio. 
+Module player, mario sprites and animations, tiled, audio implementation, player death and respawn, god mode, win, goomba and movement, enemy sprited and animations, brofiler implementation, entity system UML, fade to black, coins, UI atlas and passing from scene to scene control, main menu, setting and credit menu, paused menu, UI UML, website, UI audio, volume adjustment. 
 
 ### Website 
 
