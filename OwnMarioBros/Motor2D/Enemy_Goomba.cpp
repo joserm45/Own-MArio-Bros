@@ -70,7 +70,7 @@ bool Enemy_Goomba::Update(float dt)
 		Move(dt);
 		if (Falling() == true)
 		{
-			position.y += 50.0f * dt;
+			position.y += 150.0f * dt;
 		}
 		//check hit for death 
 		if (App->scene->god_mode == false)
