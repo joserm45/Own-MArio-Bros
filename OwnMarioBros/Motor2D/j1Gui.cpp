@@ -237,9 +237,9 @@ bool j1Gui::PostUpdate()
 		//CreateObject(BUTTON, { 466 ,92 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, SETTINGS); //button settings 
 		CreateObject(LABEL, { 482 ,98 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "VOLUME");//text volume
 		CreateObject(BUTTON, { 465,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
-		CreateObject(LABEL, { 470,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "-");
+		CreateObject(LABEL, { 470,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLMINUS, "-");
 		CreateObject(BUTTON, { 537,115 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
-		CreateObject(LABEL, { 543,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "+");
+		CreateObject(LABEL, { 543,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLPLUS, "+");
 
 		//CreateObject(BUTTON, { 466 ,116 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, CREDITS); //button credits 
 		//CreateObject(LABEL, { 478 ,122 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "CREDITS");//text credits
@@ -445,12 +445,21 @@ const bool j1Gui::Trigger(j1Object* obj)
 		CreateObject(IMAGE, { 0,0 }, { 0, 240, 1024, 240 }); //background settings menu
 		CreateObject(IMAGE, { 575,40 }, { 441, 564, 92, 21 }); //box image behind music
 		CreateObject(LABEL, { 596,46 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "MUSIC"); //music text
-		CreateObject(SLIDER, { 575,80 }, { 533,480,135,10 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "HORIZONTAL");//music slider back
+		CreateObject(BUTTON, { 575,80 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
+		CreateObject(LABEL, { 580,87 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLMINUS, "-");
+		CreateObject(BUTTON, { 637,80 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
+		CreateObject(LABEL, { 643,87 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLPLUS, "+");
+
 		CreateObject(IMAGE, { 575,120 }, { 441, 564, 92, 21 }); //box image behind fx volume
 		CreateObject(LABEL, { 577,126 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "fx volume"); //fx volume text
-		CreateObject(SLIDER, { 575,160 }, { 533,480,135,10 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "HORIZONTAL");//fx volum slider back
+		CreateObject(BUTTON, { 575,160 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume MINUS
+		CreateObject(LABEL, { 580,167 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLMINUS, "-");
+		CreateObject(BUTTON, { 637,160 }, { 441,585,21,21 }, { 483,585,21,21 }, { 462,585,21,21 }, NONE); //button volume PLUS
+		CreateObject(LABEL, { 643,167 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, VOLPLUS, "+");
 		CreateObject(BUTTON, { 900,200 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, BACK); //button back 
 		CreateObject(LABEL, { 926,206 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "BACK"); //text back
+
+		
 		break;
 	}
 	case CREDITS:
@@ -537,6 +546,16 @@ const bool j1Gui::Trigger(j1Object* obj)
 	case WEBSITE: 
 	{
 		ShellExecute(NULL, "open", "https://manavld.github.io/OwnMarioBros/", NULL, NULL, SW_SHOWNORMAL);
+		break;
+	}
+	case VOLMINUS:
+	{
+
+		break;
+	}
+	case VOLPLUS:
+	{
+
 		break;
 	}
 	default:
