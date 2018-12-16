@@ -407,6 +407,8 @@ const bool j1Gui::Trigger(j1Object* obj)
 
 		CreateObject(BUTTON, { 900,200 }, { 441,480,92,21 }, { 441,522,92,21 }, { 441,501,92,21 }, BACK); //button back 
 		CreateObject(LABEL, { 926,206 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "BACK"); //text back
+
+		CreateObject(IMAGE, { 440,30 }, { 0, 882, 451, 171 });
 		break;
 	}
 	case EXIT:
