@@ -58,8 +58,13 @@ bool j1Scene::Start()
 	click_sound = App->audio->LoadFx("audio/music/click.wav");
 	pause_sound = App->audio->LoadFx("audio/music/pause.wav");
 	//App->entity_manager->CreateEntities();
-	if(in_game == true)
+
+	if (in_game == true)
+	{
 		LoadLevel(1);
+		App->entity_manager->player->lives = 3;
+	}
+	
 	
 	return true;
 }

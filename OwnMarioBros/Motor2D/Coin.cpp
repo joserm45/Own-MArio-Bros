@@ -11,6 +11,7 @@
 #include "j1Scene.h"
 #include "j1Collision.h"
 #include "j1EntityManager.h"
+
 #include "Brofiler\Brofiler.h"
 
 Coin::Coin() : Entity()
@@ -62,7 +63,13 @@ bool Coin::Update(float dt)
 	{
 		if (collider->CheckCollision(App->entity_manager->player->collider->rect) == true)
 		{
-			num_coins + 1;
+			App->entity_manager->player->num_coins += 1;
+			App->entity_manager->player->score += 10;
+			if (App->entity_manager->player->num_coins >= 10)
+			{
+				App->entity_manager->player->num_coins = 0;
+				App->entity_manager->player->lives += 1;
+			}
 			App->audio->PlayFx(App->scene->coin_sound);
 			dead = true;
 		}

@@ -2,6 +2,7 @@
 #include "j1Fonts.h"
 #include "j1Render.h"
 #include "p2SString.h"
+#include "j1FadeToBlack.h"
 
 j1Label::j1Label() : j1Object()
 {
@@ -46,10 +47,15 @@ void j1Label::Draw()
 
 	if (type == NUMBER)
 	{
-		p2SString string;
-		sprintf_s(string.str, sizeof(string),"%i", *number_text);
-		
-		text = App->tex->textures.add(App->fonts->Print(string.str, { 255,255,255,255 }, font))->data;
+		//if (App->fade_to_black->current_step != j1FadeToBlack::fade_to_black) // TODO: Crash when dies 2 times
+		//{
+			p2SString string;
+			sprintf_s(string.str, sizeof(string), "%i", *number_text);
+
+			App->tex->UnLoad(text);
+			text = App->tex->textures.add(App->fonts->Print(string.str, { 255,255,255,255 }, font))->data;
+		//}
+
 	}
 
 		App->render->Blit(text, (this->position.x - App->render->camera.x), this->position.y);

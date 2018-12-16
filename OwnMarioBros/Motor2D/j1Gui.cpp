@@ -181,14 +181,17 @@ bool j1Gui::Update(float dt)
 		if (debug_UI == true)
 		{
 			SDL_Rect quad;
-			if (item->data->type != LABEL)
+			if (item->data->type != LABEL && item->data->type == NUMBER)
 			{
 				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, item->data->atlas_pos.w,item->data->atlas_pos.h };
 			}
-			else if (item->data->type == LABEL)
+			else if (item->data->type == LABEL || item->data->type == NUMBER)
 			{
 				App->fonts->CalcSize(item->data->label_text, width_font, height_font, item->data->font);
-				quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
+				if(item->data->type == NUMBER)
+					quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
+				else
+					quad = { item->data->position.x - App->render->camera.x, item->data->position.y, width_font , height_font };
 			}
 			App->render->DrawQuad(quad, 255, 255, 0, 255, false);
 		}
@@ -357,12 +360,12 @@ const bool j1Gui::Trigger(j1Object* obj)
 		App->scene->in_game = true;
 		App->scene->Start();
 		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
-		CreateObject(NUMBER, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
+		CreateObject(NUMBER, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->score);
 		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
-		CreateObject(LABEL, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "3");
+		CreateObject(NUMBER, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->lives);
 		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
 		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
-		CreateObject(LABEL, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(NUMBER, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->num_coins);
 		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
 		CreateObject(NUMBER, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
 		break;

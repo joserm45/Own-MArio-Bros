@@ -84,6 +84,8 @@ public:
 	
 	uint score = 0;
 	uint time_game = 0;
+	uint num_coins = 0;
+	uint lives = 0;
 
 	bool jumping = false;
 	bool played = false;

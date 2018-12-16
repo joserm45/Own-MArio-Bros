@@ -76,8 +76,12 @@ bool j1Player::Update(float dt)
 
 	current_time += dt;
 
-	if(current_time >= 1.0f)
+	if (current_time >= 1.0f)
+	{
 		time_game += current_time;
+		current_time = 0;
+	}
+
 
 	if (dead != true)
 	{

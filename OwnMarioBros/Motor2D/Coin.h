@@ -45,7 +45,7 @@ public:
 
 	iPoint				coin_quadrant_1;
 	iPoint				coin_quadrant_2;
-	int					num_coins = 0;
+
 private:
 	bool dead = false;
 	SDL_Texture * text_coin = nullptr;
