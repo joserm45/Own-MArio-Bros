@@ -78,9 +78,13 @@ public:
 
 	uint count_jump = 0;
 	bool moving = false;
+
 	float current_time = 0;
 	float init_time = 0;
 	
+	uint score = 0;
+	uint time_game = 0;
+
 	bool jumping = false;
 	bool played = false;
 	bool dead = false;

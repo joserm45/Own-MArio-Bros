@@ -46,7 +46,7 @@ public:
 
 	// Create the factory methods
 	// Gui creation functions
-	void CreateObject(TYPE_OBJECT obj, iPoint pos, SDL_Rect rect = { NULL,NULL,NULL,NULL }, SDL_Rect press = { NULL,NULL,NULL,NULL }, SDL_Rect hover = { NULL,NULL,NULL,NULL }, BUTTON_TYPE btn_type = NONE, char* label_text = nullptr);
+	void CreateObject(TYPE_OBJECT obj, iPoint pos, SDL_Rect rect = { NULL,NULL,NULL,NULL }, SDL_Rect press = { NULL,NULL,NULL,NULL }, SDL_Rect hover = { NULL,NULL,NULL,NULL }, BUTTON_TYPE btn_type = NONE, char* label_text = nullptr, uint* num = nullptr);
 	void DeleteObject(j1Object* obj);
 
 	bool OnHover(SDL_Rect rect);

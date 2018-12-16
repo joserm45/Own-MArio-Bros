@@ -174,7 +174,10 @@ bool j1Gui::Update(float dt)
 				item->data->OnDrag(item->data);
 			}
 		}
-
+		else if (item->data->type == NUMBER)
+		{
+			item->data->Draw();
+		}
 		if (debug_UI == true)
 		{
 			SDL_Rect quad;
@@ -265,13 +268,20 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
-void j1Gui::CreateObject(TYPE_OBJECT obj_type, iPoint pos, SDL_Rect rect, SDL_Rect press, SDL_Rect hover, BUTTON_TYPE btn_type, char* label_text)
+void j1Gui::CreateObject(TYPE_OBJECT obj_type, iPoint pos, SDL_Rect rect, SDL_Rect press, SDL_Rect hover, BUTTON_TYPE btn_type, char* label_text, uint* num)
 {
 	if (obj_type == LABEL)
 	{
 		j1Label* label = new j1Label(pos,label_text);
 
 		objects.add(label);
+
+	}
+	else if (obj_type == NUMBER)
+	{
+		j1Label* label_num = new j1Label(pos, num);
+
+		objects.add(label_num);
 
 	}
 	else if (obj_type == IMAGE)
@@ -347,14 +357,14 @@ const bool j1Gui::Trigger(j1Object* obj)
 		App->scene->in_game = true;
 		App->scene->Start();
 		CreateObject(LABEL, { 40,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "SCORE");
-		CreateObject(LABEL, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(NUMBER, { 40,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
 		CreateObject(LABEL, { 340,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "LIVES");
 		CreateObject(LABEL, { 340,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "3");
 		CreateObject(LABEL, { 640,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "COINS");
 		CreateObject(IMAGE, { 694,18 }, { 565,490,10,14 }); //image coin
 		CreateObject(LABEL, { 640,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
 		CreateObject(LABEL, { 940,20 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "TIME");
-		CreateObject(LABEL, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, "0");
+		CreateObject(NUMBER, { 940,32 }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, { NULL,NULL,NULL,NULL }, NONE, nullptr, &App->entity_manager->player->time_game);
 		break;
 	}
 	case RESUME:

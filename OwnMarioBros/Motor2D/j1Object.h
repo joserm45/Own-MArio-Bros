@@ -15,6 +15,7 @@ enum TYPE_OBJECT
 	IMAGE,
 	BUTTON,
 	SLIDER,
+	NUMBER,
 	UKNOWN
 };
 
@@ -57,14 +58,15 @@ public:
 	iPoint camera_pos = { 0,0 };
 
 	SDL_Rect atlas_pos = { 0,0,0,0 };
-	BUTTON_TYPE button_type;
+	BUTTON_TYPE button_type = NONE;
 	bool mouse_hover = false;
 	bool clicked = false;
 	bool active = false;
 	//_TTF_Font* font;
 	_TTF_Font* font = nullptr;
 	SDL_Texture* text = nullptr;
-	char* label_text;
+	char* label_text = "0";
+	uint* number_text = nullptr;
 };
 #endif // !j1Object_H_
 

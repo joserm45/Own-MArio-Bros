@@ -76,6 +76,9 @@ bool j1Player::Update(float dt)
 
 	current_time += dt;
 
+	if(current_time >= 1.0f)
+		time_game += current_time;
+
 	if (dead != true)
 	{
 		sprite_moving = false;

@@ -12,6 +12,7 @@ class j1Label : public j1Object
 public:
 
 	j1Label();
+	j1Label(iPoint pos, uint* num_text);
 	j1Label(iPoint pos, char* label_text);
 	virtual ~j1Label();
 
